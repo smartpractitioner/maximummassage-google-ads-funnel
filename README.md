@@ -76,8 +76,14 @@ shows a personalized "Sorry, [Firstname]…" headline.
 
 Two paths from the ask state:
 - **Yes, hold a spot for me** → spinner for ~3.5s → thanks state. Posts
-  `action: "notify"` with `notify_preference: "yes"`.
-- **No thanks** (small text link) → `action: "notify"` with `"no"` → noted state.
+  `action: "notify"` with `notify_preference: "yes"` plus the **CASL consent
+  record**: client IP (fetched from `api.ipify.org`), ISO timestamp, user
+  agent, the phone + email being consented to, and the verbatim consent text
+  the user saw on screen. Apps Script writes these into the Consent IP /
+  Consent At / Consent User Agent / Consent Phone / Consent Email / Consent
+  Text columns so we have a defensible opt-in record.
+- **No thanks** (small text link) → `action: "notify"` with `"no"` → noted
+  state. No consent fields written.
 
 The thanks state shows the user's actual phone + email and a "Not right? Edit
 details" link. Saving fires `action: "update_contact"` to the Apps Script,
@@ -100,8 +106,15 @@ section below.
 
 Actions handled:
 - `lead` → append a new row
-- `notify` → set Notify Preference (yes/no) on the row, matched by GCLID then email
-- `update_contact` → overwrite Phone + Email on the row, matched by GCLID then old email
+- `notify` → set Notify Preference (yes/no) on the row, matched by GCLID then
+  email. When the answer is `"yes"`, also writes the CASL consent fields
+  (Consent IP / At / User Agent / Phone / Email / Text).
+- `update_contact` → overwrite Phone + Email on the row, matched by GCLID then
+  old email
+
+The script auto-extends the sheet's header row when new columns are added to
+`HEADERS` (see `syncHeaders` in the .gs file), so adding columns over time
+doesn't require manual sheet edits — just redeploy.
 
 ---
 

@@ -40,7 +40,15 @@ const HEADERS = [
   'page_variant',
   'flow',
   'Notify Preference',
-  'Notify Recorded At'
+  'Notify Recorded At',
+  // CASL consent record — populated when the user clicks
+  // "Yes, hold a spot for me" on the confirmation page.
+  'Consent IP',
+  'Consent At',
+  'Consent User Agent',
+  'Consent Phone',
+  'Consent Email',
+  'Consent Text'
 ];
 
 function doPost(e) {
@@ -83,8 +91,26 @@ function getOrCreateSheet() {
   } else if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
     sheet.setFrozenRows(1);
+  } else {
+    syncHeaders(sheet);
   }
   return sheet;
+}
+
+/**
+ * Append any HEADERS that aren't already in the sheet's first row. Lets us
+ * add columns over time (e.g. the CASL consent fields) without forcing a
+ * manual edit of the spreadsheet — the script just extends the header row
+ * the first time it sees a missing label.
+ */
+function syncHeaders(sheet) {
+  const lastCol = sheet.getLastColumn();
+  const existing = lastCol > 0 ? sheet.getRange(1, 1, 1, lastCol).getValues()[0] : [];
+  const missing = HEADERS.filter((h) => existing.indexOf(h) === -1);
+  if (missing.length) {
+    sheet.getRange(1, lastCol + 1, 1, missing.length).setValues([missing]);
+    sheet.setFrozenRows(1);
+  }
 }
 
 function appendLead(sheet, body) {
@@ -118,6 +144,12 @@ function updateNotify(sheet, body) {
   const emailCol = HEADERS.indexOf('Email');
   const notifyCol = HEADERS.indexOf('Notify Preference');
   const notifyTsCol = HEADERS.indexOf('Notify Recorded At');
+  const consentIpCol = HEADERS.indexOf('Consent IP');
+  const consentAtCol = HEADERS.indexOf('Consent At');
+  const consentUaCol = HEADERS.indexOf('Consent User Agent');
+  const consentPhoneCol = HEADERS.indexOf('Consent Phone');
+  const consentEmailCol = HEADERS.indexOf('Consent Email');
+  const consentTextCol = HEADERS.indexOf('Consent Text');
 
   let targetRow = -1;
 
@@ -134,9 +166,23 @@ function updateNotify(sheet, body) {
     }
   }
 
+  // Only "yes" answers are CASL consent. "no" / no-answer never writes
+  // to the consent columns.
+  const isConsent = body.notify_preference === 'yes';
+
   if (targetRow !== -1) {
     sheet.getRange(targetRow, notifyCol + 1).setValue(body.notify_preference || '');
     sheet.getRange(targetRow, notifyTsCol + 1).setValue(new Date());
+    if (isConsent) {
+      writeConsent(sheet, targetRow, body, {
+        consentIpCol: consentIpCol,
+        consentAtCol: consentAtCol,
+        consentUaCol: consentUaCol,
+        consentPhoneCol: consentPhoneCol,
+        consentEmailCol: consentEmailCol,
+        consentTextCol: consentTextCol
+      });
+    }
   } else {
     // No matching row found — append a new "notify only" row so we don't lose the signal
     const row = new Array(HEADERS.length).fill('');
@@ -148,8 +194,25 @@ function updateNotify(sheet, body) {
     row[HEADERS.indexOf('flow')] = body.flow || '';
     row[notifyCol] = body.notify_preference || '';
     row[notifyTsCol] = new Date();
+    if (isConsent) {
+      row[consentIpCol] = body.consent_ip || '';
+      row[consentAtCol] = body.consent_at ? new Date(body.consent_at) : new Date();
+      row[consentUaCol] = body.consent_user_agent || '';
+      row[consentPhoneCol] = body.consent_phone || body.phone || '';
+      row[consentEmailCol] = body.consent_email || body.email || '';
+      row[consentTextCol] = body.consent_text || '';
+    }
     sheet.appendRow(row);
   }
+}
+
+function writeConsent(sheet, targetRow, body, cols) {
+  if (cols.consentIpCol !== -1) sheet.getRange(targetRow, cols.consentIpCol + 1).setValue(body.consent_ip || '');
+  if (cols.consentAtCol !== -1) sheet.getRange(targetRow, cols.consentAtCol + 1).setValue(body.consent_at ? new Date(body.consent_at) : new Date());
+  if (cols.consentUaCol !== -1) sheet.getRange(targetRow, cols.consentUaCol + 1).setValue(body.consent_user_agent || '');
+  if (cols.consentPhoneCol !== -1) sheet.getRange(targetRow, cols.consentPhoneCol + 1).setValue(body.consent_phone || body.phone || '');
+  if (cols.consentEmailCol !== -1) sheet.getRange(targetRow, cols.consentEmailCol + 1).setValue(body.consent_email || body.email || '');
+  if (cols.consentTextCol !== -1) sheet.getRange(targetRow, cols.consentTextCol + 1).setValue(body.consent_text || '');
 }
 
 function updateContact(sheet, body) {

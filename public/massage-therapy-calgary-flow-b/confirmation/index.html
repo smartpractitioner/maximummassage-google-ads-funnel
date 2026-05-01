@@ -237,7 +237,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="offer-closed__thanks">
         <p class="offer-closed__thanks-headline">You&rsquo;re on the list.</p>
         <p class="offer-closed__thanks-body">
-          We&rsquo;ll text <strong data-thanks-phone>your phone</strong> and email <strong data-thanks-email>your email</strong> as soon as availability returns.
+          We&rsquo;ll send you a text message or email as soon as availability returns.
         </p>
 
         <div class="hold-spot__contact" data-contact-summary>
@@ -357,12 +357,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (target === stepThanks) main.classList.add('offer-closed--success');
   }
 
+  // ---------- CASL consent helpers ----------
+  // Free public IP echo (CORS-enabled). Used to log consent IP for CASL
+  // record-keeping when the user clicks "Yes, hold a spot for me".
+  function getClientIp() {
+    return fetch('https://api.ipify.org?format=json')
+      .then((res) => res.ok ? res.json() : { ip: '' })
+      .then((data) => (data && data.ip) || '')
+      .catch(() => '');
+  }
+
+  // The exact text the user is consenting to. Keep this in sync with the
+  // copy on screen — the row in the sheet is the legal record of what they
+  // agreed to.
+  const CONSENT_TEXT =
+    'I consent to Maximum Health contacting me by text and/or email at the ' +
+    'phone and email I provided to notify me when new-client availability ' +
+    'returns. (Confirmation page CTA: "Yes, hold a spot for me.")';
+
   // ---------- Submit notify preference ----------
-  function recordAnswer(answer) {
+  function recordAnswer(answer, extras) {
     const payload = {
       action: 'notify',
       notify_preference: answer,
-      ...(lead || {})
+      ...(lead || {}),
+      ...(extras || {})
     };
     return postJson(payload);
   }
@@ -388,9 +407,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if (answer === 'yes') {
         // Show loader for at least MIN_LOADING_MS so the user feels the
         // request is processing (prevents the jarring instant flip).
+        // Also captures CASL consent: IP + timestamp + verbatim consent
+        // text so we have a defensible record of opt-in.
         const startedAt = Date.now();
         swapTo(stepLoading);
-        recordAnswer('yes').finally(() => {
+        getClientIp().then((ip) => {
+          return recordAnswer('yes', {
+            consent_ip: ip,
+            consent_at: new Date().toISOString(),
+            consent_user_agent: navigator.userAgent || '',
+            consent_text: CONSENT_TEXT,
+            consent_phone: (lead && lead.phone) || '',
+            consent_email: (lead && lead.email) || ''
+          });
+        }).finally(() => {
           const elapsed = Date.now() - startedAt;
           const wait = Math.max(MIN_LOADING_MS - elapsed, 0);
           setTimeout(() => swapTo(stepThanks), wait);
