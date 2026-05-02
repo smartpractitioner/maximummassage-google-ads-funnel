@@ -8,6 +8,22 @@
    keeping this rule means any future in-page anchor will animate. */
 html { scroll-behavior: smooth; }
 
+/* FAQ accordion collapsed state — replaces Landingi's dynamic
+   accordion.js (which was loaded by new_landend.js, which we removed
+   in the jQuery cleanup). Combined with the inline accordion-init
+   script in each flow's index.html, this gives the same expand/
+   collapse behavior with zero runtime dependencies. The .open class
+   is set/unset by that script. */
+.widget-accordion .accordion-element-container:not(.open) .accordion-desc-text {
+  display: none;
+}
+.widget-accordion .accordion-heading-container {
+  cursor: pointer;
+}
+.widget-accordion .accordion-trigger {
+  transition: rotate 200ms ease;
+}
+
 /* Therapist credentials: push list items right so the absolutely-positioned
    icons (clock, graduation cap, ribbon, etc.) don't overlap the text. The
    original layout relied on inconsistent leading &nbsp; which shifted per
