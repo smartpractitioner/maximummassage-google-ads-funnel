@@ -1,5 +1,3 @@
 User-agent: *
 Allow: /
 Disallow: /reports/
-
-Sitemap: https://go.maximummassage.ca/sitemap.xml
