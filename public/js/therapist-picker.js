@@ -26,7 +26,7 @@
       },
       experience: '10,000+ hours hands-on. Graduated MacEwan University, 2014.',
       duration: '60 min',
-      price: 114,
+      price: 49,
       regularPrice: 124,
       path: '/brookelyn/'
     },
@@ -45,7 +45,7 @@
       },
       experience: '10,000+ hours hands-on.',
       duration: '60 min',
-      price: 114,
+      price: 49,
       regularPrice: 124,
       path: '/meagan/'
     },
@@ -64,7 +64,7 @@
       },
       experience: '7,200+ hours hands-on.',
       duration: '90 min',
-      price: 114,
+      price: 49,
       regularPrice: 124,
       path: '/charlotte/'
     },
@@ -83,7 +83,7 @@
       },
       experience: '4,000+ hours hands-on.',
       duration: '60 min',
-      price: 114,
+      price: 49,
       regularPrice: 124,
       path: '/lindsey/'
     },
@@ -203,7 +203,7 @@
         <p class="detail-panel__price">
           $${t.price}
           <span class="detail-panel__price-old">$${t.regularPrice}</span>
-          <span class="cta-card__badge">$10 off new clients</span>
+          <span class="cta-card__badge">New patient starter offer</span>
         </p>
         <button type="button" class="btn btn--primary btn--block" data-action="open-lead-form" data-therapist="${t.id}">
           Book with ${escapeHtml(t.name.split(' ')[0])} &mdash; ${escapeHtml(t.duration)}
