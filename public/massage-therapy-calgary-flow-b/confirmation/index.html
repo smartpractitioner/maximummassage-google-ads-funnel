@@ -11,7 +11,7 @@
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=Mulish:wght@500;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=Mulish:wght@500;700;800&display=optional">
   <link rel="stylesheet" href="/css/shared.css">
   <link rel="stylesheet" href="/css/flow-b.css">
   <style>
@@ -257,6 +257,20 @@
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-5M8LTCF8');</script>
   <!-- End Google Tag Manager -->
+
+  <script>
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest && e.target.closest('a[href^="tel:"]');
+    if (!link) return;
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'call_click',
+      call_phone: link.getAttribute('href').replace('tel:', ''),
+      call_location: link.dataset.location || 'unknown',
+      page_path: location.pathname
+    });
+  }, true);
+  </script>
 </head>
 <body>
 
@@ -268,7 +282,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a href="/massage-therapy-calgary/" class="site-header__logo" aria-label="Maximum Health Massage Therapy Calgary">
     <img src="/images/MaximumHealthmassagetherapycalgarycompressed.webp" alt="Maximum Health Massage Therapy Calgary" width="176" height="29">
   </a>
-  <a href="tel:+14032830725" class="site-header__call">
+  <a href="tel:+14032830725" class="site-header__call" data-location="confirmation">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"/></svg>
     Call us
   </a>

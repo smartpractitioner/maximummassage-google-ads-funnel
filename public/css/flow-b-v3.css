@@ -98,6 +98,11 @@ button { font-family: inherit; }
   position: relative;
 }
 .hero-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--page-bg);
+  padding: 10px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -245,6 +250,10 @@ button { font-family: inherit; }
   letter-spacing: -0.5px;
   line-height: 1;
   color: var(--brand-teal-dark);
+  /* Reserve the rendered line-box height so a fallback→web-font swap
+     can't reflow this element. PSI flagged the .guarantee block as
+     the entire CLS budget on 2026-05-07. */
+  min-height: 26px;
 }
 .guarantee-sub {
   font-family: "Bricolage Grotesque", system-ui, sans-serif;
@@ -252,6 +261,7 @@ button { font-family: inherit; }
   font-weight: 700;
   line-height: 1.2;
   color: var(--brand-teal-dark);
+  min-height: 19.2px;
 }
 .guarantee-body {
   margin: 0;
