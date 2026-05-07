@@ -169,7 +169,7 @@
           return `
             <button type="button" class="${classes.join(' ')}" ${attrs}>
               ${isRecommended ? '<span class="picker-card__badge">We recommend</span>' : ''}
-              <img class="picker-card__photo" src="${t.photo}" alt="${escapeHtml(t.name)}" loading="lazy">
+              <span class="picker-card__photo-wrap"><img class="picker-card__photo" src="${t.photo}" alt="${escapeHtml(t.name)}" loading="lazy"></span>
               <p class="picker-card__name">${escapeHtml(t.shortName)}</p>
               <p class="picker-card__spec">${escapeHtml(t.specialty)}</p>
               ${isDisabled ? '<p class="picker-card__disabled-label">' + escapeHtml(t.disabledLabel) + '</p>' : ''}
@@ -289,11 +289,11 @@
       const target = e.target;
       if (target === overlay) { closeLightbox(); return; }
       if (target.closest('[data-action="close"]')) { closeLightbox(); return; }
-      if (target.closest('[data-action="back"]')) { showGrid(); return; }
+      if (target.closest('[data-action="back"]')) { history.back(); return; }
 
       const backToDetail = target.closest('[data-action="back-to-detail"]');
       if (backToDetail) {
-        showDetail(backToDetail.getAttribute('data-therapist'));
+        history.back();
         return;
       }
 
@@ -352,6 +352,18 @@
     setStep(name);
   }
 
+  // ---------- History stack (so phone back walks lightbox views) ----------
+  let inHistoryNav = false;
+  let pushedDepth = 0;
+  function pushView(name, payload) {
+    if (inHistoryNav) return;
+    try {
+      const state = Object.assign({ mhView: name }, payload || {});
+      history.pushState(state, '');
+      pushedDepth++;
+    } catch (_) { /* history may be unavailable */ }
+  }
+
   function showQuiz() {
     const stage = overlay.querySelector('[data-view="quiz"]');
     stage.innerHTML = buildQuizView();
@@ -362,6 +374,7 @@
     }
     bootTallyScript();
     setView('quiz');
+    pushView('quiz');
   }
 
   function bootTallyScript() {
@@ -396,6 +409,7 @@
     stage.innerHTML = buildGrid(recommendedId || lastRecommendedId);
     setView('grid');
     stage.scrollTop = 0;
+    pushView('grid');
   }
 
   function showDetail(id) {
@@ -405,6 +419,7 @@
     panel.innerHTML = buildDetail(t);
     setView('detail');
     panel.scrollTop = 0;
+    pushView('detail', { tid: t.id });
   }
 
   function showLeadForm(id) {
@@ -416,6 +431,7 @@
     stage.scrollTop = 0;
     const first = stage.querySelector('input[name="first_name"]');
     if (first) setTimeout(() => first.focus(), 50);
+    pushView('lead-form', { tid: t.id });
   }
 
   function submitLeadForm(form) {
@@ -490,6 +506,13 @@
     overlay.setAttribute('data-open', 'false');
     document.body.style.overflow = '';
     if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+    if (pushedDepth > 0) {
+      const n = pushedDepth;
+      pushedDepth = 0;
+      inHistoryNav = true;
+      try { history.go(-n); } catch (_) {}
+      setTimeout(function () { inHistoryNav = false; }, 80);
+    }
   }
 
   function init() {
@@ -498,6 +521,46 @@
       if (trigger) {
         e.preventDefault();
         openLightbox();
+      }
+    });
+
+    // Phone back button walks the lightbox view stack (quiz → grid →
+    // detail → lead-form) instead of leaving the page.
+    window.addEventListener('popstate', function (e) {
+      if (!overlay || overlay.getAttribute('data-open') !== 'true') return;
+      pushedDepth = Math.max(0, pushedDepth - 1);
+      const s = e.state || {};
+      inHistoryNav = true;
+      try {
+        if (s.mhView === 'quiz') {
+          setView('quiz');
+        } else if (s.mhView === 'grid') {
+          const stage = overlay.querySelector('[data-view="grid"]');
+          stage.innerHTML = buildGrid(lastRecommendedId);
+          setView('grid');
+        } else if (s.mhView === 'detail' && s.tid) {
+          const t = findTherapist(s.tid);
+          if (t) {
+            const panel = overlay.querySelector('[data-view="detail"]');
+            panel.innerHTML = buildDetail(t);
+            setView('detail');
+          }
+        } else if (s.mhView === 'lead-form' && s.tid) {
+          const t = findTherapist(s.tid);
+          if (t) {
+            const stage = overlay.querySelector('[data-view="lead-form"]');
+            stage.innerHTML = buildLeadForm(t);
+            setView('lead-form');
+          }
+        } else {
+          // Popped past all our pushed states — close visually only;
+          // history is already where the user expects.
+          overlay.setAttribute('data-open', 'false');
+          document.body.style.overflow = '';
+          if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+        }
+      } finally {
+        setTimeout(function () { inHistoryNav = false; }, 0);
       }
     });
 
