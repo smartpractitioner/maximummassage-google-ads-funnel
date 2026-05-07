@@ -11,8 +11,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:ital,opsz,wght@0,12..96,500;0,12..96,600;0,12..96,700;1,12..96,400;1,12..96,500;1,12..96,700&family=Manrope:wght@400;500;600;700&family=Mulish:wght@500;700;800&display=optional" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:ital,opsz,wght@0,12..96,500;0,12..96,600;0,12..96,700;1,12..96,400;1,12..96,500;1,12..96,700&family=Manrope:wght@400;500;600;700&family=Mulish:wght@500;700;800&display=optional"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:ital,opsz,wght@0,12..96,500;0,12..96,600;0,12..96,700;1,12..96,400;1,12..96,500;1,12..96,700&family=Manrope:wght@400;500;600;700&family=Mulish:wght@500;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:ital,opsz,wght@0,12..96,500;0,12..96,600;0,12..96,700;1,12..96,400;1,12..96,500;1,12..96,700&family=Manrope:wght@400;500;600;700&family=Mulish:wght@500;700;800&display=swap"></noscript>
 
 <link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/logo.webp">
 <link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/woman-massage.webp">
@@ -1271,12 +1271,34 @@ Sat: 10am to 3pm</div></div>
 <script src="/js/utm-capture.js" defer></script>
 <script src="/js/therapist-picker.js?v=v3-49" defer></script>
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5M8LTCF8');</script>
+<!-- Google Tag Manager — lazy-loaded.
+
+     PSI 2026-05-07 flagged GTM (272 KiB / ~580 ms cumulative main-thread
+     time) as the dominant LCP and FCP delay. Deferring the gtm.js inject
+     until window.load (or, on already-loaded pages, the next tick) moves
+     all of that work past the LCP paint. Trade-off: users who close the
+     tab before window.load won't get a pageview event — typically <2 % of
+     traffic on paid landings. Conversion tracking on click/submit is
+     unaffected because those events fire well after window.load.
+
+     Rollback: tag rollback-pre-lazy-gtm-2026-05-07 restores the eager
+     load. -->
+<script>
+(function () {
+  function bootGtm() {
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5M8LTCF8');
+  }
+  if (document.readyState === 'complete') {
+    setTimeout(bootGtm, 0);
+  } else {
+    window.addEventListener('load', function () { setTimeout(bootGtm, 0); });
+  }
+})();
+</script>
 <!-- End Google Tag Manager -->
 
 </body>
