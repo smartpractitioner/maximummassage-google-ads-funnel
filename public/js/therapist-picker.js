@@ -255,12 +255,11 @@
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
     overlay.setAttribute('aria-labelledby', 'picker-title');
-    const stepperVariant = getStepperVariant();
     overlay.innerHTML = `
       <div class="lb" role="document">
         <div class="lb__head">
           <h2 class="lb__title sr-only" id="picker-title">Find your therapist</h2>
-          <div class="lb-stepper lb-stepper--${stepperVariant}" data-stepper aria-hidden="true">
+          <div class="lb-stepper lb-stepper--spread" data-stepper aria-hidden="true">
             <div class="lb-stepper__item" data-step="1">
               <span class="lb-stepper__num">1</span>
               <span class="lb-stepper__label"><span class="lb-stepper__label-full">Share your history</span><span class="lb-stepper__label-short">About you</span></span>
@@ -328,14 +327,6 @@
   }
 
   const VIEW_TO_STEP = { quiz: 1, grid: 2, detail: 2, 'lead-form': 3 };
-
-  function getStepperVariant() {
-    try {
-      const hash = String(window.location.hash || '');
-      if (hash.indexOf('stepper=spread') !== -1) return 'spread';
-      return 'row';
-    } catch (_) { return 'row'; }
-  }
 
   function setStep(view) {
     if (!overlay) return;

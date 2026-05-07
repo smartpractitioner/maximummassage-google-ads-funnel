@@ -199,25 +199,13 @@
   color: var(--brand-primary);
 }
 
-/* Variant A — Row: items sit in a flow row, active expands to fit its label. */
-.lb-stepper--row {
-  gap: 6px;
-  justify-content: flex-start;
-}
-.lb-stepper--row .lb-stepper__item.is-inactive {
-  flex: 0 0 auto;
-  padding: 6px 8px;
-}
-.lb-stepper--row .lb-stepper__item.is-active { flex: 0 1 auto; max-width: 100%; }
-
-/* Variant B — Spread: literal left / center / right positioning. */
+/* Spread: literal left / center / right positioning across the header. */
 .lb-stepper--spread { justify-content: space-between; gap: 8px; }
 .lb-stepper--spread .lb-stepper__item.is-inactive { padding: 6px 4px; }
 .lb-stepper--spread .lb-stepper__item:nth-child(1) { margin-right: auto; }
 .lb-stepper--spread .lb-stepper__item:nth-child(2) { margin: 0 auto; }
 .lb-stepper--spread .lb-stepper__item:nth-child(3) { margin-left: auto; }
 
-/* Mobile compaction: hide step 1's long label, hide step 3's number arrow text */
 @media (max-width: 560px) {
   .lb__head { padding: var(--space-sm) var(--space-md); gap: var(--space-sm); }
   .lb-stepper__item { font-size: 12px; gap: 6px; }
@@ -225,9 +213,6 @@
   .lb-stepper__label-full { display: none; }
   .lb-stepper__label-short { display: inline; }
   .lb-stepper__item.is-active { padding: 6px 18px 6px 10px; }
-  .lb-stepper--row { gap: 4px; }
-  /* On narrow screens, hide labels for inactive steps and only show numbers,
-     so the active chevron has room to display its full text. */
   .lb-stepper__item.is-inactive .lb-stepper__label { display: none; }
 }
 
