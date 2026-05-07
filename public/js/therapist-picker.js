@@ -559,6 +559,18 @@
     });
   }
 
+  document.addEventListener('click', function (e) {
+    const link = e.target.closest('a[href^="tel:"]');
+    if (!link) return;
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'call_click',
+      call_phone: link.getAttribute('href').replace('tel:', ''),
+      call_location: link.dataset.location || 'unknown',
+      page_path: location.pathname
+    });
+  }, true);
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
