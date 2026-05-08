@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maximum Health — Hold a spot for me</title>
+  <title>Maximum Health, Hold a spot for me</title>
   <meta name="robots" content="noindex">
   <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/images/favicon.ico" sizes="any">
@@ -322,11 +322,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="hold-spot__contact" data-contact-summary>
           <div class="hold-spot__contact-row">
             <span class="hold-spot__contact-label">Text</span>
-            <span class="hold-spot__contact-value" data-contact-phone>—</span>
+            <span class="hold-spot__contact-value" data-contact-phone>-</span>
           </div>
           <div class="hold-spot__contact-row">
             <span class="hold-spot__contact-label">Email</span>
-            <span class="hold-spot__contact-value" data-contact-email>—</span>
+            <span class="hold-spot__contact-value" data-contact-email>-</span>
           </div>
         </div>
 
@@ -357,7 +357,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div data-step="noted" hidden>
       <div class="offer-closed__thanks offer-closed__thanks--muted">
         <p class="offer-closed__thanks-headline">No problem.</p>
-        <p class="offer-closed__thanks-body">Thanks for stopping by &mdash; feel free to come back anytime.</p>
+        <p class="offer-closed__thanks-body">Thanks for stopping by, feel free to come back anytime.</p>
       </div>
     </div>
   </section>
@@ -422,8 +422,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const email = (lead && lead.email) || '';
     if (phoneEl) phoneEl.textContent = phone || 'your phone';
     if (emailEl) emailEl.textContent = email || 'your email';
-    if (phoneSummary) phoneSummary.textContent = phone || '—';
-    if (emailSummary) emailSummary.textContent = email || '—';
+    if (phoneSummary) phoneSummary.textContent = phone || '-';
+    if (emailSummary) emailSummary.textContent = email || '-';
   }
   renderContact();
 

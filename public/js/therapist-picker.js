@@ -33,10 +33,10 @@
       title: 'Sports + injury recovery specialist',
       specialty: 'Sports + injury recovery',
       photo: '/images/therapists/brookelyn.webp?v=2',
-      bio: 'Grounded therapist who listens deeply and meets you where you are. Brookelyn focuses on building resilience and empowerment — helping active people understand their bodies, make a plan together, and get back to the things they love without recurring setbacks.',
+      bio: 'Grounded therapist who listens deeply and meets you where you are. Brookelyn focuses on building resilience and empowerment, helping active people understand their bodies, make a plan together, and get back to the things they love without recurring setbacks. She came to massage therapy looking for a way to combine her interest in physiology with the trust-based, supportive side of working with people, and the practice has held both for her ever since.\n\nAs a runner, strength trainer, and mom of two, she also brings a personal understanding of how movement, recovery, and life pressures intersect. She’s especially passionate about postpartum recovery and women’s health, populations that are often underserved, and she’s deliberate about working without shame or "no pain, no gain" pressure, since lasting change comes from helping the body adapt, not pushing it past safe limits.',
       tags: ['Sports injuries', 'SI joint + low back', 'Cervical spine', 'Jade stone', 'Running', 'Strength + longevity', 'Women’s health', 'Postpartum recovery', 'Nervous system'],
       review: {
-        text: '[STUB — pending real Google review]',
+        text: '[STUB pending real Google review]',
         source: 'Google review'
       },
       experience: [
@@ -59,7 +59,7 @@
       title: 'Whole-body + craniosacral specialist',
       specialty: 'Whole-body + craniosacral',
       photo: '/images/therapists/meagan.jpg',
-      bio: 'Deeply intuitive, whole-body therapist with calm energy and a broad toolkit. Meagan sees your body as an integrated system and tailors her approach to help you unwind tension, feel grounded, and make lasting shifts.',
+      bio: 'Deeply intuitive, whole-body therapist with calm energy and a broad toolkit. Meagan sees your body as an integrated system, not a list of separate parts, and tailors her approach to help you unwind tension, feel grounded, and make lasting shifts. Clients frequently describe her work as having a "magic touch", with a wicked sense of humour to match.\n\nHer background as a competitive athlete shapes how she thinks about movement and recovery, and her training in craniosacral therapy, reflexology, and Thai massage means she has range beyond standard treatments. She continues to take additional courses to expand her toolkit, and her own yoga and fitness practice keeps her in touch with what it actually feels like to live in a working body.',
       tags: ['Craniosacral therapy', 'Reflexology', 'Thai massage', 'Whole-body approach', 'Therapeutic massage', 'Sports knowledge', 'Stress relief', 'Nervous system'],
       review: {
         text: 'I had the best massage therapist I’ve ever had, Meagan Brown has the magic touch, soothing relaxing, her knowledge of the body is amazing and she’ll hit your pain spots with soothing hands and has a wicked personality!!',
@@ -86,8 +86,8 @@
       title: 'Chronic pain + myofascial release specialist',
       specialty: 'Chronic pain + cupping',
       photo: '/images/therapists/charlotte.webp?v=2',
-      bio: 'Results-focused therapist with clinical precision and calm compassion. Charlotte combines advanced myofascial and trigger-point expertise with a deep commitment to understanding pain — drawn partly from her own recovery journey — so you leave both educated and genuinely better.',
-      tags: ['Myofascial release', 'Trigger point', 'Dynamic cupping', 'Lymphatic drainage', 'Pre/post-partum', 'Reiki', 'Back pain + injury recovery', 'Chronic pain', 'Client education'],
+      bio: 'Results-focused therapist with clinical precision and calm compassion. Charlotte combines advanced myofascial and trigger-point expertise with a deep commitment to client education, so you understand what’s happening in your body, not just leave the session feeling temporarily better. Her background spans a PhD in Nutritional Biochemistry and more than a decade teaching massage therapy at the college level, so the science behind every technique matters to her.\n\nShe also brings a deeply personal understanding of pain. After fracturing two vertebrae in 2006, Charlotte lived through a long rehab herself, learning firsthand how chronic pain shapes everyday life. That’s why she works gently and patiently with clients in similar situations, partnering with you on changes that last rather than pushing through pain to chase a quick result.',
+      tags: ['Myofascial release', 'Trigger point', 'Dynamic cupping', 'Lymphatic drainage', 'Pre/post-partum', 'Reiki', 'Back pain', 'Injury recovery', 'Chronic pain', 'Client education'],
       review: {
         text: 'Charlotte is an experienced and knowledgeable professional! [...] Best massage therapist ever! Highly recommend!!',
         source: 'Google review'
@@ -110,13 +110,13 @@
       id: 'lindsey',
       name: 'Lindsey Stauffer',
       shortName: 'Lindsey S.',
-      title: 'Fascial release + nervous system specialist',
-      specialty: 'Fascial release + nervous system',
+      title: 'Prenatal & postnatal + fascia release specialist',
+      specialty: 'Prenatal & Postnatal + Fascia Release',
       photo: '/images/therapists/lindsey.webp?v=2',
-      bio: 'Calm, detail-oriented therapist with a deeply supportive presence. Lindsey blends fascial-release techniques with nervous-system awareness to help you release deep tension and return to ease — whether that’s recovering from injury or just reclaiming balance in a busy life.',
+      bio: 'Calm, detail-oriented therapist with a deeply supportive presence. Lindsey blends fascial-release techniques with nervous-system awareness to help you release deep tension and return to ease, whether that’s recovering from injury or just reclaiming balance in a busy life. Her belief is that a regulated nervous system is the root of real healing, so she works at a pace your body can actually integrate.\n\nAs a yoga teacher since 2014 (with a focus on prenatal yoga), a doula, a breathwork facilitator, and a current student of acupuncture, she draws from a wide toolkit. She’s also a mom of three, so she gets what overstretched parents and overstimulated professionals are dealing with, and she meets clients there with empathy and practical strategies rather than a one-size-fits-all approach.',
       tags: ['Fascial release', 'Nervous system', 'Yoga teacher', 'Prenatal + postnatal', 'Doula', 'Acupuncture (in training)', 'Breathwork', 'Stress + chronic pain', 'Family-focused'],
       review: {
-        text: '[STUB — pending real Google review]',
+        text: '[STUB pending real Google review]',
         source: 'Google review'
       },
       experience: [
@@ -140,10 +140,10 @@
       title: 'Personalized + perinatal specialist',
       specialty: 'Personalized + perinatal',
       photo: '/images/therapists/tif.webp',
-      bio: 'Personalized therapist who tailors every session to your needs. Tif combines technical skill in Swedish, deep tissue, and lymphatic work with genuine care — creating a customized plan that helps you reach your specific wellness goals.',
+      bio: 'Personalized therapist who tailors every session to your needs. Tif combines technical skill in Swedish, deep tissue, and lymphatic work with genuine care, creating a customized plan that helps you reach your specific wellness goals, whether that’s tension relief, stress reduction, or pain management.\n\nOutside the clinic, she’s a musician and artist who spends as much time outdoors as the weather allows, hiking, biking, and skiing with her husband and dog. That same care for what makes life feel good shows up on the table: she partners with you on a plan that supports both immediate relief and long-term wellbeing.',
       tags: ['Swedish', 'Deep tissue', 'Lymphatic drainage', 'Pre & post-natal', 'TMJ + facial', 'Stress reduction', 'Pain management', 'Personalized approach'],
       review: {
-        text: '[STUB — replace with a real Google review once available.]',
+        text: '[STUB replace with a real Google review once available.]',
         source: 'Google review'
       },
       experience: [
@@ -224,7 +224,7 @@
 
   function buildGrid(recommendedId) {
     return `
-      ${recommendedId ? '<p class="picker-intro">Based on your answers, we recommend <strong>' + escapeHtml(findTherapist(recommendedId).name.split(" ")[0]) + '</strong> &mdash; but pick whoever feels right. <span class="picker-intro__hint">Tap any therapist to learn more about them.</span></p>' : ''}
+      ${recommendedId ? '<p class="picker-intro">Based on your answers, we recommend <strong>' + escapeHtml(findTherapist(recommendedId).name.split(" ")[0]) + '</strong>, but pick whoever feels right. <span class="picker-intro__hint">Tap any therapist to learn more about them.</span></p>' : ''}
       <div class="picker-grid">
         ${therapists.map((t) => {
           const isRecommended = t.id === recommendedId;
@@ -246,7 +246,7 @@
           `;
         }).join('')}
       </div>
-      <p class="picker-foot">Tap a therapist to see more &mdash; two of our team are currently fully booked.</p>
+      <p class="picker-foot">Tap a therapist to see more. Two of our team are currently fully booked.</p>
     `;
   }
 
@@ -281,11 +281,18 @@
   function buildDetail(t) {
     const tagsHtml = t.tags.map((tag) => `<span class="detail-panel__tag">${escapeHtml(tag)}</span>`).join('');
     // experience can be a string (legacy) or an array of credential lines.
-    // Array form renders as a vertical bullet list — easier to scan than a
+    // Array form renders as a vertical bullet list, easier to scan than a
     // dense paragraph when the therapist has many credentials.
     const expHtml = Array.isArray(t.experience)
       ? '<ul class="detail-panel__creds">' + t.experience.map((line) => `<li>${escapeHtml(line)}</li>`).join('') + '</ul>'
       : `<p class="detail-panel__exp">${escapeHtml(t.experience)}</p>`;
+    // bio is a single string with `\n\n` separators between paragraphs.
+    // Render one <p> per paragraph so the detail panel reads as prose.
+    const bioHtml = String(t.bio || '')
+      .split(/\n\n+/)
+      .filter((p) => p.trim().length > 0)
+      .map((p) => `<p class="detail-panel__bio">${escapeHtml(p.trim())}</p>`)
+      .join('');
     return `
       <button type="button" class="detail-panel__back" data-action="back">
         <span aria-hidden="true">&larr;</span> All therapists
@@ -294,7 +301,7 @@
         <img class="detail-panel__photo" src="${t.photo}" alt="${escapeHtml(t.name)}">
         <h3 class="detail-panel__name">${escapeHtml(t.name)}, RMT</h3>
         <p class="detail-panel__title">${escapeHtml(t.title)}</p>
-        <p class="detail-panel__bio">${escapeHtml(t.bio)}</p>
+        ${bioHtml}
         <div class="detail-panel__tags">${tagsHtml}</div>
         ${expHtml}
         ${buildReviewCard(t)}
@@ -304,7 +311,7 @@
           <span class="cta-card__badge">New patient starter offer</span>
         </p>
         <button type="button" class="btn btn--primary btn--block" data-action="open-lead-form" data-therapist="${t.id}">
-          Book with ${escapeHtml(t.name.split(' ')[0])} &mdash; ${escapeHtml(t.duration)}
+          Book with ${escapeHtml(t.name.split(' ')[0])}, ${escapeHtml(t.duration)}
         </button>
       </div>
     `;
