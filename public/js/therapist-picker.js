@@ -661,6 +661,10 @@
           recommended = findRecommendedIn(stringified);
         } catch (_) {}
         pickerDebug('postMessage Tally submit', { rawType: typeof e.data, payload: payload, stringifiedLen: stringified.length, recommended: recommended });
+        // Dump the full stringified payload so we can see where the
+        // therapist id lives when our regex doesn't catch it. Slice so
+        // huge payloads don't flood the console.
+        if (stringified) pickerDebug('postMessage payload (full)', stringified.length > 4000 ? (stringified.slice(0, 4000) + '... [truncated]') : stringified);
 
         showGrid(recommended);
         // Belt-and-suspenders: keep checking the iframe URL for a moment in

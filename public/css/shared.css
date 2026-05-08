@@ -1,12 +1,11 @@
 :root {
-  /* Palette matched to Flow A (Landingi control):
-     primary teal     #36C2C4 / dark #1B6162 / light tints from secondary-0/1
-     accent gold      #F3C768 / cream tints from primary-0/1
-     greys            from tertiary-2/3 */
-  --brand-primary: #1B6162;
-  --brand-primary-dark: #0F3F40;
-  --brand-primary-light: #E1F6F6;
-  --brand-primary-border: #9BE1E2;
+  /* Palette aligned to Flow B v3 landing-page brand teal (--brand-teal
+     #1F8FA6 / dark #155F70). Updated 2026-05 when the Flow B redesign
+     changed the primary CTA color away from the older Landingi #1B6162. */
+  --brand-primary: #1F8FA6;
+  --brand-primary-dark: #155F70;
+  --brand-primary-light: #D6EDED;
+  --brand-primary-border: #A4D8DC;
   --brand-primary-muted: #6B6B6B;
 
   --brand-accent: #F3C768;

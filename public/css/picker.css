@@ -7,10 +7,10 @@
    sections — those would all clash with Landingi widgets. */
 
 :root {
-  --brand-primary: #1B6162;
-  --brand-primary-dark: #0F3F40;
-  --brand-primary-light: #E1F6F6;
-  --brand-primary-border: #9BE1E2;
+  --brand-primary: #1F8FA6;
+  --brand-primary-dark: #155F70;
+  --brand-primary-light: #D6EDED;
+  --brand-primary-border: #A4D8DC;
   --brand-primary-muted: #6B6B6B;
 
   --brand-accent: #F3C768;
@@ -98,6 +98,10 @@
   background: #fff;
   width: 100%;
   max-width: 720px;
+  /* Fixed height so the lightbox feels the same size on every step
+     (quiz, grid, detail, lead-form). Internal scroll handles overflow
+     on the taller views (grid with 5+ cards). */
+  height: 86vh;
   max-height: 92vh;
   border-top-left-radius: var(--radius-lg);
   border-top-right-radius: var(--radius-lg);
@@ -308,6 +312,13 @@
   transform: scale(1.22);
   transform-origin: center 32%;
 }
+/* Tif's source illustration has lots of cream headroom above her face.
+   Zoom in and shift down so the circular crop centers on her face like
+   the other therapists. */
+.picker-card[data-therapist="tif"] .picker-card__photo {
+  transform: scale(1.55);
+  transform-origin: center 38%;
+}
 .picker-card__name {
   font-size: 15px;
   font-weight: 700;
@@ -517,19 +528,36 @@
   margin: 0 0 var(--space-md);
 }
 .detail-panel__price {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-dark);
-  margin: 0 0 var(--space-sm);
+  font-family: 'Mulish', 'Manrope', system-ui, sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--brand-primary-dark);
+  letter-spacing: -1.2px;
+  line-height: 1;
+  margin: 4px 0 var(--space-md);
   display: flex;
   align-items: baseline;
+  justify-content: center;
   gap: 10px;
+  flex-wrap: wrap;
 }
 .detail-panel__price-old {
   text-decoration: line-through;
   color: var(--text-muted);
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
+  letter-spacing: 0;
+}
+.detail-panel__price .cta-card__badge {
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  font-weight: 700;
+  color: var(--brand-primary-dark);
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+  margin-top: 4px;
 }
 
 /* ---------- SR only ---------- */

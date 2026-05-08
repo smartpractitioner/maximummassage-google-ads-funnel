@@ -72,6 +72,14 @@ window.addEventListener('load', function () {
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5M8LTCF8"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+<style>
+/* Defensive overrides for the Tif page so its content (which differs in
+   length from Lindsey's, whose Landingi widget IDs we reuse) doesn't
+   cause horizontal scroll or overflow into adjacent widgets. */
+html, body { overflow-x: hidden; max-width: 100%; }
+body img, body .widget-image { max-width: 100%; height: auto; }
+.widget-image { object-fit: cover; object-position: center top; }
+</style>
 <div id="bi9NR0WhH1GbcvHCGhJvAnH0Q0P55QXb" class="widget widget-section "  >
     <div class="row">
 
@@ -122,7 +130,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <div class="container " >
 
-            <div id="triiKLLuvNNa5kZgUyHpK2ceUNnsn0Fe" class="widget widget-text"><p><b>Trainings and Certifications</b></p><p><b><br></b></p><p><span style="">  &nbsp; &nbsp; &nbsp; &nbsp; 2,200-hour Advanced Massage Therapy program</span></p><p><span style="letter-spacing: 0px;"><br></span></p><p><span style="letter-spacing: 0px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Graduated Professional Institute of Massage Therapy, Calgary</span></p><p><br></p><p><span style="letter-spacing: 0px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Member in good standing with CMMOTA</span></p><p><br></p><p><b>Additional training</b></p><p>    &nbsp; &nbsp;&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Swedish Massage</p><p><br></p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Deep Tissue Massage</p><p><br></p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Lymphatic Drainage</p><p><br></p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Pre and Post Natal Massage</p><p><br></p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;TMJ and Facial Massage</p></div>
+            <div id="triiKLLuvNNa5kZgUyHpK2ceUNnsn0Fe" class="widget widget-text"><p><b>Trainings and Certifications</b></p><p><b><br></b></p><p><span style="">  &nbsp; &nbsp; &nbsp; &nbsp; 2,200 hours</span></p><p><span style="letter-spacing: 0px;"><br></span></p><p><span style="letter-spacing: 0px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Graduated PIMT, Calgary</span></p><p><br></p><p><b>Additional training</b></p><p>    &nbsp; &nbsp;&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Swedish &amp; Deep Tissue</p><p><br></p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Lymphatic Drainage</p><p><br></p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Pre &amp; Post-Natal Massage</p><p><br></p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;TMJ &amp; Facial Massage</p></div>
         </div>
     </div>
 </div>
@@ -144,27 +152,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="widget-overlay" aria-hidden="true"></div>
     <div id="eoDcnrsEAfJOkW33zrZ3e08C9tL8yzzk" class="widget widget-text" aria-hidden="true">Book With Tif</div>
 </a><div id="O4L6XJ5h9hX9F8zoTvBA7XR2tOOeaTQv" class="widget widget-html">
-    <div class="custom-html-value" style="position: relative"><!-- Cal.com Popup on existing button -->
+    <div class="custom-html-value" style="position: relative"><!-- Tif has no Cal.com handle yet, so the Book button routes through
+the lead-capture confirmation page (which shows the "no availability —
+notify me" CTA). Matches the temporary demand-test flow used elsewhere.
+Swap to a Cal.com modal once her handle is provisioned. -->
 <script type="text/javascript">
-  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-
-  Cal("init", "60min", {origin:"https://app.cal.com"});
-  Cal.ns["60min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
-
-  // PLACEHOLDER: Tif's Cal.com handle has not been provisioned yet. Booking
-  // attempts will hit a "user not found" error in the Cal.com modal until
-  // her account is created. Update `calHandle` once the handle is live.
   document.addEventListener("DOMContentLoaded", function () {
-    var calHandle = "thenderson/60min";
     var links = document.querySelectorAll("a, button");
     links.forEach(function (el) {
       if (el.textContent.trim().includes("Book With Tif")) {
         el.addEventListener("click", function (e) {
           e.preventDefault();
-          Cal.ns["60min"]("modal", {
-            calLink: calHandle + window.location.search,
-            config: { layout: "month_view", useSlotsViewOnMobile: "true" }
-          });
+          window.location.href = "/massage-therapy-calgary-flow-b/confirmation/" + window.location.search;
         });
       }
     });
@@ -174,31 +173,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </div>
 </div>
-<div id="hVkMxJwc7NkefymqHTZ8JTq8VfCT3qTs" class="widget widget-section "  >
-    <div class="row">
-
-        <div class="container " >
-
-            <div id="Gwuz7MPFW4sHWlOP3H7qmPrxNqL9st9x" class="widget widget-html">
-    <div class="custom-html-value" style="position: relative"><!-- Cal inline embed code begins -->
-<div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-60min"></div>
-<script type="text/javascript">
-  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-Cal("init", "60min", {origin:"https://app.cal.com"});
-
-  Cal.ns["60min"]("inline", {
-    elementOrSelector:"#my-cal-inline-60min",
-    config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
-    calLink: "thenderson/60min",
-  });
-
-  Cal.ns["60min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
-  </script>
-  <!-- Cal inline embed code ends --></div>
-</div>
-        </div>
-    </div>
-</div>
+<!-- Cal.com inline embed removed for Tif: no handle provisioned yet, and
+the Book button above routes through the no-availability confirmation
+page during the demand-test phase. Re-add when her account is live. -->
 <div id="JccJvLRO2IMku4zhURo1rTB8S7NfMPDp" class="widget widget-section "  >
     <div class="row">
 
@@ -229,22 +206,10 @@ Cal("init", "60min", {origin:"https://app.cal.com"});
         </div>
     </div>
 </div><script type="text/javascript" src="/assets/js/landingi/jquery-3-6-0.min.js" fetchpriority="high"></script>        <script src="/assets/js/landingi/frodo.js"></script>
-<script defer type="text/javascript" src="/assets/js/landingi/files.js"></script><script defer fetchpriority="low" type="text/javascript" src="/assets/js/landingi/jquery.form.min.js"></script> <script type="text/javascript" src="/assets/js/landingi/new_landend.js"></script><!-- Redirect on successful booking (uses namespaced listener) -->
-  <script>
-    Cal.ns["60min"]("on", {
-      action: "bookingSuccessfulV2",
-      callback: (e) => {
-        const { data } = e.detail;
-        window.location.href = "https://go.maximummassage.ca/appointment-confirmed";
-      }
-    });
-  </script><!-- Cal element-click embed code begins -->
-<script type="text/javascript">
-  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-  Cal("init", "60min", {origin:"https://app.cal.com"});
-  Cal.ns["60min"]("ui", {"cssVarsPerTheme":{"light":{"cal-brand":"#0dffd5"}},"hideEventTypeDetails":false,"layout":"week_view"});
-</script>
-<!-- Cal element-click embed code ends --><!-- Google Tag Manager -->
+<script defer type="text/javascript" src="/assets/js/landingi/files.js"></script><script defer fetchpriority="low" type="text/javascript" src="/assets/js/landingi/jquery.form.min.js"></script> <script type="text/javascript" src="/assets/js/landingi/new_landend.js"></script>
+<!-- Cal.com bootstrap removed for Tif (no handle yet — Book button routes
+to confirmation page instead). Re-add when her account is live. -->
+<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
