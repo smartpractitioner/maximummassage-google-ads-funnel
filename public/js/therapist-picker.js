@@ -33,13 +33,20 @@
       title: 'Sports + injury recovery specialist',
       specialty: 'Sports + injury recovery',
       photo: '/images/therapists/brookelyn.webp?v=2',
-      bio: 'Results-driven therapist who helps active people get back to the things they love. Direct, practical, and grounded in deep anatomical knowledge.',
-      tags: ['Sports injuries', 'SI joint + low back', 'Cervical spine', 'Jade stone'],
+      bio: 'Grounded therapist who listens deeply and meets you where you are. Brookelyn focuses on building resilience and empowerment — helping active people understand their bodies, make a plan together, and get back to the things they love without recurring setbacks.',
+      tags: ['Sports injuries', 'SI joint + low back', 'Cervical spine', 'Jade stone', 'Running', 'Strength + longevity', 'Women’s health', 'Postpartum recovery', 'Nervous system'],
       review: {
         text: '[STUB — pending real Google review]',
         source: 'Google review'
       },
-      experience: '10,000+ hours hands-on. Graduated MacEwan University, 2014.',
+      experience: [
+        '10,000+ hours hands-on',
+        'Graduated MacEwan University, 2014',
+        '11 years as RMT',
+        'Member of Natural Health Practitioners of Canada',
+        'Trained in Jade Stone therapy',
+        'Trained in Kinetic massage for SI joint, low back, and cervical spine'
+      ],
       duration: '60 min',
       price: 49,
       regularPrice: 124,
@@ -52,14 +59,21 @@
       title: 'Whole-body + craniosacral specialist',
       specialty: 'Whole-body + craniosacral',
       photo: '/images/therapists/meagan.jpg',
-      bio: 'Deeply intuitive, movement-aware therapist who takes a whole-body view of pain and recovery. Brings a calming presence and works to help your body find balance without pushing past limits.',
-      tags: ['Craniosacral therapy', 'Reflexology', 'Thai massage'],
+      bio: 'Deeply intuitive, whole-body therapist with calm energy and a broad toolkit. Meagan sees your body as an integrated system and tailors her approach to help you unwind tension, feel grounded, and make lasting shifts.',
+      tags: ['Craniosacral therapy', 'Reflexology', 'Thai massage', 'Whole-body approach', 'Therapeutic massage', 'Sports knowledge', 'Stress relief', 'Nervous system'],
       review: {
         text: 'I had the best massage therapist I’ve ever had, Meagan Brown has the magic touch, soothing relaxing, her knowledge of the body is amazing and she’ll hit your pain spots with soothing hands and has a wicked personality!!',
         reviewerName: 'Wes Woznow',
         source: 'Google review'
       },
-      experience: '10,000+ hours hands-on.',
+      experience: [
+        '10,000+ hours hands-on',
+        'Graduated 2004',
+        'Trained in Craniosacral Therapy',
+        'Trained in Reflexology',
+        'Trained in Thai Massage',
+        'Athletic background; ongoing CE coursework'
+      ],
       duration: '60 min',
       price: 49,
       regularPrice: 124,
@@ -72,13 +86,21 @@
       title: 'Chronic pain + myofascial release specialist',
       specialty: 'Chronic pain + cupping',
       photo: '/images/therapists/charlotte.webp?v=2',
-      bio: 'Results-focused therapist with a calm, clinical approach and a deep commitment to helping people move better and feel better. Advanced skills in injury recovery and chronic pain care.',
-      tags: ['Dynamic cupping', 'Myofascial release', 'Trigger point', 'Lymphatic drainage', 'Pre/post-partum', 'Reiki'],
+      bio: 'Results-focused therapist with clinical precision and calm compassion. Charlotte combines advanced myofascial and trigger-point expertise with a deep commitment to understanding pain — drawn partly from her own recovery journey — so you leave both educated and genuinely better.',
+      tags: ['Myofascial release', 'Trigger point', 'Dynamic cupping', 'Lymphatic drainage', 'Pre/post-partum', 'Reiki', 'Back pain + injury recovery', 'Chronic pain', 'Client education'],
       review: {
         text: 'Charlotte is an experienced and knowledgeable professional! [...] Best massage therapist ever! Highly recommend!!',
         source: 'Google review'
       },
-      experience: '7,200+ hours hands-on.',
+      experience: [
+        '7,200+ hours hands-on',
+        'Graduated Vickars School of Massage Therapy, 2012',
+        'Member of CMMOTA in good standing',
+        'PhD in Nutritional Biochemistry, Nottingham University',
+        'Reiki Master',
+        'CEUs in Trigger Point, Myofascial Release, Cupping, Lymphatic Drainage, Pre/post-partum, Aromatherapy',
+        'Massage instructor at ABM College and ERP College'
+      ],
       duration: '90 min',
       price: 49,
       regularPrice: 124,
@@ -91,13 +113,21 @@
       title: 'Fascial release + nervous system specialist',
       specialty: 'Fascial release + nervous system',
       photo: '/images/therapists/lindsey.webp?v=2',
-      bio: 'Calm, detail-oriented therapist with a deeply supportive presence. Blends fascial release techniques with a nervous-system-aware approach to reduce pain, improve movement, and restore balance.',
-      tags: ['Fascial release', 'Yoga teacher', 'Doula', 'Acupuncture (in training)'],
+      bio: 'Calm, detail-oriented therapist with a deeply supportive presence. Lindsey blends fascial-release techniques with nervous-system awareness to help you release deep tension and return to ease — whether that’s recovering from injury or just reclaiming balance in a busy life.',
+      tags: ['Fascial release', 'Nervous system', 'Yoga teacher', 'Prenatal + postnatal', 'Doula', 'Acupuncture (in training)', 'Breathwork', 'Stress + chronic pain', 'Family-focused'],
       review: {
         text: '[STUB — pending real Google review]',
         source: 'Google review'
       },
-      experience: '4,000+ hours hands-on.',
+      experience: [
+        '4,000+ hours hands-on',
+        'Graduated 2022',
+        'Trained in Fascial Release',
+        'Yoga Teacher Certification (incl. prenatal yoga, teaching since 2014)',
+        'Doula Certification (birth and postpartum)',
+        'Breathwork facilitator',
+        'Current student of Acupuncture'
+      ],
       duration: '60 min',
       price: 49,
       regularPrice: 124,
@@ -110,13 +140,17 @@
       title: 'Personalized + perinatal specialist',
       specialty: 'Personalized + perinatal',
       photo: '/images/therapists/tif.webp',
-      bio: 'Tif takes a personalized approach with every client — tailoring each session to your needs, whether that’s tension relief, stress reduction, or pain management, and partnering with you on a treatment plan that helps you reach your goals.',
-      tags: ['Swedish', 'Deep tissue', 'Lymphatic drainage', 'Pre & post-natal', 'TMJ + facial'],
+      bio: 'Personalized therapist who tailors every session to your needs. Tif combines technical skill in Swedish, deep tissue, and lymphatic work with genuine care — creating a customized plan that helps you reach your specific wellness goals.',
+      tags: ['Swedish', 'Deep tissue', 'Lymphatic drainage', 'Pre & post-natal', 'TMJ + facial', 'Stress reduction', 'Pain management', 'Personalized approach'],
       review: {
         text: '[STUB — replace with a real Google review once available.]',
         source: 'Google review'
       },
-      experience: '2,200-hour Advanced Massage Therapy graduate (Professional Institute of Massage Therapy, Calgary). Member in good standing with CMMOTA.',
+      experience: [
+        '2,200-hour Advanced Massage Therapy graduate',
+        'Graduated Professional Institute of Massage Therapy, Calgary',
+        'Member of CMMOTA in good standing'
+      ],
       duration: '60 min',
       price: 49,
       regularPrice: 124,
@@ -246,6 +280,12 @@
 
   function buildDetail(t) {
     const tagsHtml = t.tags.map((tag) => `<span class="detail-panel__tag">${escapeHtml(tag)}</span>`).join('');
+    // experience can be a string (legacy) or an array of credential lines.
+    // Array form renders as a vertical bullet list — easier to scan than a
+    // dense paragraph when the therapist has many credentials.
+    const expHtml = Array.isArray(t.experience)
+      ? '<ul class="detail-panel__creds">' + t.experience.map((line) => `<li>${escapeHtml(line)}</li>`).join('') + '</ul>'
+      : `<p class="detail-panel__exp">${escapeHtml(t.experience)}</p>`;
     return `
       <button type="button" class="detail-panel__back" data-action="back">
         <span aria-hidden="true">&larr;</span> All therapists
@@ -256,7 +296,7 @@
         <p class="detail-panel__title">${escapeHtml(t.title)}</p>
         <p class="detail-panel__bio">${escapeHtml(t.bio)}</p>
         <div class="detail-panel__tags">${tagsHtml}</div>
-        <p class="detail-panel__exp">${escapeHtml(t.experience)}</p>
+        ${expHtml}
         ${buildReviewCard(t)}
         <p class="detail-panel__price">
           $${t.price}
