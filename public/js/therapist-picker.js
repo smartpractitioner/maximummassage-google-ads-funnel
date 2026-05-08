@@ -36,7 +36,7 @@
       bio: 'Results-driven therapist who helps active people get back to the things they love. Direct, practical, and grounded in deep anatomical knowledge.',
       tags: ['Sports injuries', 'SI joint + low back', 'Cervical spine', 'Jade stone'],
       review: {
-        text: 'Brookelyn really listened and tailored the session to exactly what I needed. I felt better after one visit.',
+        text: '[STUB — pending real Google review]',
         source: 'Google review'
       },
       experience: '10,000+ hours hands-on. Graduated MacEwan University, 2014.',
@@ -55,7 +55,6 @@
       bio: 'Deeply intuitive, movement-aware therapist who takes a whole-body view of pain and recovery. Brings a calming presence and works to help your body find balance without pushing past limits.',
       tags: ['Craniosacral therapy', 'Reflexology', 'Thai massage'],
       review: {
-        headline: '… she’ll hit your pain spots with soothing hands',
         text: 'I had the best massage therapist I’ve ever had, Meagan Brown has the magic touch, soothing relaxing, her knowledge of the body is amazing and she’ll hit your pain spots with soothing hands and has a wicked personality!!',
         reviewerName: 'Wes Woznow',
         source: 'Google review'
@@ -95,7 +94,7 @@
       bio: 'Calm, detail-oriented therapist with a deeply supportive presence. Blends fascial release techniques with a nervous-system-aware approach to reduce pain, improve movement, and restore balance.',
       tags: ['Fascial release', 'Yoga teacher', 'Doula', 'Acupuncture (in training)'],
       review: {
-        text: 'Lindsey creates such a safe, calming space. Her fascial work is incredible — I noticed a difference after the first session.',
+        text: '[STUB — pending real Google review]',
         source: 'Google review'
       },
       experience: '4,000+ hours hands-on.',
