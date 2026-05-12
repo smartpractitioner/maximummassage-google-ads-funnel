@@ -37,24 +37,26 @@ const C = {
   accent: "#C4653A", cancelled: "#C4653A",
 };
 
-// Regenerated 2026-04-23 from the monthly report's data pipeline (scripts/build-monthly-report.mjs).
+// Regenerated 2026-05-11 from the monthly report's data pipeline (scripts/build-monthly-report.mjs)
+// after fresh EHR exports that capture the full month of April (the prior exports were taken
+// on April 22 and missed Apr 23–30 activity).
 // `completed` = booked appointments that the patient actually showed up to (apptHours - cancelledHours).
 // `pct` = completed / shift, matching the green "Completed" segment in the monthly report's
 // Schedule Utilization chart. Rollback:
-// `git checkout capacity-report-pre-completed-regen-2026-04-23 -- public/reports/capacity/index.html`
+// `git checkout capacity-report-pre-april-complete-2026-05-11 -- public/reports/capacity/index.html`
 // 4mo window: 2026-01-01 → 2026-04-30. 12mo window: 2025-05-01 → 2026-04-30.
 const DATA = {
   "4mo": [
-    { name: "Brookelyn", completed: 104, cancelled: 25, empty: 196, shift: 324, pct: 32 },
-    { name: "Charlotte", completed:  21, cancelled: 17, empty: 165, shift: 203, pct: 10 },
-    { name: "Lindsey",   completed:  68, cancelled: 13, empty:  75, shift: 156, pct: 43 },
-    { name: "Meagan",    completed:  23, cancelled: 14, empty:  19, shift:  55, pct: 41 },
+    { name: "Brookelyn", completed: 110, cancelled: 25, empty: 189, shift: 324, pct: 34 },
+    { name: "Charlotte", completed:  23, cancelled: 18, empty: 162, shift: 203, pct: 11 },
+    { name: "Lindsey",   completed:  71, cancelled: 13, empty:  72, shift: 156, pct: 45 },
+    { name: "Meagan",    completed:  25, cancelled: 14, empty:  17, shift:  55, pct: 45 },
   ],
   "12mo": [
-    { name: "Brookelyn", completed: 324, cancelled: 64, empty: 571, shift: 959, pct: 34 },
-    { name: "Charlotte", completed:  76, cancelled: 41, empty: 411, shift: 528, pct: 14 },
-    { name: "Lindsey",   completed: 307, cancelled: 46, empty: 291, shift: 644, pct: 48 },
-    { name: "Meagan",    completed:  96, cancelled: 41, empty:  82, shift: 219, pct: 44 },
+    { name: "Brookelyn", completed: 299, cancelled: 64, empty: 533, shift: 896, pct: 33 },
+    { name: "Charlotte", completed:  79, cancelled: 42, empty: 407, shift: 528, pct: 15 },
+    { name: "Lindsey",   completed: 279, cancelled: 46, empty: 270, shift: 595, pct: 47 },
+    { name: "Meagan",    completed:  84, cancelled: 41, empty:  77, shift: 201, pct: 42 },
   ],
 };
 
@@ -170,7 +172,7 @@ function App() {
           <div style={{ display:"flex", gap:12, flexWrap:"wrap", marginBottom:16 }}>
             <KPI value={`$${perMonthLost.toLocaleString()}`} label="Lost revenue / month" sub="Hours available but unfilled or cancelled — at your standard rate" accent={C.accent} />
             <KPI value={`${Math.round(totalEmpty12/12)}h`}  label="Empty hours / month"  sub="Avg across all 4 therapists over 12 months" color={C.goldLight} />
-            <KPI value="14%"                                 label="Charlotte's fill rate"  sub="Lowest of the 4 — 86% of her schedule sits empty every week" color={C.greenPale} accent={C.green} />
+            <KPI value="15%"                                 label="Charlotte's fill rate"  sub="Lowest of the 4 — 85% of her schedule sits empty every week" color={C.greenPale} accent={C.green} />
           </div>
 
           <div style={{ background:C.card, borderRadius:14, padding:"24px 20px", boxShadow:"0 2px 12px rgba(0,0,0,0.06)" }}>
@@ -216,7 +218,7 @@ function App() {
             <div style={{ marginTop:16, background:"#FDF5EE", borderRadius:10, padding:"12px 16px", borderLeft:`3px solid ${C.accent}` }}>
               <div style={{ fontSize:12, fontWeight:700, color:C.accent, marginBottom:4 }}>The pattern holds across both time windows</div>
               <div style={{ fontSize:12, color:C.muted, lineHeight:1.6 }}>
-                Toggle between the last 4 months and the full year — the numbers barely move. Brookelyn sits around 32–34% either way. Charlotte at 10–14%. This isn't a slow season. It's a structural gap that advertising can fill.
+                Toggle between the last 4 months and the full year — the numbers barely move. Brookelyn sits around 33–34% either way. Charlotte at 11–15%. This isn't a slow season. It's a structural gap that advertising can fill.
               </div>
             </div>
           </div>
@@ -339,7 +341,7 @@ function App() {
             An empty slot has no buyer. The $49 intro isn't a discount — it's a new client who didn't exist yet.
           </p>
           <p style={{ fontSize:13, color:"rgba(255,255,255,0.75)", margin:0, lineHeight:1.7 }}>
-            Your own data shows nearly $16,000 in potential revenue going unrealized every month across your team. 
+            Your own data shows over $15,000 in potential revenue going unrealized every month across your team. 
             Today's wellness consumer expects to try before committing — especially with a new therapist. 
             A low-friction entry point removes that barrier. Once they're in the room and experience the 
             quality of your clinic, converting to a long-term client isn't a sales pitch. It's a natural next step.

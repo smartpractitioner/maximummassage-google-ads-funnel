@@ -116,8 +116,10 @@ function sanitizeAll() {
 
 function xlsxIn(dir) {
   if (!existsSync(dir)) return [];
+  // Accept both .xlsx (original format) and .csv (EHR exports increasingly arrive
+  // as CSV — the xlsx library parses CSV natively, so no separate code path needed).
   return readdirSync(dir)
-    .filter(f => f.endsWith(".xlsx"))
+    .filter(f => /\.(xlsx|csv)$/i.test(f))
     .map(f => ({ name: f, path: join(dir, f), mtime: statSync(join(dir, f)).mtimeMs }));
 }
 
@@ -155,7 +157,19 @@ function availabilityFiles(dir) {
 function readSheet(path) {
   const wb = XLSX.readFile(path);
   const sheet = wb.Sheets[wb.SheetNames[0]];
-  return XLSX.utils.sheet_to_json(sheet, { defval: null });
+  // Build objects from a raw 2D array so we can trim whitespace from headers —
+  // CSVs from the EHR have inconsistent spacing after commas ("Purchase Date"
+  // vs " Purchase Date"), which would otherwise break the COLS lookups.
+  const aoa = XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false, defval: null });
+  if (aoa.length === 0) return [];
+  const headers = aoa[0].map(h => h == null ? "" : String(h).trim().replace(/^﻿/, ""));
+  return aoa.slice(1).map(row => {
+    const obj = {};
+    for (let i = 0; i < headers.length; i++) {
+      if (headers[i]) obj[headers[i]] = row[i] === undefined ? null : row[i];
+    }
+    return obj;
+  });
 }
 
 function parseMonth(val) {
@@ -165,13 +179,24 @@ function parseMonth(val) {
   return m ? `${m[1]}-${m[2]}` : null;
 }
 
+// Convert an Excel serial date (days since 1899-12-30, with the 1900-leap-year bug)
+// to a JS Date in UTC. CSVs from the EHR keep dates as raw serials because CSV has
+// no date type; xlsx files normally come through as Date objects, but if the EHR
+// has lately switched to CSV we need to handle the bare numbers.
+function excelSerialToDate(serial) {
+  return new Date(Math.round((serial - 25569) * 86400000));
+}
+
 function parseDate(val) {
   if (val == null || val === "") return null;
   if (val instanceof Date) {
-    const y = val.getFullYear();
-    const mo = String(val.getMonth() + 1).padStart(2, "0");
-    const d = String(val.getDate()).padStart(2, "0");
+    const y = val.getUTCFullYear();
+    const mo = String(val.getUTCMonth() + 1).padStart(2, "0");
+    const d = String(val.getUTCDate()).padStart(2, "0");
     return `${y}-${mo}-${d}`;
+  }
+  if (typeof val === "number" && val > 30000 && val < 80000) {
+    return parseDate(excelSerialToDate(val));
   }
   const m = String(val).match(/(\d{4})-(\d{2})-(\d{2})/);
   return m ? `${m[1]}-${m[2]}-${m[3]}` : null;
@@ -182,6 +207,9 @@ function parseDate(val) {
 function parseDateTime(val) {
   if (val == null || val === "") return null;
   if (val instanceof Date) return val.getTime();
+  if (typeof val === "number" && val > 30000 && val < 80000) {
+    return excelSerialToDate(val).getTime();
+  }
   const s = String(val).replace(/\s*[+-]\d{4}$/, "").replace(" ", "T");
   const t = Date.parse(s);
   return Number.isFinite(t) ? t : null;
