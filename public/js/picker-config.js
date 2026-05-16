@@ -105,6 +105,69 @@
     }
   ];
 
+  const DEEP_TISSUE_QUIZ = [
+    {
+      id: 'location',
+      text: 'Where is it bothering you most?',
+      options: [
+        { id: 'back_shoulder_neck', label: 'Back, shoulder, or neck',
+          weights: { charlotte: 2, brookelyn: 2 } },
+        { id: 'hip_low_back', label: 'Hip, low back, or SI joint',
+          weights: { brookelyn: 3 } },
+        { id: 'all_over', label: 'Knots and tension all over',
+          weights: { charlotte: 1, brookelyn: 1, tif: 1 } },
+        { id: 'specific_injury', label: 'A specific spot from an old injury',
+          weights: { charlotte: 2, brookelyn: 2 } },
+        { id: 'jaw_headaches', label: 'Headaches, jaw, or face tension',
+          weights: { tif: 2, charlotte: 1 } },
+        { id: 'swelling', label: 'Swelling or inflammation alongside the tension',
+          weights: { tif: 3, charlotte: 2 } }
+      ]
+    },
+    {
+      id: 'duration',
+      text: 'How long have you been dealing with this?',
+      options: [
+        { id: 'days_weeks', label: 'A few days to a few weeks',
+          weights: { brookelyn: 1, tif: 1, charlotte: 1 } },
+        { id: 'months', label: 'A few months',
+          weights: { charlotte: 1, brookelyn: 1, tif: 1 } },
+        { id: 'years', label: 'Years (it’s chronic)',
+          weights: { charlotte: 3, brookelyn: 1 } },
+        { id: 'comes_goes', label: 'It comes and goes',
+          weights: { brookelyn: 1, tif: 2 } }
+      ]
+    },
+    {
+      id: 'pressure',
+      text: 'What kind of pressure do you usually prefer?',
+      options: [
+        { id: 'firm', label: 'Firm and intensive, I want it worked on hard',
+          weights: { charlotte: 2, brookelyn: 2 } },
+        { id: 'progressive', label: 'Medium, then progressively deeper over sessions',
+          weights: { brookelyn: 2, tif: 2 } },
+        { id: 'light_medium', label: 'Light to medium, I’m sensitive',
+          weights: { tif: 3 } },
+        { id: 'whatever', label: 'Whatever it takes to get the result',
+          weights: { charlotte: 2, brookelyn: 1 } }
+      ]
+    },
+    {
+      id: 'preference',
+      text: 'Anything that matters about who you’re matched with?',
+      options: [
+        { id: 'clinical', label: 'Someone with deep clinical background and a clear plan',
+          weights: { charlotte: 3 } },
+        { id: 'careful', label: 'Someone who tailors pressure carefully session by session',
+          weights: { tif: 2, brookelyn: 1 } },
+        { id: 'recovery', label: 'Someone with their own injury or recovery experience',
+          weights: { charlotte: 2, brookelyn: 1 } },
+        { id: 'none', label: 'No strong preference, match me by skill',
+          weights: {} }
+      ]
+    }
+  ];
+
   window.MaximumHealth.PAGE_CONFIGS = {
     '/massage-therapy-calgary-flow-b/': {
       skill: 'general',
@@ -115,6 +178,11 @@
       skill: 'prenatal',
       sheetTab: 'leads_prenatal',
       quizQuestions: PRENATAL_QUIZ
+    },
+    '/deep-tissue-massage-calgary/': {
+      skill: 'deep_tissue',
+      sheetTab: 'leads_deep_tissue',
+      quizQuestions: DEEP_TISSUE_QUIZ
     }
   };
 

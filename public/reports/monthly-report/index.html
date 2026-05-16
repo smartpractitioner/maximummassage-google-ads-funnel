@@ -552,17 +552,17 @@ function App() {
           <KPI label="Cancellations"  value={fmtNum(kpis.cancelled.cur)}   delta={pct(kpis.cancelled.cur, kpis.cancelled.prior)} accent={C.accent}     hint={cancRate != null ? `${cancRate.toFixed(1)}% cancellation rate` : null} />
         </div>
 
-        {/* STACKED BAR: monthly bookings (completed + cancelled) */}
-        <Card title="Monthly Bookings" subtitle="Completed vs. cancelled by month — cancellations sit on top so the lost portion is visible">
+        {/* LINE CHART: monthly bookings trend (completed + cancelled as two lines) */}
+        <Card title="Monthly Bookings" subtitle="Completed and cancelled bookings month by month, across the selected window">
           <ResponsiveContainer width="100%" height={260}>
-            <BarChart data={stackChart} margin={{ top:10, right:10, left:-10, bottom:0 }} barSize={44}>
+            <LineChart data={stackChart} margin={{ top:10, right:20, left:-5, bottom:0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#EDE9E3" vertical={false} />
               <XAxis dataKey="name" tick={{ fontSize:14, fontWeight:600, fill:C.text }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize:13, fill:C.muted }} axisLine={false} tickLine={false} />
-              <Tooltip content={<StackTooltip />} cursor={{ fill:"rgba(0,0,0,0.03)" }} />
-              <Bar dataKey="completed" stackId="a" fill={C.green}     name="Booked & Completed" />
-              <Bar dataKey="cancelled" stackId="a" fill={C.cancelled} name="Booked but Cancelled" radius={[6,6,0,0]} />
-            </BarChart>
+              <Tooltip content={<LineTooltip formatter={fmtNum} />} />
+              <Line type="monotone" dataKey="completed" stroke={C.green}     strokeWidth={3} dot={{ r:4 }} name="Booked & Completed" />
+              <Line type="monotone" dataKey="cancelled" stroke={C.cancelled} strokeWidth={2} dot={{ r:3 }} name="Booked but Cancelled" />
+            </LineChart>
           </ResponsiveContainer>
           <Legend2Layer />
         </Card>

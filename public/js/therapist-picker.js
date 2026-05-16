@@ -57,6 +57,12 @@
           specialty: 'Postpartum recovery + pelvic',
           bio: 'Hi, I’m Brookelyn. Postpartum recovery and women’s health is the work I’m most passionate about, partly because I think it’s so often underserved. I love helping women rebuild strength, mobility, and confidence after pregnancy, without any "no pain, no gain" pressure. SI joint, hips, low back, returning to running, that’s my zone.\n\nI’m a runner, a strength trainer, and a mom of two myself, so I know the gap between "officially cleared at six weeks" and actually feeling like yourself again. We’ll figure out where you are right now and build a plan from there, together.',
           tags: ['Postpartum recovery', 'Women’s health', 'SI joint + low back', 'Pelvic care', 'Returning to running + strength', 'Mom of two', 'Side-lying massage', 'Nervous system aware']
+        },
+        deep_tissue: {
+          title: 'SI joint, low back + cervical specialist',
+          specialty: 'Targeted deep work + recovery',
+          bio: 'Hi, I’m Brookelyn. If you’ve been carrying tension that won’t release no matter how many times you’ve stretched it out, I want to work with you. My specialty is Kinetic massage focused on the SI joint, low back, and cervical spine, areas where deep, targeted work makes the biggest difference. I have a soft spot for runners and strength athletes whose bodies hold tension from training, but really anyone with chronic knots is welcome.\n\nI work deep but not punishing. My approach is about helping your body adapt rather than overpowering it, so the relief actually lasts past the session. We’ll talk through what’s going on and what you’ve already tried, then build a plan together.',
+          tags: ['Kinetic massage', 'SI joint + low back', 'Cervical spine', 'Sports + training tension', 'Postpartum recovery', 'Side-lying or table', 'Nervous system aware', 'Plan-based approach']
         }
       }
     },
@@ -119,6 +125,12 @@
           specialty: 'C-section + chronic back pain',
           bio: 'Hi, I’m Charlotte. I bring specialized pre/post-partum training together with myofascial, trigger-point, and lymphatic drainage work, especially for c-section recovery, scar sensitivity, and the chronic back, hip, and shoulder pain that often lingers after pregnancy. I also have a PhD in Nutritional Biochemistry and have spent over a decade teaching massage therapy, so the science behind what I’m doing matters to me.\n\nI also know what long recovery looks like personally, after fracturing two vertebrae in 2006. That experience taught me to work gently and patiently and to never push through pain to chase a quick result. If your body is in a season of change, I’d love to help.',
           tags: ['Pre/post-partum CEU', 'C-section recovery', 'Lymphatic drainage', 'Trigger point', 'Myofascial release', 'Chronic back pain', 'Side-lying massage', 'Reiki Master']
+        },
+        deep_tissue: {
+          title: 'Myofascial + trigger point specialist',
+          specialty: 'Chronic knots + clinical deep work',
+          bio: 'Hi, I’m Charlotte. Deep clinical work for chronic pain is what I do, myofascial release, trigger point therapy, and lymphatic drainage when there’s inflammation involved. My background is twofold: a PhD in Nutritional Biochemistry and over a decade teaching massage therapy at the college level, so I think a lot about what’s actually happening in the tissue I’m working on.\n\nI also know chronic pain personally. I fractured two vertebrae in 2006 and went through a long rehab, so I work patiently and gently, even when the pressure is firm. The technique is never about pushing through pain for show. We’ll find what works for your body without setting you back.',
+          tags: ['Myofascial release', 'Trigger point', 'Chronic pain', 'Back + shoulder', 'Lymphatic drainage', 'Client education', 'PhD biochemistry', 'Reiki Master']
         }
       }
     },
@@ -185,6 +197,12 @@
           specialty: 'Pregnancy edema + lymphatic',
           bio: 'Hi, I’m Tif. I tailor every session to whatever you’re navigating that day, swelling, headaches, jaw tension, or just needing some calm. My training spans Swedish, deep tissue, lymphatic drainage, and pre/post-natal massage, so I can shift from gentle relaxation into focused lymphatic work in the same session if that’s what you need.\n\nOutside the clinic, I’m a musician and an artist who spends as much time outside as the weather allows, hiking, biking, and skiing with my husband and our dog. I’d love to bring that same care for what makes life feel good into your sessions.',
           tags: ['Pre & post-natal trained', 'Lymphatic drainage (edema)', 'Side-lying Swedish', 'TMJ + jaw tension', 'Pregnancy headaches', 'Personalized approach', 'Stress reduction', 'Pain management']
+        },
+        deep_tissue: {
+          title: 'Deep tissue + targeted relief specialist',
+          specialty: 'Adaptable pressure + targeted spots',
+          bio: 'Hi, I’m Tif. I tailor every session, and that includes the pressure. Some days you need firm targeted work on a specific spot, other days you need lymphatic flow on swollen tissue, and sometimes you need a bit of both in the same hour. I read what your body is asking for and adjust as we go.\n\nOutside the clinic I’m a musician and an artist who spends as much time outside as possible. I love bringing that same attention and care to your sessions, helping you feel like the version of yourself that isn’t carrying around three months of accumulated tension.',
+          tags: ['Deep tissue', 'Targeted relief', 'Lymphatic drainage', 'TMJ + jaw tension', 'Adaptive pressure', 'Personalized approach', 'Swedish', 'Pain management']
         }
       }
     },
