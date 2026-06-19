@@ -472,3 +472,21 @@ A therapist without a provisioned Cal.com handle (currently Tif) keeps an `activ
 Two tiers, deliberately:
 1. **This repo (SKILL.md / docs) = the shared source of truth.** Every load-bearing decision *and its why* lands here so it travels to any teammate or client. Reasoning is the thing that must survive a context handoff — capture it, not just the outcome.
 2. **Maintainer memory (`.claude/projects/.../memory/`, gitignored) = a local fast-recall cache.** Keeps the active maintainer consistent across sessions; never the source of truth, never where a decision lives *only*. Memory and repo are kept in sync — if it's load-bearing, it exists in both.
+
+---
+
+# Phase 6 — repo & deployment architecture (decided 2026-06-19)
+
+**Decision: separate repos — a private *factory/engine* repo + one private repo *per client*. Not a monorepo.** This is the structure the factory ships into.
+
+**Why (verified against current docs, June 2026):**
+- **GitHub cost is a non-issue.** Unlimited private repos on every plan including Free (since 2019). Repo count costs nothing; the Team plan ($4/user/mo) buys seats + collaboration features, not repos. So nothing pushes us toward a monorepo for cost.
+- **Cloudflare Pages penalizes many-projects-per-repo.** Pages supports multiple projects per repo, each with its own root directory + custom domain — **but the default cap is 5 Pages projects per repository** (increase only by request). A monorepo with one project per client therefore caps at ~5 clients. Worse, by default **any file change rebuilds every project connected to that repo**, burning the 500-builds/month Free budget and coupling all clients' deploys. (Account-wide soft limit is 100 projects; custom domains 100/project on Free.)
+- **Separate repos win on the axes that matter:** 1 Pages project per client repo → no 5-per-repo wall, clean build isolation (a client push builds only their site, own custom domain), blast radius limited to one client, per-client access scoping + clean client handoff, and the **"why"/factory docs live only in the private factory repo, never in a client deploy repo.**
+- **The one cost — engine propagation — is cheap here** because of the hard no-build-step / plain-static-HTML rule. The factory repo holds the engine + this SKILL.md (the why) + a **template**; each client repo is stamped from the template with the engine **vendored in** (copy, or `git subtree`/submodule). Engine upgrades are **re-synced deliberately** into client repos — which is safer than a monorepo where one push can rebuild/break every client at once.
+
+**Implication for this repo:** under this model `maximummassage` becomes (or seeds) a per-client repo, and the engine + SKILL.md migrate to the private factory repo. Nothing committed so far is locked — it's all reorganizable when Phase 6 is formalized.
+
+**Sources:** [Cloudflare Pages monorepos](https://developers.cloudflare.com/pages/configuration/monorepos/) · [Cloudflare Pages limits](https://developers.cloudflare.com/pages/platform/limits/) · [GitHub pricing/plans](https://docs.github.com/en/enterprise-server@3.12/get-started/learning-about-github/githubs-plans).
+
+**Open (formalize in Phase 6):** the factory-repo → client-repo template mechanics — the exact vendoring method (copy vs subtree vs submodule) and the engine-sync workflow.
