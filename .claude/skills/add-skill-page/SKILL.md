@@ -461,6 +461,10 @@ The Google Ads `booking_confirmed` conversion (`AW-17632628958`) fires with **no
 
 A therapist without a provisioned Cal.com handle (currently Tif) keeps an `active: false` flag; her Book button routes to the existing `/confirmation/` "hold a spot" page instead of the calendar. Flipping `active: true` is the one-char change that turns on her real booking flow. **Why:** lets us run ad traffic to her page and capture demand before her calendar exists, without showing a broken/empty calendar. Memory: `project_therapist_roster.md`.
 
+## Decision 6 — One canonical post-booking confirmation page (`/booking-confirmed/`), reconcile in-build
+
+There are currently **two** post-booking thank-you pages doing the same job: the legacy **`/appointment-confirmed/`** that the standalone therapist pages (`/brookelyn/` etc.) already redirect to after a Cal.com booking, and the new branded **`/booking-confirmed/`** the plan builds for the lightbox funnel (Phase 1.1). **There is no meaningful semantic difference between "appointment" and "booking" here** — the two URLs are incidental, born at different times in different parts of the funnel, not a deliberate distinction. **Decision (2026-06-19): standardize on `/booking-confirmed/` as the single canonical page**, and repoint the standalone pages' `bookingSuccessfulV2` redirect at it (forwarding the same context params), retiring `/appointment-confirmed/`. **Why `/booking-confirmed/` wins:** it matches the rest of the new instrumentation vocabulary — the GTM custom event is `booking_confirmed` and the Cal event is `bookingSuccessfulV2`, so "booking" is already the term of art; aligning the page name keeps event→page naming consistent. **Treated as core Phase 1.1, not a Phase 7 polish item** (the user pulled it out of the Phase 7 backlog 2026-06-19) — the consolidation ships with the booking flow, not at the end, so we never run two divergent confirmation pages in production.
+
 ## Open discovery items (before/within the build)
 
 - **`BOOKING_CREATED` webhook payload shape** — capture the real field names (name/email/phone/booking-ref) via webhook.site before building the Channel B handler.
