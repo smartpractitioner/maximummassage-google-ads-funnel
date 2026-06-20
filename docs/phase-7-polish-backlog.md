@@ -155,8 +155,42 @@ Match brand tokens from `public/css/flow-b-v3.css` (or wherever the design token
 
 ---
 
+## 7.3 — Cal.com appointment duration vs. Jane buffer time
+
+### Context — why this item exists
+
+Identified 2026-06-20. Jane appointment types include **buffer time** (e.g., Brookelyn = 60-min session + 20-min buffer = **80 min total blocked**). The Cal.com calendar's blocked duration must match what Jane blocks, or availability drifts between the two systems. The project-brief SOP currently mandates a **fixed 80-minute duration** set in the Cal.com duration field (session + buffer baked into one number) — **but this hasn't been tested**, and Cal.com also supports a separate before/after **buffer** setting on an event type. Open question is whether a 60-min event type **+ buffer** blocks the full 80 min (and syncs to Jane) while still *displaying* "60 min" to the visitor.
+
+### Why it matters
+
+- **Sync correctness:** Cal.com's blocked time must equal Jane's blocked time (session + buffer) or the two systems disagree on availability and risk mismatches/double-books.
+- **Booking-page UX / conversion:** if the duration field is the fixed 80 min, the Cal.com calendar shows **"1 hr 20 min"** for what's marketed and understood as a *60-minute* appointment — potentially confusing or off-putting at the exact conversion moment. A 60-min event type with a hidden buffer would display "60 min" while still reserving 80. Conversion-relevant, but non-core to the booking mechanism working — hence parked.
+
+### Hard dependency — confirm with Justin before locking
+
+Victor's question out to Justin (PatientSync / Jane-sync owner), as sent:
+
+> In Cal.com we need the duration to match Jane including buffer time — so a 60-minute appointment with a 20-minute buffer (like Brookelyn) is 80 minutes total. In Cal, is it possible to select 60 minutes and **add a buffer time** and have that still work, or does it have to be a fixed 80 minutes set in the duration field? Our project-brief SOP says fixed 80, but have we tested it? The reason: in the calendar booking it says "1 hr 20 min," which might confuse someone booking a "60-min" appointment.
+
+- **If Justin confirms 60 + buffer syncs correctly** → switch event types to 60-min session + Cal.com buffer (cleaner "60 min" display).
+- **If it must be fixed 80** → keep the SOP's fixed duration; consider relabeling the event type / display so the shown time doesn't confuse a 60-min expectation.
+
+### Open questions
+
+- Does Cal.com's per-event-type buffer block the calendar **and** propagate the full blocked time to Jane through the sync layer?
+- Buffers likely differ per therapist (Brookelyn 20 min; others TBD) — need each therapist's buffer value from Jane.
+- Can the duration *label* on the embed be customized independently of the underlying block length?
+
+### Files / config this touches
+
+- Cal.com event-type settings per therapist (duration + buffer).
+- Possibly the embed config in `public/js/therapist-picker.js` (added Phase 1.1) if duration labels surface there.
+- The project-brief SOP ("fixed 80 minutes" instruction) — update once tested.
+
+---
+
 ## Future items (add as they come up)
 
-> Drop new subsections here as `7.3`, `7.4`, etc. when polish items surface during Phases 0-6. Keep each entry brief — what it is, why it matters, any sketch or dependency. Format follows 7.1 and 7.2 above.
+> Drop new subsections here as `7.4`, `7.5`, etc. when polish items surface during Phases 0-6. Keep each entry brief — what it is, why it matters, any sketch or dependency. Format follows 7.1 and 7.2 above.
 >
-> *(Note: the confirmation-page reconciliation that briefly lived here as 7.3 was promoted to core Phase 1.1 on 2026-06-19 — see the "single canonical confirmation page" decision in `.claude/skills/add-skill-page/SKILL.md`. Not a parking-lot item.)*
+> *(Note: the confirmation-page reconciliation that briefly lived here was promoted to core Phase 1.1 on 2026-06-19 — see the "single canonical confirmation page" decision in `.claude/skills/add-skill-page/SKILL.md`. Not a parking-lot item.)*
