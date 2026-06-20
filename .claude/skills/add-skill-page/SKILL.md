@@ -435,7 +435,8 @@ A few non-section decisions from the same sessions that affect any new page:
 Ad click (UTMs/gclid on URL)  →  skill page  →  quiz (→ recommended therapist)
   →  "Book with <therapist>"  →  Cal.com calendar opens IMMEDIATELY (no form of ours)
   →  visitor picks a time + enters name/email/phone in CAL.COM's own form  →  booking succeeds
-  →  ┌ CHANNEL A (browser): bookingSuccessfulV2 → fire count-only ad conversion + redirect to /booking-confirmed/
+  →  ┌ CHANNEL A (browser): bookingSuccessfulV2 → redirect to /booking-confirmed/ (carrying booking context);
+     │                      the single ad/GA conversion fires on THAT page load, guarded + deduped by uid (Decision 4)
      └ CHANNEL B (server):  BOOKING_CREATED webhook → full record (name/email/phone) → bookings_<skill> + cap count
 ```
 
@@ -456,6 +457,8 @@ Because of Decision 1 (no pre-form), our page never sees what the visitor types 
 ## Decision 4 — Ad conversion fires count-only (no conversion value)
 
 The Google Ads `booking_confirmed` conversion (`AW-17632628958`) fires with **no value** — Google optimizes toward number of bookings. **Why:** simplest to start; the tag is wired value-ready so a value (e.g. $49 starter, or new-patient LTV) can be added later as a one-field GTM change without re-instrumenting. User decision, 2026-06-19.
+
+**Firing location (decided 2026-06-20):** the single conversion fires on **`/booking-confirmed/` page load**, NOT upstream from the Cal listener. Reaching that page is proof of a completed booking (classic thank-you-page pattern) and a fully-loaded page removes the redirect-race risk of firing-then-navigating. **This overrides the brief's "page is UI-only / fire upstream" note.** Channel A's listener just redirects to `/booking-confirmed/` carrying the booking context (uid, skill, therapist, time, first name) as query params; an inline guard on that page does the `dataLayer.push({event:'booking_confirmed', …})` **only when a real Cal `uid` is present** and **once per `uid`** (dedupe key, so refreshes / direct hits / bookmarks don't false-fire). GTM setup is identical to either approach — the `booking_confirmed` custom-event trigger + tags don't care which page pushes the event.
 
 ## Decision 5 — Inactive therapists fall back to the demand-test page
 
