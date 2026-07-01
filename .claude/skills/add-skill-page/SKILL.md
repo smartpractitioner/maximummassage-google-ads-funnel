@@ -508,3 +508,45 @@ Two tiers, deliberately:
 **Sources:** [Cloudflare Pages monorepos](https://developers.cloudflare.com/pages/configuration/monorepos/) · [Cloudflare Pages limits](https://developers.cloudflare.com/pages/platform/limits/) · [GitHub pricing/plans](https://docs.github.com/en/enterprise-server@3.12/get-started/learning-about-github/githubs-plans).
 
 **Open (formalize in Phase 6):** the factory-repo → client-repo template mechanics — the exact vendoring method (copy vs subtree vs submodule) and the engine-sync workflow.
+
+---
+
+# Jane appointment-type design — Path A + cohort attribution + leakage acceptance (decided 2026-06-20)
+
+> Advisory-session decisions on how the $49 offer is structured in the client's Jane EHR and how we attribute/track it. Recorded here (repo = source of truth) so the reasoning travels. Jane-side setup SOP: `docs/sop-jane-booking-confirmation-email.md`; the leakage backstop is Phase 7.1.
+
+## Decision A — Path A (two appointment types per therapist), NOT Path B (discount-at-billing)
+
+- **Path A (chosen):** two Jane appointment types per therapist — a regular full-price (~$124) type and a **"Starter Session - By Invite Only"** promo type at **$49**. Both publicly visible on maximummassage.ca; deflection copy in the promo's *Description (before booking)* discourages direct-bookers.
+- **Path B (rejected):** one regular $124 type per therapist, with the $49 discount applied at billing time via a flag / promo code / manual adjustment.
+
+**Why Path A won — three hard constraints:**
+1. **No programmatic discount hook.** ClinicSync Pro / PatientSync sync into Jane is **name-based, not metadata-driven** — we can't inject metadata that triggers "this booking is $49." Price has to be baked into the appointment type itself.
+2. **No receptionist.** Therapists bill independently (some auto-bill via Jane). A discount-applied-later flow needs consistent human intervention at billing that doesn't exist — failure mode is a patient auto-billed $124, needing a reversal, feeling the offer wasn't honored.
+3. **Maintenance.** Path A = **5 stable names** (one promo per therapist). The rejected per-skill-per-therapist variant would be 20-25 names, each a drift point for ClinicSync Pro's exact-string name matching.
+
+Net: with Path A, **appointment type = price**, so billing is self-managing — therapist runs the session, Jane bills correctly, no decisions required.
+
+## Decision B — cohort attribution replaces price-as-signal
+
+The original idea "any $49 booking in Jane = ad-attributed" is dead: the client requires prices to show publicly on the "Book Now" widget → $49 is visible → any direct-booker can grab it → price is no longer a reliable ad signal.
+
+**Replacement: patient-level cohort attribution.** Join two sources monthly, **on email**:
+1. **`bookings_<skill>` sheet** (Apps Script writes on every `booking_confirmed`) — name, email, skill, UTMs, booking time, therapist. The cohort-membership source ("Sam Smith came via the prenatal ad on 2026-06-21").
+2. **Jane patient export** — lifetime visits + revenue per patient.
+
+Per skill, per month: patients acquired → their total lifetime revenue → average LTV → ÷ that skill's ad spend → **true ROI**.
+
+Advantages over price-as-signal:
+- Captures **lifetime value**, not just the first visit (rebooking revenue counts).
+- **Immune to the $49 leakage** — direct-bookers have no UTMs, so they never count as ad-attributed regardless of what they paid.
+- **Corroborates** Jane's data rather than depending on it being clean.
+
+## Decision C — accept the leakage, don't fight it
+
+Because $49 is publicly visible and can't be hidden without breaking ClinicSync Pro sync, some direct-bookers (est. **20-30%** of would-be direct-bookers) will grab the promo despite the deflection copy. Accepted, not fought, because:
+- **Attribution doesn't need funnel purity** — UTMs are the truth; direct-bookers lack them.
+- **Bounded cost** — each leak = **$75 unrealized** ($124 − $49); at 5-10/month ≈ **$375-750/month** soft loss, small vs. the revenue the funnel drives.
+- **Phase 7.1 is the backstop** — if leakage runs >10/month post-launch, 7.1 emails the assigned therapist per unmatched booking (cancel/honor). Gated on Justin confirming PatientSync ↔ Jane bidirectional capture.
+
+**30-day watch:** once live, compare **`bookings_<skill>` count vs. Jane "Starter Session - By Invite Only" count**. The gap = leakage volume, which sizes whether 7.1 is worth building or the deflection copy already suffices.
