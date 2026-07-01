@@ -511,6 +511,47 @@ Two tiers, deliberately:
 
 ---
 
+# Backend platform choice + the mhBackend portability wedge (why 1.6 exists)
+
+> Two inseparable decisions: the backend runtime for factory scale, and the client-side abstraction (Phase 1.6) that lets us migrate to it without touching front-end code. Pairs with the Phase 6 repo architecture and the two-channel data path (Decision 2).
+
+## Decision — Cloudflare Workers is the factory backend; Apps Script is transitional
+
+**Phase 1 ships on Apps Script** — it's already there and works; migrating mid-core-build adds regression risk for no launch benefit. **Phase 6 migrates to Cloudflare Workers.**
+
+Apps Script doesn't scale to a factory. The blocker is **deployment**: every change is a manual Script Editor → Save → Deploy → Manage Deployments → New Version ritual, *per client*. 10 clients = 10 manual redeploys per bug fix. That's not a factory.
+
+Why Workers wins:
+- **Deployment / automation:** `wrangler deploy` per client, wired into CI — one code change auto-deploys to every client's Worker in parallel, zero manual clicks. First-class CLI/API.
+- **Cost:** free tier ~100K req/day per Worker; per-clinic volume sits in free tier likely forever ($5/mo = 10M req/mo if ever needed).
+- **Reliability:** 99.99% SLA, global edge, sub-50ms cold starts (V8 isolates, not containers).
+- **Same house as Pages:** already on Cloudflare for hosting — DNS / WAF / CDN / Worker / KV in one dashboard, no new vendor.
+- **Storage:** KV for `bookings_count` (fast per-page-load reads); D1 (SQLite) or a service-account Google Sheets write for `bookings_<skill>` rows if the operator wants to keep viewing them in Sheets.
+
+**Not trigger.dev** — it's a durable background-job orchestrator; overkill for HTTP endpoints. Workers do lead capture / booking writes / availability queries natively, faster, free. Scheduled durable work (if ever needed) = Cloudflare Cron Triggers + Workers.
+
+**Retire Apps Script entirely once Workers is live for a client** — don't run both; manual redeploy rituals don't belong in factory ops.
+
+## Decision — mhBackend (Phase 1.6) is the migration wedge
+
+`public/js/mh-backend.js` is the **only** way the front-end talks to the backend: `window.mhBackend.post(action, payload)` / `.get(action, params)`, endpoint from the single config var `window.MH_BACKEND_URL`. Every call site routes through it (lead, quiz_submission, notify, update_contact, + the coming booking record / available_therapists).
+
+**Why it matters:** on migration day, point `MH_BACKEND_URL` at the Worker — action contracts stay identical — **zero front-end rework, one value flips.** Same single-config-knob portability the picker-config layer uses for page→skill. Per client, only `MH_BACKEND_URL` differs; front-end code is identical.
+
+**Why now, not at migration:** skip 1.6 and every front-end file that talks to the backend becomes a code-touching edit at migration — multiplied across every deployed client. The wedge costs ~an hour now and saves days later (and makes any future backend swap cheap).
+
+## The per-client deployment model this unlocks
+
+Once Workers is the backend:
+- **One Worker per client** — same codebase, per-client config (`wrangler.toml` binds env: Sheet id, Cal tokens, brand, roster path).
+- **Front-end identical across clients** — only `MH_BACKEND_URL` (+ other Phase 6 client-config knobs) differ.
+- **New client live in minutes** — clone the config skeleton, fill knobs, `wrangler deploy`.
+- **One CI run patches all clients** — the deploy target list is a config file, not manual steps.
+
+This is the whole premise of the factory; 1.6 is what makes it cheap. See also the Phase 6 repo architecture (separate factory + per-client repos) and the two-channel data path (Decision 2 — the webhook is the Worker's natural entry point).
+
+---
+
 # Jane appointment-type design — Path A + cohort attribution + leakage acceptance (decided 2026-06-20)
 
 > Advisory-session decisions on how the $49 offer is structured in the client's Jane EHR and how we attribute/track it. Recorded here (repo = source of truth) so the reasoning travels. Jane-side setup SOP: `docs/sop-jane-booking-confirmation-email.md`; the leakage backstop is Phase 7.1.
