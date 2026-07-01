@@ -197,8 +197,39 @@ Note: the captured `BOOKING_CREATED` webhook from a current (fixed-80) booking r
 
 ---
 
+## 7.4 — Replace Cal.com with our own internal calendar/booking script
+
+> **Scope caveat:** this is **not** a nice-to-have polish item — it's a major architectural build (a whole booking engine). It's parked here per the user's request (2026-06-20), but flagged as a **gate before the factory is considered "complete,"** and it should likely be promoted into its own design pass / phase when picked up rather than treated as an end-of-list polish. Re-evaluate its priority at backlog-sweep time.
+
+### Context — why this item exists
+
+The user wants to **own the calendar layer** — replace the third-party Cal.com dependency with our own internal calendar/booking script — before the factory buildout is finished. Right now Cal.com is the booking engine (inline embed → `bookingSuccessfulV2` → `/booking-confirmed/`, and a `BOOKING_CREATED` webhook feeds Jane via ICS/ClinicSync).
+
+### Why it matters (user's stated reasons, 2026-06-20)
+
+- **Eliminate laborious per-practitioner setup (the primary driver):** Cal.com takes "way too many laborious clicks inside the account," and you have to set up a **separate account/config for each practitioner** — repeated for every client. That doesn't scale as a factory. The goal: **the factory pumps out the calendar script and integrates it completely** per client/practitioner — no manual Cal.com account provisioning each time.
+- **Remove the Cal.com branding** in the booking step (a secondary annoyance; overlaps 7.2 theming).
+- *(Follow-on benefits, inferred — confirm at planning time):* we'd own the **complete booking payload** directly (no lean-event + webhook workaround), drop the **per-seat SaaS cost** at factory scale, and make **7.2 (theming)** and **7.3 (buffer/duration)** moot while removing Cal UI-drift risk from our SOPs.
+
+### Dependencies / open questions
+
+- **Big scope:** availability management, slot selection, timezone handling, double-booking prevention, confirmation + reminder emails/texts, cancellation/reschedule (routed to Jane per current policy), and a **Jane / ClinicSync / PatientSync sync adapter** to replace the ICS feed. Needs Justin's input on the sync side.
+- **Natural home:** Cloudflare Workers + KV/D1 (aligns with the Phase 6.3 Apps Script → Workers migration). Build the calendar as a Worker service.
+- **Front-end swap is cheap if we plan for it:** if the booking step goes through the `mhBackend` abstraction (Phase 1.6), swapping Cal.com for the internal calendar is mostly repointing the booking step + endpoint, not a rewrite of the funnel.
+- **Migration:** how to cut existing/live Cal.com bookings over without disruption.
+
+### Implementation sketch (stub — expand at planning time)
+
+Worker-based booking service: availability rules per therapist → public slot API → booking write (with our own full payload incl. skill/therapist/UTMs, no hidden-field workaround) → confirmation page + reminders → sync adapter to Jane. Front-end booking step calls it via `mhBackend`.
+
+### Files / systems this touches (eventual)
+
+- New `workers/` calendar service; `public/js/therapist-picker.js` booking step; `public/js/mh-backend.js`; the Jane/ClinicSync sync layer (Justin); per-client config (availability, therapist calendars).
+
+---
+
 ## Future items (add as they come up)
 
-> Drop new subsections here as `7.4`, `7.5`, etc. when polish items surface during Phases 0-6. Keep each entry brief — what it is, why it matters, any sketch or dependency. Format follows 7.1 and 7.2 above.
+> Drop new subsections here as `7.5`, `7.6`, etc. when polish items surface during Phases 0-6. Keep each entry brief — what it is, why it matters, any sketch or dependency. Format follows 7.1 and 7.2 above.
 >
 > *(Note: the confirmation-page reconciliation that briefly lived here was promoted to core Phase 1.1 on 2026-06-19 — see the "single canonical confirmation page" decision in `.claude/skills/add-skill-page/SKILL.md`. Not a parking-lot item.)*
