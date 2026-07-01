@@ -1,4 +1,4 @@
-# SOP — Set up the Jane booking-confirmation email (new-client onboarding)
+# SOP — Jane appointment-type setup: confirmation email + deflection copy (new-client onboarding)
 
 > **Heads-up — verify against the current Jane UI.** Jane's settings/menu labels change over time. Paths below are described as accurately as we know them; if what you see doesn't match, check Jane's current help docs and follow those. Treat this as intent + checklist, not exact click paths.
 
@@ -6,28 +6,29 @@
 
 ## Purpose
 
-We deliberately let the client's **Jane EHR own all patient emailing** — booking confirmations, reminders, cancellation info (see the reschedule/cancel policy: patients manage appointments from their Jane account; our pages and the calendar send no patient email). So for every new client, the Jane **booking-confirmation email must be correct and on-brand** before we point ad traffic at real bookings. It's the *only* email the patient gets — there's no second net.
+Two things on the client's Jane appointment types have to be right before we point ad traffic at real bookings:
 
-## Where the content actually lives (two places)
+1. **The booking-confirmation email.** We deliberately let the client's **Jane EHR own all patient emailing** (see the reschedule/cancel policy: patients manage appointments from their Jane account; our pages and the calendar send no patient email). So the Jane confirmation email must be correct and on-brand — it's the *only* email the patient gets, no second net.
+2. **The deflection copy on the promo type.** The $49 "Starter Session - By Invite Only" type is **publicly visible** on the "Book Now" widget (it can't be hidden without breaking ClinicSync Pro's name-based sync). The **Description (before booking)** field is the primary tool for steering direct-website-bookers *off* the promo. Full rationale in the "Jane appointment-type design" decision record in `.claude/skills/add-skill-page/SKILL.md`.
 
-The confirmation email is assembled from two sources — set **both**:
+## Where the content lives (same appointment-type screen, different fields)
 
-1. **Per-treatment message → the customizable part.** In Jane, the **appointment type / treatment's details** has a field called **"Booking information (after booking)."** Whatever you put there is inserted into the confirmation email **for that appointment type**. This is where the arrival / what-to-wear / what-to-bring / cancellation body lives. Set it per relevant appointment type (at minimum the promotional **Starter Session**).
-2. **Clinic-wide email wrapper → the surrounding scaffolding.** The rest of the email — the patient greeting line ("{{first_name}}, you have booked an appointment" + the treatment name), the clinic address / parking block, the cancellation-fee policy, any temporary notices, the "DO NOT REPLY" line, and the business footer — comes from Jane's **clinic-wide email/notification settings**, not the per-treatment field. Verify these separately.
+- **Per-treatment, "Booking information (after booking)"** → the confirmation-email body (arrival / what-to-wear / etc.). **Template A.**
+- **Per-treatment, "Description (before booking)"** → the deflection copy shown *before* someone books the promo type. **Template C.**
+- **Clinic-wide email wrapper** (Jane's general email/notification settings, not the treatment) → the greeting, address/parking, cancellation-fee, temporary notices, DO-NOT-REPLY, footer that wrap the email. **Template B.**
 
 ## Steps
 
-1. In Jane, open the **appointment type / treatment** (start with the promotional **Starter Session**).
-2. Find the **"Booking information (after booking)"** field in the treatment details.
-3. Paste **Template A** below into that field, swapping the offer name.
-4. Confirm the cancellation line tells patients to **use the link in the email / log in to their Jane account** to manage the appointment (consistent with our policy — no Cal.com or "reply to reschedule").
-5. Separately, review Jane's **clinic-wide email wrapper** (the Template B elements) and confirm the greeting, address/parking, cancellation-fee policy, temporary notices, DO-NOT-REPLY, and footer are correct + on-brand.
-6. **Test:** make a test booking on that appointment type, confirm the full assembled email renders correctly and the manage-appointment link works, then cancel the test booking.
-7. Repeat step 1-3 for any other appointment type that receives ad traffic.
+1. In Jane, open the **appointment type / treatment** (start with the promotional **Starter Session - By Invite Only**).
+2. **Booking information (after booking)** field → paste **Template A**, swapping the offer name. Confirm the cancellation line points to the patient's Jane account (no Cal.com / "reply to reschedule").
+3. **Description (before booking)** field → paste **Template C** (the deflection copy). This shows to anyone viewing the promo type in the public widget.
+4. Review Jane's **clinic-wide email wrapper** (the Template B elements) and confirm greeting, address/parking, cancellation-fee, temporary notices, DO-NOT-REPLY, and footer are correct + on-brand.
+5. **Test:** book a test appointment on the type → confirm the assembled confirmation email renders and the manage-appointment link works → confirm the deflection copy shows before booking → cancel the test booking.
+6. Repeat steps 1-3 for every appointment type that receives ad traffic. The regular full-price type does **not** need the deflection copy (Template C) — that's only on the promo type.
 
-## Template A — the "Booking information (after booking)" field (per treatment)
+## Template A — "Booking information (after booking)" field (per treatment)
 
-*This is the exact text currently in Maximum Health's Starter Session treatment. Swap `{{offer_short_name}}` per client/offer; the rest is reusable for a massage clinic.*
+*Exact text currently in Maximum Health's Starter Session treatment. Swap `{{offer_short_name}}` per client/offer; the rest is reusable for a massage clinic.*
 
 ```
 Thank you for booking your {{offer_short_name}}. I'm excited to get to know you and help you reach your goals.
@@ -53,17 +54,29 @@ Maximum Health value: `{{offer_short_name}}` → `Starter Session`.
 
 ## Template B — clinic-wide wrapper (verify in Jane's email settings, not the treatment field)
 
-These pieces wrap Template A. Confirm each is set correctly per client:
+These wrap Template A. Confirm each per client:
 
 - **Greeting:** `{{first_name}}, you have booked an appointment.` + the appointment/offer name (MH: `Starter Session - By Invite Only`).
 - **Clinic + parking/directions** (MH: `Maximum Health Wellness Centre: Free parking is available on the west side of 19th Street or along 1st or 2nd Avenue…`).
 - **Cancellation-fee policy** (MH: "cancellations within 24 hours … are subject to a cancellation fee," plus the "visit your My Account page to cancel" line).
-- **Temporary notices** — *non-permanent* (MH currently: 19th-Street construction + "if you or anyone in your household are feeling unwell, please reschedule" + "call or log into your Jane account to cancel or change"). Set a reminder to remove when no longer relevant; do **not** bake into the factory default.
+- **Temporary notices** — *non-permanent* (MH currently: 19th-Street construction + "if you or anyone in your household are feeling unwell, please reschedule" + "call or log into your Jane account to cancel or change"). Set a reminder to remove when no longer relevant; don't bake into the factory default.
 - **DO NOT REPLY TO THIS EMAIL** + a no-reply sender.
 - **Business footer** (MH: `Maximum Health Massage Therapy Calgary` / `www.maximumhealth.ca`).
 
+## Template C — "Description (before booking)" field: deflection copy (promo type only)
+
+*Shown to anyone viewing the promo type in the public "Book Now" widget, before they book. Its job: steer direct-website-bookers off the $49 promo (which is publicly visible and can't be hidden — see the decision record). This deflection copy is the **primary tool** for keeping direct-bookers off the promo; Phase 7.1 is the eventual enforcement backstop.*
+
+Set on the **promotional** appointment type only (not the regular full-price type). Exact text currently in Maximum Health's Starter Session - By Invite Only treatment:
+
+```
+Do Not Choose - If you book this without going through the right channels, your appointment will be canceled and you will be asked to rebook at the standard session rate. To book a standard session right now, please review the other treatments in this list and select a regular massage option.
+```
+
+Client-swap: the body is largely reusable as-is; the per-client variable is really the **appointment-type name** it lives on (`{{offer_short_name}}` → MH `Starter Session - By Invite Only`) and the "standard session rate" phrasing if a client words their full-price offer differently.
+
 ## Notes
 
-- **Keep it consistent with the `/booking-confirmed/` page.** That page's prep block (arrive 5 min early, what to wear/bring) and its "manage your appointment in your Jane account" line should mirror this email so the patient hears one consistent story across both touchpoints.
+- **Keep it consistent with the `/booking-confirmed/` page.** That page's prep block (arrive 5 min early, what to wear/bring) and its "manage your appointment in your Jane account" line should mirror Template A so the patient hears one consistent story across both touchpoints.
 - **What-to-wear/bring copy is massage-specific** — adjust for a client offering different modalities.
-- **Per appointment type:** the "Booking information (after booking)" field is set on each treatment individually — remember to do it for every appointment type that receives ad traffic, not just one.
+- **Per appointment type:** the "Booking information (after booking)" and "Description (before booking)" fields are set on each treatment individually — do them for every appointment type that receives ad traffic (deflection copy on the promo types only).
