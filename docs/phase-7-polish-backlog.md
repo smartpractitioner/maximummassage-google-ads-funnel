@@ -25,7 +25,9 @@ The Jane appointment type configuration for the booking flow (set up manually ou
 
 > "Do Not Choose - If you book this without going through the right channels, your appointment will be canceled and you will be asked to rebook at the standard session rate. To book a standard session right now, please review the other treatments in this list and select a regular massage option."
 
-That deflection copy does ~70-80% of the work of keeping direct-website-bookers off the promo. This item is the enforcement layer that catches the remaining 20-30% — visitors who book the promo from the public website despite the warning. When a $49 promo booking arrives in Jane without a matching landing-page lead record in PatientSync's database, the therapist is notified so they can decide whether to cancel + rebook at the standard rate, or honor the booking.
+That deflection copy does ~70-80% of the work of keeping direct-website-bookers off the promo. This item is the enforcement layer that catches the remaining 20-30% — visitors who book the promo from the public website despite the warning.
+
+**Design goal: fully automated.** When a $49 promo booking arrives in Jane without a matching landing-page lead record in PatientSync's database, the system **auto-cancels the appointment and emails the patient** an apologetic-professional message with a link to rebook at the standard rate. No therapist involvement per leak — this needs to run hands-off at factory scale, and adding "review each leaked booking" to therapist workload defeats the purpose. Human involvement is reserved for the exception path (kill-switch triggered, confidence-threshold failures) — see Risk mitigations below.
 
 This matters because the price (and therefore the offer) is publicly visible on the maximummassage.ca "Book Now" widget — the client requires it. Jane cannot hide pricing per client preference, so we can't fully hide the promo from determined direct-bookers. This item closes the loop.
 
@@ -50,16 +52,50 @@ Cal.com booking ──→ PatientSync ──→ ClinicSync Pro ──→ Jane (w
                                                                   └──→ Match patient against landing-page leads database
                                                                               │
                                                                               ├── Match found within window → silent success, attribution recorded
-                                                                              └── No match → email assigned therapist with cancel/honor options
+                                                                              └── No match → confidence check → auto-cancel booking in Jane + email patient with rebook-at-standard link + log the action
 ```
 
 ### Match logic
 
 - **Recency window:** 48-72 hours between landing-page lead capture timestamp and Jane booking timestamp. Start with 72h, tune based on observed false-positive rate.
 - **Match key:** patient email primary, fallback to first-name + last-name + phone if email mismatch (e.g., personal vs. work email).
-- **First-booking filter:** only run the check on first-time appointments. If the patient has any prior history in Jane (any appointment, any type), skip the check — they're an existing patient, not a direct-booker hijacking the promo.
+- **First-booking filter (HARD SAFEGUARD):** only run the check on first-time appointments. If the patient has any prior history in Jane (any appointment, any type), **skip the check entirely** — they're an existing patient rebooking, not a direct-booker hijacking the promo. Auto-canceling a real returning patient is the highest-cost failure mode; the first-booking filter is the primary defense against it.
 
-### Therapist email template (sent on no-match)
+### Risk mitigations (before auto-cancel fires)
+
+Full automation only lands cleanly if the false-positive rate stays near zero. Layered defenses:
+
+- **First-booking filter (above)** — the biggest single guard. Any prior Jane appointment for this patient = skip.
+- **Confidence threshold on the match/no-match verdict.** Only auto-cancel when the "no landing-page lead within 72h" verdict is HIGH-confidence (clean email match against the leads database returned zero hits AND the fallback name+phone match also returned zero). Anything ambiguous — email delivery failures, name-only partial matches, cross-timezone timing edge cases — falls to the exception path (see Kill-switch fallback).
+- **Audit log every auto-action.** Every auto-cancel writes a row to a `direct_booker_auto_cancels` table/tab: patient contact, appointment id, timestamp, match-check result + confidence score, email sent, cancellation confirmation from Jane. This is the false-positive detection surface.
+- **Kill-switch config flag.** A single flag disables auto-cancel and falls the item BACK to therapist-notification mode (the pre-auto-cancel design — email the assigned therapist with cancel/honor options, human decides). If auto-cancel starts misfiring, flip the flag; the enforcement doesn't stop, it just gets a human back in the loop while we debug.
+- **Exception path.** Confidence-threshold failures + kill-switch mode both route to a therapist notification (using the "Fallback therapist email" template below), not to inaction. Silence would let leakage grow unchecked.
+
+### Patient email template (sent when auto-cancel fires)
+
+Apologetic-professional. Explains WHY. Clear rebook path. Escape hatch for the false-positive case.
+
+```
+Subject: Your booking couldn't be honored — quick rebook option inside
+
+Hi [first name],
+
+Thanks for booking with Maximum Health Massage. Unfortunately, the Starter Session appointment type you selected is reserved for new clients who arrived via a promotional invitation link, and our records don't show a matching invite for your email address.
+
+Your appointment on [date + time] with [therapist name] has been canceled.
+
+You're welcome to rebook right now at our standard session rate — most sessions are 60 minutes at $124. Book here: [rebook link → Jane standard-treatment page for that therapist]
+
+If you believe this is an error — for example, you did click through our ad but our system missed the match, or you booked using a different email address than the one you clicked from — please reply to this email or call us at (403) 283-0725 and we'll sort it out.
+
+Thanks for understanding,
+Maximum Health Massage
+(403) 283-0725
+```
+
+### Fallback therapist email template (kill-switch mode OR confidence threshold failed)
+
+Same as the original pre-auto-cancel design — human makes the decision instead of the system:
 
 ```
 Subject: FYI — Starter Session - By Invite Only booking without landing-page match
@@ -69,8 +105,9 @@ Email: [email]
 Phone: [phone if available]
 Booking time: [date + time]
 Appointment type: Starter Session - By Invite Only
+Confidence: [high / medium / low — from the match check]
 
-This booking landed under the promotional Starter Session type in Jane, but PatientSync couldn't find a matching landing-page lead within the last 72 hours. This usually means the patient booked directly via the website and ignored the Before Booking deflection note.
+This booking landed under the promotional Starter Session type in Jane, but PatientSync couldn't find a matching landing-page lead within the last 72 hours (or the match was low-confidence). This usually means the patient booked directly via the website and ignored the Before Booking deflection note.
 
 Your options:
 - Cancel and reach out to the patient to rebook under the standard session rate.
@@ -87,17 +124,18 @@ Before designing the email cadence or any escalation logic, **collect 30+ days o
 
 ### Tuning levers (post-launch)
 
-- Adjust recency window (48h vs. 72h) based on false-positive rate
-- Add a confidence score to the email so therapists can prioritize action ("strong match miss" vs. "ambiguous")
-- Add an opt-in for therapists who prefer auto-cancel vs. notification-only
-- Eventually surface a leakage dashboard for clinic owners showing direct-booker rate per month
+- Adjust recency window (48h vs. 72h) based on false-positive rate observed in the audit log
+- Adjust confidence-threshold cutoff (what counts as "high confidence" — email-hit-required vs. name+phone fallback accepted)
+- Flip the kill-switch to therapist-notification mode if auto-cancel starts misfiring; keep both templates in play so we can toggle without a code change
+- Eventually surface a leakage dashboard for clinic owners showing direct-booker rate per month, auto-cancels fired, and false-positive count
 
 ### Files this item touches
 
-- New automation logic in PatientSync — exact path depends on PatientSync's architecture (Justin owns this design)
-- A new email template asset
-- Possibly a new dashboard or admin view if leakage volume justifies it later
-- Maximum Health-specific config: which therapists get the alert emails, recency window, match logic toggles
+- New automation logic in PatientSync — exact path depends on PatientSync's architecture (Justin owns this design). Needs to include: the match/no-match check, the Jane appointment-cancellation call, the patient email send, the audit-log write, and the confidence-threshold + kill-switch gating.
+- Two email template assets (patient auto-cancel template + fallback therapist template)
+- New audit log surface (`direct_booker_auto_cancels` table or sheet tab) — critical for false-positive detection
+- A leakage dashboard eventually if volume justifies it
+- Maximum Health-specific config: kill-switch flag (default: on / auto-cancel enabled), confidence-threshold cutoff, recency window, per-therapist rebook-link map for the patient email
 
 ---
 
@@ -227,6 +265,8 @@ The user wants to **own the calendar layer** — replace the third-party Cal.com
 
 Worker-based booking service: availability rules per therapist → public slot API → booking write (with our own full payload incl. skill/therapist/UTMs, no hidden-field workaround) → confirmation page + reminders → sync adapter to Jane. Front-end booking step calls it via `mhBackend`.
 
+**Build vs. adopt open-source (evaluate first):** before building a scheduler from scratch, look at self-hosting/forking an existing open-source one — e.g. **[cal.diy](https://www.cal.diy/)** or the **Cal.com open-source GitHub repo** (Cal.com is AGPL and self-hostable). A self-hosted fork could hand us the calendar engine to fully theme + control emails + script per-practitioner setup + drop per-seat SaaS cost, without writing availability/booking logic ourselves. Weigh the maintenance burden of a self-hosted fork (upgrades, infra) vs. lean custom Worker endpoints — either path still delivers the branding/email-control/setup-automation wins.
+
 ### Files / systems this touches (eventual)
 
 - New `workers/` calendar service; `public/js/therapist-picker.js` booking step; `public/js/mh-backend.js`; the Jane/ClinicSync sync layer (Justin); per-client config (availability, therapist calendars).
@@ -268,8 +308,24 @@ Ease of team use at factory scale — but only if it doesn't erode the output qu
 
 ---
 
+## 7.7 — GTM housekeeping: site-wide tags double-firing per page
+
+### Context — why this item exists
+
+During Phase 1.1 testing, GTM Preview showed several **pre-existing** site-wide tags firing **2× on a single page load** — `Google Tag`, `Google Ads - Page View` (remarketing), `Conversion Linker`, `Microsoft Clarity`. Likely they're triggered on both Initialization **and** All Pages (or container-load + a follow-up event).
+
+### Why it matters
+
+It does **not** affect booking-conversion accuracy — our `booking_confirmed` conversion fires exactly once. But double-firing the page-view/remarketing tags inflates those counts and sends redundant hits (noisier remarketing audiences, doubled page-view pings).
+
+### Sketch
+
+Audit the trigger config on those tags; ensure each fires **once** per page (a single trigger — e.g. `Initialization - All Pages` OR `All Pages`, not both). Verify in Preview that each fires once. Low-risk, GTM-only. Not booking-critical — parked.
+
+---
+
 ## Future items (add as they come up)
 
-> Drop new subsections here as `7.7`, `7.8`, etc. when polish items surface during Phases 0-6. Keep each entry brief — what it is, why it matters, any sketch or dependency. Format follows 7.1 and 7.2 above.
+> Drop new subsections here as `7.8`, `7.9`, etc. when polish items surface during Phases 0-6. Keep each entry brief — what it is, why it matters, any sketch or dependency. Format follows 7.1 and 7.2 above.
 >
 > *(Note: the confirmation-page reconciliation that briefly lived here was promoted to core Phase 1.1 on 2026-06-19 — see the "single canonical confirmation page" decision in `.claude/skills/add-skill-page/SKILL.md`. Not a parking-lot item.)*
