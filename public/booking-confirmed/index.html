@@ -314,12 +314,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   function icsHref(text, s, e, loc, uid) {
     function esc(v) { return String(v).replace(/([,;\\])/g, '\\$1'); }
+    var desc = 'Your appointment at Maximum Health.' + (uid ? ' Booking ref ' + uid + '.' : '');
     var lines = [
-      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Maximum Health//Booking//EN',
+      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Maximum Health//Booking//EN', 'CALSCALE:GREGORIAN',
       'BEGIN:VEVENT',
       'UID:' + (uid || zc(s)) + '@maximumhealth',
       'DTSTAMP:' + zc(s), 'DTSTART:' + zc(s), 'DTEND:' + (e ? zc(e) : zc(s)),
-      'SUMMARY:' + esc(text), 'LOCATION:' + esc(loc),
+      'SUMMARY:' + esc(text), 'DESCRIPTION:' + esc(desc), 'LOCATION:' + esc(loc),
+      // Reminders baked into the .ics: 1 day + 2 hours before, as popup
+      // (DISPLAY — reliably honored) and email (EMAIL — honored only by clients
+      // that support it; most consumer apps ignore imported EMAIL alarms).
+      'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + esc(text), 'TRIGGER:-P1D', 'END:VALARM',
+      'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + esc(text), 'TRIGGER:-PT2H', 'END:VALARM',
+      'BEGIN:VALARM', 'ACTION:EMAIL', 'SUMMARY:' + esc(text), 'DESCRIPTION:' + esc(desc), 'TRIGGER:-P1D', 'END:VALARM',
+      'BEGIN:VALARM', 'ACTION:EMAIL', 'SUMMARY:' + esc(text), 'DESCRIPTION:' + esc(desc), 'TRIGGER:-PT2H', 'END:VALARM',
       'END:VEVENT', 'END:VCALENDAR'
     ];
     return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(lines.join('\r\n'));
