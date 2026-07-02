@@ -523,13 +523,22 @@ function notifySlack(r) {
   if (!url) return;
   const who = ((r.firstName + ' ' + r.lastName).trim()) || r.email || 'A patient';
   const via = [r.utm_source, r.utm_campaign].filter(String).join(' / ') || 'direct';
+  let when = r.start;
+  try { if (r.start) when = Utilities.formatDate(new Date(r.start), 'America/Edmonton', "EEE MMM d 'at' h:mm a") + ' MT'; } catch (e) {}
+
+  // ===== EDIT THESE LINES to change what the Slack message says =====
+  // Slack formatting: *bold*, _italic_, :emoji:, and each array item is a new
+  // line. Available fields on `r`: firstName, lastName, email, phone, skill,
+  // bookedId, handle, recommendedId, matched, start, end, eventTypeId,
+  // location, gclid, utm_source/medium/campaign/term/content, uid.
   const text = [
     ':calendar: *New booking* — ' + who,
     '*Therapist:* ' + (r.bookedId || r.handle) + '    *Skill:* ' + r.skill,
-    '*When:* ' + r.start,
+    '*When:* ' + when,
     '*Contact:* ' + ([r.email, r.phone].filter(String).join('  ·  ') || 'n/a'),
     '*Source:* ' + via + (r.gclid ? '   (gclid ✓)' : '')
   ].join('\n');
+  // =================================================================
   try {
     UrlFetchApp.fetch(url, {
       method: 'post',
