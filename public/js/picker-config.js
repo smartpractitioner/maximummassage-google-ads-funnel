@@ -12,8 +12,14 @@
  *                     name as `leads_<skill>` / `quiz_<skill>`.
  *   quizQuestions   – array of native quiz questions for this page; if
  *                     null, picker falls back to the Tally iframe.
+ *   bookingMode     – 'calcom' => "Book with X" opens the Cal.com calendar
+ *                     step (for active therapists); 'demand_test' (default)
+ *                     => the lead-form -> /confirmation/ hold-a-spot flow.
+ *                     Gates which pages are live on real booking (prenatal
+ *                     first; others flip at their Phase 5 rollout).
  *
- * Pages without an entry default to skill='general' + Tally quiz.
+ * Pages without an entry default to skill='general' + Tally quiz +
+ * demand_test booking.
  *
  * Quiz question shape:
  *   {
@@ -357,33 +363,54 @@
     '/massage-therapy-calgary-flow-b/': {
       skill: 'general',
       sheetTab: 'leads_general',
-      quizQuestions: null  // Flow B keeps the Tally iframe for now
+      quizQuestions: null,  // Flow B keeps the Tally iframe for now
+      bookingMode: 'demand_test'
     },
     '/prenatal-massage-calgary/': {
       skill: 'prenatal',
       sheetTab: 'leads_prenatal',
-      quizQuestions: PRENATAL_QUIZ
+      quizQuestions: PRENATAL_QUIZ,
+      bookingMode: 'calcom'  // canonical page — first live on real Cal.com booking
     },
     '/deep-tissue-massage-calgary/': {
       skill: 'deep_tissue',
       sheetTab: 'leads_deep_tissue',
-      quizQuestions: DEEP_TISSUE_QUIZ
+      quizQuestions: DEEP_TISSUE_QUIZ,
+      bookingMode: 'demand_test'  // flips to 'calcom' at Phase 5 rollout
     },
     '/sports-massage-calgary/': {
       skill: 'sports',
       sheetTab: 'leads_sports',
-      quizQuestions: SPORTS_QUIZ
+      quizQuestions: SPORTS_QUIZ,
+      bookingMode: 'demand_test'  // benched
     },
     '/tmj-massage-calgary/': {
       skill: 'tmj',
       sheetTab: 'leads_tmj',
-      quizQuestions: TMJ_QUIZ
+      quizQuestions: TMJ_QUIZ,
+      bookingMode: 'demand_test'  // benched
     },
     '/lymphatic-drainage-massage-calgary/': {
       skill: 'lymphatic',
       sheetTab: 'leads_lymphatic',
-      quizQuestions: LYMPHATIC_QUIZ
+      quizQuestions: LYMPHATIC_QUIZ,
+      bookingMode: 'demand_test'  // flips to 'calcom' at Phase 5 rollout
     }
+  };
+
+  // Per-therapist Cal.com booking config (Phase 1.1).
+  //   handle – Cal.com calLink for the inline embed (session length + buffer
+  //            are baked into the Cal event type; see Phase 7.3 backlog).
+  //   active – false => no live calendar yet; the picker routes "Book with X"
+  //            to the demand-test /confirmation/ fallback instead of the
+  //            calendar, even on a bookingMode:'calcom' page. Flip to true
+  //            (one char) once a real Cal.com calendar is provisioned.
+  window.MaximumHealth.THERAPIST_BOOKING = {
+    brookelyn: { handle: 'bbrolly/60min',    active: true },
+    meagan:    { handle: 'meaganb/60min',    active: true },
+    charlotte: { handle: 'ctooth/90min',     active: true },
+    lindsey:   { handle: 'lstauffer/60min',  active: true },
+    tif:       { handle: 'thenderson/60min', active: false }  // placeholder handle; no Cal.com yet
   };
 
   // Helper that resolves the active config for the current pathname.

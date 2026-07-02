@@ -457,7 +457,7 @@
           <span class="detail-panel__price-old">$${t.regularPrice}</span>
           <span class="cta-card__badge">New patient starter offer</span>
         </p>
-        <button type="button" class="btn btn--primary btn--block" data-action="open-lead-form" data-therapist="${t.id}">
+        <button type="button" class="btn btn--primary btn--block" data-action="book" data-therapist="${t.id}">
           Book with ${escapeHtml(t.name.split(' ')[0])}, ${escapeHtml(t.duration)}
         </button>
       </div>
@@ -531,6 +531,7 @@
           <div class="lb__stage" data-view="quiz"></div>
           <div class="lb__stage" data-view="grid" hidden></div>
           <div class="detail-panel" data-view="detail"></div>
+          <div class="lb__stage" data-view="calendar" hidden></div>
           <div class="lb__stage" data-view="lead-form" hidden></div>
         </div>
       </div>
@@ -549,9 +550,13 @@
         return;
       }
 
-      const openLead = target.closest('[data-action="open-lead-form"]');
-      if (openLead) {
-        showLeadForm(openLead.getAttribute('data-therapist'));
+      const bookBtn = target.closest('[data-action="book"]');
+      if (bookBtn) {
+        const bid = bookBtn.getAttribute('data-therapist');
+        // Gate: only bookingMode:'calcom' pages with an active therapist open
+        // the Cal.com calendar; everyone else keeps the demand-test lead form.
+        if (usesCalcom(bid)) showCalendar(bid);
+        else showLeadForm(bid);
         return;
       }
 
@@ -585,7 +590,7 @@
     return overlay;
   }
 
-  const VIEW_TO_STEP = { quiz: 1, grid: 2, detail: 2, 'lead-form': 3 };
+  const VIEW_TO_STEP = { quiz: 1, grid: 2, detail: 2, calendar: 3, 'lead-form': 3 };
 
   function setStep(view) {
     if (!overlay) return;
@@ -607,6 +612,7 @@
     if (name === 'quiz') title.textContent = 'Find your therapist';
     else if (name === 'grid') title.textContent = 'Choose your therapist';
     else if (name === 'detail') title.textContent = 'Your therapist';
+    else if (name === 'calendar') title.textContent = 'Choose your time';
     else if (name === 'lead-form') title.textContent = 'Almost there';
     setStep(name);
     // Always reset the lightbox scroll container to the top on view change.
@@ -776,6 +782,117 @@
     pushView('lead-form', { tid: t.id });
   }
 
+  // ---------- Cal.com calendar step (bookingMode: 'calcom') ----------
+  const CAL_NS = 'mhbooking';
+  let calInited = false;
+  let currentCalendarTherapistId = null;
+
+  function getBooking(id) {
+    const map = window.MaximumHealth && window.MaximumHealth.THERAPIST_BOOKING;
+    return (map && map[id]) || null;
+  }
+
+  // A page uses the live Cal.com flow for a therapist only when the page is
+  // bookingMode:'calcom' AND the therapist is active with a handle. Otherwise
+  // the demand-test lead form is used (Tif, benched pages, general page).
+  function usesCalcom(id) {
+    const mode = currentPageConfig && currentPageConfig.bookingMode;
+    if (mode !== 'calcom') return false;
+    const b = getBooking(id);
+    return !!(b && b.active && b.handle);
+  }
+
+  // Values prefilled into the Cal booking's hidden fields, so they flow back to
+  // us in the BOOKING_CREATED webhook (skill + recommended therapist +
+  // attribution). Only fields that exist on the Cal event type.
+  function calPrefillParams() {
+    const utms = collectUtms();
+    const params = {};
+    ['gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach((k) => {
+      if (utms[k]) params[k] = utms[k];
+    });
+    params.skill = currentSkill || 'general';
+    if (lastRecommendedId) params.recommended_therapist_id = lastRecommendedId;
+    return params;
+  }
+
+  // Cal's bookingSuccessfulV2 title is "<event> between <Therapist> and <Attendee>".
+  function parseAttendeeFirstName(title) {
+    if (typeof title !== 'string') return '';
+    const idx = title.lastIndexOf(' and ');
+    if (idx === -1) return '';
+    const attendee = title.slice(idx + 5).trim();
+    return (attendee.split(/\s+/)[0] || '');
+  }
+
+  // Channel A: the lean browser event fires here. We do NOT post the record
+  // (that arrives server-side via the BOOKING_CREATED webhook, Channel B). We
+  // only redirect to /booking-confirmed/ with enough context to personalize
+  // the page and fire the guarded conversion there.
+  function onCalBookingSuccess(e) {
+    const d = (e && e.detail && e.detail.data) || {};
+    const params = new URLSearchParams();
+    if (d.uid) params.set('bid', d.uid);
+    if (currentSkill) params.set('skill', currentSkill);
+    if (currentCalendarTherapistId) params.set('therapist', currentCalendarTherapistId);
+    if (d.startTime) params.set('start', d.startTime);
+    if (d.endTime) params.set('end', d.endTime);
+    const name = parseAttendeeFirstName(d.title);
+    if (name) params.set('name', name);
+    window.location.href = '/booking-confirmed/?' + params.toString();
+  }
+
+  function ensureCalInit() {
+    if (calInited) return;
+    calInited = true;
+    // Cal.com embed loader stub (standard snippet), loaded lazily on first
+    // calendar open so pages don't pull Cal until the visitor clicks Book.
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    try {
+      window.Cal("init", CAL_NS, { origin: "https://app.cal.com" });
+      window.Cal.ns[CAL_NS]("ui", { hideEventTypeDetails: false, layout: "month_view" });
+      window.Cal.ns[CAL_NS]("on", { action: "bookingSuccessfulV2", callback: onCalBookingSuccess });
+    } catch (_) { /* Cal unavailable; leave the embed empty */ }
+  }
+
+  function mountCalEmbed(booking, el) {
+    if (!booking || !booking.handle || !el) return;
+    ensureCalInit();
+    el.innerHTML = '';
+    const calLink = booking.handle + '?' + new URLSearchParams(calPrefillParams()).toString();
+    try {
+      window.Cal.ns[CAL_NS]('inline', { elementOrSelector: el, config: { layout: 'month_view' }, calLink: calLink });
+    } catch (_) { /* swallow */ }
+  }
+
+  function buildCalendarView(t) {
+    return `
+      <button type="button" class="detail-panel__back" data-action="back-to-detail" data-therapist="${t.id}">
+        <span aria-hidden="true">&larr;</span> Back
+      </button>
+      <div class="lb-calendar">
+        <h3 class="lb-calendar__title">Pick a time with ${escapeHtml(t.name.split(' ')[0])}</h3>
+        <div class="lb-calendar__embed" data-cal-inline></div>
+      </div>
+    `;
+  }
+
+  function renderCalendar(t) {
+    currentCalendarTherapistId = t.id;
+    const stage = overlay.querySelector('[data-view="calendar"]');
+    stage.innerHTML = buildCalendarView(t);
+    setView('calendar');
+    stage.scrollTop = 0;
+    mountCalEmbed(getBooking(t.id), stage.querySelector('[data-cal-inline]'));
+  }
+
+  function showCalendar(id) {
+    const t = findTherapist(id);
+    if (!t) return;
+    renderCalendar(t);
+    pushView('calendar', { tid: t.id });
+  }
+
   function submitLeadForm(form) {
     const submitBtn = form.querySelector('[data-lead-submit]');
     const errEl = form.querySelector('[data-lead-err]');
@@ -896,6 +1013,9 @@
             panel.innerHTML = buildDetail(t);
             setView('detail');
           }
+        } else if (s.mhView === 'calendar' && s.tid) {
+          const t = findTherapist(s.tid);
+          if (t) renderCalendar(t);
         } else if (s.mhView === 'lead-form' && s.tid) {
           const t = findTherapist(s.tid);
           if (t) {

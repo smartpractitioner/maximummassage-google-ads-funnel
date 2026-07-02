@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You're booked | Maximum Health</title>
+  <meta name="robots" content="noindex">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.ico" sizes="any">
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=Mulish:wght@500;700;800&display=swap">
+  <link rel="stylesheet" href="/css/shared.css">
+  <link rel="stylesheet" href="/css/flow-b.css">
+  <style>
+    /* Booking-confirmed page — Flow B v3 palette (mirrors the confirmation
+       page tokens so it reads as a continuation of the funnel). */
+    :root {
+      --v3-page-bg: #FAEAC9;
+      --v3-surface: #FFFFFF;
+      --v3-ink: #0E3A47;
+      --v3-ink-soft: #5A6E73;
+      --v3-ink-soft-2: #3F4F54;
+      --v3-teal: #1F8FA6;
+      --v3-teal-dark: #155F70;
+      --v3-cream-border: #E6C988;
+      --v3-rule: rgba(14, 58, 71, 0.14);
+    }
+    body {
+      background: var(--v3-page-bg);
+      font-family: "Manrope", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--v3-ink);
+    }
+    .site-header {
+      background: var(--v3-page-bg);
+      color: var(--v3-ink);
+      border-bottom: 1px solid var(--v3-cream-border);
+    }
+    .site-header__logo { color: var(--v3-ink); }
+    .site-header__call {
+      background: var(--v3-teal);
+      color: #FFFFFF;
+      font-family: "Bricolage Grotesque", system-ui, sans-serif;
+      box-shadow: 0 4px 10px rgba(31, 143, 166, 0.22);
+    }
+    .site-header__call:hover { background: var(--v3-teal-dark); }
+    .site-footer { background: #FFFFFF; color: var(--v3-teal); }
+    .site-footer a { color: var(--v3-teal); }
+    .site-footer__small { color: var(--v3-ink-soft); opacity: 1; }
+
+    .offer-closed { background: var(--v3-page-bg); }
+    .bc-card {
+      background: var(--v3-surface);
+      border: 1px solid var(--v3-cream-border);
+      border-radius: 22px;
+      box-shadow: 0 14px 36px rgba(14, 58, 71, 0.10);
+      max-width: 620px;
+      text-align: left;
+    }
+    .bc-eyebrow {
+      font-family: "Bricolage Grotesque", system-ui, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--v3-teal);
+      margin: 0 0 6px;
+    }
+    .bc-headline {
+      font-family: "Mulish", "Manrope", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: clamp(24px, 5.5vw, 32px);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      color: var(--v3-ink);
+      margin: 0 0 var(--space-lg);
+      text-wrap: balance;
+    }
+    .bc-details {
+      background: rgba(31, 143, 166, 0.06);
+      border: 1px solid var(--v3-rule);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin: 0 0 var(--space-lg);
+    }
+    .bc-detail { margin: 0 0 8px; font-size: 16px; line-height: 1.5; color: var(--v3-ink-soft-2); }
+    .bc-detail:last-child { margin-bottom: 0; }
+    .bc-detail strong { color: var(--v3-ink); display: inline-block; min-width: 62px; }
+    .bc-cal {
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
+      margin: 0 0 var(--space-xl);
+    }
+    .bc-block { margin-top: var(--space-xl); border-top: 1px solid var(--v3-rule); padding-top: var(--space-lg); }
+    .bc-h2 {
+      font-family: "Mulish", "Manrope", system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 19px;
+      color: var(--v3-ink);
+      margin: 0 0 var(--space-md);
+    }
+    .bc-list { margin: 0; padding-left: 1.15em; }
+    .bc-list li { font-size: 15.5px; line-height: 1.6; color: var(--v3-ink-soft-2); margin-bottom: 10px; }
+    .bc-list li:last-child { margin-bottom: 0; }
+    .bc-list strong { color: var(--v3-ink); }
+    .bc-list a { color: var(--v3-teal); }
+    .bc-fallback-body { font-size: 16px; line-height: 1.6; color: var(--v3-ink-soft-2); margin: 0; }
+    .bc-fallback-body a { color: var(--v3-teal); }
+    .btn--sage {
+      background: var(--v3-teal);
+      color: #FFFFFF;
+      padding: 16px 28px;
+      font-family: "Bricolage Grotesque", system-ui, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 999px;
+      box-shadow: 0 6px 14px rgba(31, 143, 166, 0.22);
+    }
+    .btn--sage:hover { background: var(--v3-teal-dark); }
+  </style>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-5M8LTCF8');</script>
+  <!-- End Google Tag Manager -->
+</head>
+<body>
+
+<!-- GTM noscript -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5M8LTCF8"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<header class="site-header">
+  <a href="/massage-therapy-calgary/" class="site-header__logo" aria-label="Maximum Health Massage Therapy Calgary">
+    <img src="/images/MaximumHealthmassagetherapycalgarycompressed.webp" alt="Maximum Health Massage Therapy Calgary" width="176" height="29">
+  </a>
+  <a href="tel:+14032830725" class="site-header__call" data-location="booking-confirmed">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"/></svg>
+    Call us
+  </a>
+</header>
+
+<main class="offer-closed" id="bc-main">
+  <section class="offer-closed__card bc-card" aria-live="polite">
+
+    <!-- Personalized (shown when a real booking context is present) -->
+    <div data-bc="booked" hidden>
+      <p class="bc-eyebrow">You're booked</p>
+      <h1 class="bc-headline">See you soon<span data-bc-name></span>!</h1>
+
+      <div class="bc-details">
+        <p class="bc-detail"><strong>With</strong> <span data-bc-therapist>your therapist</span></p>
+        <p class="bc-detail"><strong>When</strong> <span data-bc-when>-</span></p>
+        <p class="bc-detail"><strong>Where</strong> 213 19 St NW #4, Calgary, AB T2N 2H9</p>
+      </div>
+
+      <a class="btn btn--sage bc-cal" data-bc-cal href="#" target="_blank" rel="noopener">Add to calendar</a>
+
+      <div class="bc-block">
+        <h2 class="bc-h2">Before your visit</h2>
+        <ul class="bc-list">
+          <li><strong>Arrive about 5 minutes early</strong> so you have time to settle in.</li>
+          <li><strong>Wear comfortable, loose clothing.</strong> Your therapist will walk you through anything that needs to come off for the session.</li>
+          <li><strong>Just bring yourself.</strong> If you have past injuries, current medications, or specific concerns, your therapist will ask about them when you arrive.</li>
+          <li><strong>Parking</strong> is free on the west side of 19th Street or along 1st or 2nd Avenue.</li>
+        </ul>
+      </div>
+
+      <div class="bc-block">
+        <h2 class="bc-h2">What happens next</h2>
+        <ul class="bc-list">
+          <li>You'll get a <strong>confirmation email from Jane</strong> (our booking system) with your appointment details and your account login.</li>
+          <li>You'll get a <strong>reminder</strong> before your visit so it doesn't sneak up on you.</li>
+          <li>Need to change or cancel? You can do it anytime from <strong>your Jane account</strong>, using the link in that email.</li>
+          <li>Questions before your visit? Call us at <a href="tel:+14032830725" data-location="booking-confirmed">(403) 283-0725</a>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Generic fallback (cold / direct hit — no personalized fields, no PII) -->
+    <div data-bc="fallback" hidden>
+      <p class="bc-eyebrow">Thanks for booking</p>
+      <h1 class="bc-headline">You're all set.</h1>
+      <p class="bc-fallback-body">
+        Check your email for your confirmation details. If you need anything, contact us at
+        <a href="tel:+14032830725" data-location="booking-confirmed">(403) 283-0725</a>.
+      </p>
+    </div>
+
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p><strong>Maximum Health Massage Therapy Calgary</strong><br>
+  Proudly serving Calgary since 1998</p>
+  <p>213 19 St NW #4, Calgary, AB T2N 2H9</p>
+  <p><a href="/privacy-policy/">Privacy Policy</a> &middot; <a href="/terms/">Terms of Use</a></p>
+  <p class="site-footer__small">&copy; 1998&ndash;2026 Maximum Health Massage Therapy</p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var params = new URLSearchParams(window.location.search);
+  var bid = params.get('bid') || '';
+
+  var lead = null;
+  try { var raw = sessionStorage.getItem('mh_lead'); if (raw) lead = JSON.parse(raw); } catch (_) {}
+
+  var THERAPIST_NAMES = { brookelyn: 'Brookelyn', meagan: 'Meagan', charlotte: 'Charlotte', lindsey: 'Lindsey', tif: 'Tif' };
+
+  var main = document.getElementById('bc-main');
+  var booked = main.querySelector('[data-bc="booked"]');
+  var fallback = main.querySelector('[data-bc="fallback"]');
+
+  // Valid booking context = a real Cal uid in the URL (the calcom flow) or a
+  // stashed lead (defensive). Cold / direct hits get the generic fallback,
+  // with no personalized fields — no PII leakage.
+  var hasContext = !!(bid || (lead && (lead.first_name || lead.email)));
+  if (!hasContext) {
+    fallback.hidden = false;
+    return;
+  }
+  booked.hidden = false;
+
+  // ---------- Personalize ----------
+  var firstName = params.get('name') || (lead && lead.first_name) || '';
+  if (firstName) booked.querySelector('[data-bc-name]').textContent = ', ' + firstName;
+
+  var therapistId = params.get('therapist') || '';
+  var therapistName = THERAPIST_NAMES[therapistId] ||
+    (therapistId ? therapistId.charAt(0).toUpperCase() + therapistId.slice(1) : '');
+  if (therapistName) booked.querySelector('[data-bc-therapist]').textContent = therapistName;
+
+  var startIso = params.get('start') || '';
+  var endIso = params.get('end') || '';
+  var whenStr = fmtDateTime(startIso);
+  if (whenStr) {
+    booked.querySelector('[data-bc-when]').textContent = whenStr;
+  } else {
+    var whenRow = booked.querySelector('[data-bc-when]').closest('.bc-detail');
+    if (whenRow) whenRow.hidden = true;
+  }
+
+  // ---------- Add to calendar ----------
+  var calEl = booked.querySelector('[data-bc-cal]');
+  if (startIso) {
+    var title = (therapistName ? 'Massage with ' + therapistName : 'Massage') + ' — Maximum Health';
+    calEl.href = gcalLink(title, startIso, endIso, '213 19 St NW #4, Calgary, AB T2N 2H9');
+  } else {
+    calEl.hidden = true;
+  }
+
+  // ---------- Guarded, deduped conversion fire (Channel A) ----------
+  // Fire only with a real Cal uid, and only once per uid so a refresh /
+  // bookmark / direct revisit never double-fires. The full booking record
+  // comes server-side from the BOOKING_CREATED webhook (Channel B); this page
+  // fires the conversion and nothing else.
+  if (bid) {
+    var firedList = [];
+    try { firedList = JSON.parse(sessionStorage.getItem('mh_booking_fired') || '[]'); } catch (_) {}
+    if (firedList.indexOf(bid) === -1) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'booking_confirmed',
+        booking_id: bid,
+        scheduled_time: startIso,
+        event_type_id: '',
+        skill: params.get('skill') || '',
+        therapist_id: therapistId,
+        gclid: ss('gclid'),
+        utm_source: ss('utm_source'),
+        utm_medium: ss('utm_medium'),
+        utm_campaign: ss('utm_campaign'),
+        utm_term: ss('utm_term'),
+        utm_content: ss('utm_content')
+      });
+      firedList.push(bid);
+      try { sessionStorage.setItem('mh_booking_fired', JSON.stringify(firedList)); } catch (_) {}
+    }
+  }
+
+  // ---------- helpers ----------
+  function ss(k) { try { return sessionStorage.getItem(k) || ''; } catch (_) { return ''; } }
+
+  function fmtDateTime(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    try {
+      return new Intl.DateTimeFormat('en-CA', {
+        weekday: 'long', month: 'long', day: 'numeric',
+        hour: 'numeric', minute: '2-digit', timeZone: 'America/Edmonton'
+      }).format(d);
+    } catch (_) { return d.toLocaleString(); }
+  }
+
+  function gcalLink(text, s, e, loc) {
+    function z(iso) { return new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+    var dates = z(s) + '/' + (e ? z(e) : z(s));
+    var p = new URLSearchParams({ action: 'TEMPLATE', text: text, dates: dates, location: loc });
+    return 'https://calendar.google.com/calendar/render?' + p.toString();
+  }
+})();
+</script>
+
+</body>
+</html>

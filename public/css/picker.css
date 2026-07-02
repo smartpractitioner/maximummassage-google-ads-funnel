@@ -702,3 +702,22 @@
   white-space: nowrap;
   border: 0;
 }
+
+/* ---------- Calendar step (Cal.com inline embed) ---------- */
+.lb-calendar {
+  display: flex;
+  flex-direction: column;
+}
+.lb-calendar__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+  text-align: center;
+}
+/* Give the inline embed real height so the Cal iframe has room to render.
+   Cal sizes its own iframe to fill this container. */
+.lb-calendar__embed {
+  width: 100%;
+  min-height: 520px;
+  height: 68vh;
+  overflow: auto;
+}
