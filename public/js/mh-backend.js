@@ -10,7 +10,7 @@
   // rework. Set window.MH_BACKEND_URL BEFORE this script loads to override the
   // default below -- that's the per-client configuration hook for the factory.
   window.MH_BACKEND_URL = window.MH_BACKEND_URL ||
-    'https://script.google.com/macros/s/AKfycbwt0ZJ1RW8unG2Uj5vyXWC4Xn7k5fhPGpUL57ysYYoGX-i0fkacxyr-uIGhxx3Le_cKFQ/exec';
+    'https://script.google.com/macros/s/AKfycbwTrxufbNKu1GqOd9d1pPqMdnmMJmYXXmk6z_dpIj6auXULvNDb2oJ5ESTgtSGxyiKoUQ/exec';
 
   function endpoint() {
     var url = window.MH_BACKEND_URL;
