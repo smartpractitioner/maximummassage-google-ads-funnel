@@ -572,11 +572,37 @@ Once Workers is the backend:
 
 This is the whole premise of the factory; 1.6 is what makes it cheap. See also the Phase 6 repo architecture (separate factory + per-client repos) and the two-channel data path (Decision 2 — the webhook is the Worker's natural entry point).
 
+## Apps Script is pilot-only — NOT a steady-state mixed mode (hard rule)
+
+The mhBackend wedge *technically* lets different clients run different backends at once — that flexibility is for the **migration window, not an operating mode.** **Do NOT ship "some clients on Apps Script, some on Workers" as a steady state.** Why: uniform runtime = uniform debugging/ops (two backends = double the mental model, failure modes, and runbooks); Apps Script's manual redeploy dance defeats every factory-scale advantage; and the migration is single-config-flip cheap (1.6), with Workers free at any client's scale — so there's no "leave small clients on Apps Script to save $5/mo" case. **In one line:** Apps Script is the transition path for the pilot (Maximum Health); every client onboarded after Workers launches starts on Workers directly, and every existing Apps Script client is migrated on a schedule.
+
+## The Cloudflare stack at end-of-project (Phase 6+)
+
+Per client, all under one account we own:
+- **Already in place (Phases 0-5):** **Pages** (hosting), **DNS**, **CDN + edge**, **WAF** (where the paid-ads-only crawler block lives), **Pages Functions** (server-side GA4, edge splitter).
+- **Added by Phase 6:** **Workers** (backend runtime, replaces Apps Script), **KV** (`bookings_count`, sub-ms edge reads on every picker load), **D1** (SQLite row store), **Cron Triggers** (free; monthly cohort reports, sheet↔Jane reconciliation, leakage sweeps).
+- **Optional/later:** **Cloudflare Access** (zero-trust auth for the Phase 7.6 GUI, if it ships). R2/Zaraz not needed.
+
+## Storage — D1 from day one, KV for counters, Sheets as a downstream export (hard rule)
+
+**No phased Sheets→D1 migration. D1 is the row-store from client one.** A "Sheets now, migrate at scale" path is rejected: client acquisition is the growth driver, so retooling infra while onboarding + rewiring live clients is exactly the trap the factory avoids; the migration cost is *per client* (data move + revalidate + config flip × N live clients) vs. a one-time cost to build D1 now; and the ~5-client Sheets breakage point is too close to the launch trajectory.
+- `bookings_count` → **KV** (read-heavy, every picker load).
+- `bookings_<skill>` / `leads_<skill>` / `quiz_<skill>` / audit logs / the Jane cohort join → **D1** (SQL, structured, no API-quota pain, clean cross-client reporting).
+- **Operator keeps a Sheet view without Sheets being the source of truth:** a nightly **Cron → Worker** reads D1 and writes the month's rows + a pre-joined cohort report into the client's Google Sheet via service account. Tracy still opens a Sheet each morning (zero training cost); it's a downstream export, not the store. Ad-hoc pivots/VLOOKUPs still work against yesterday's snapshot (real-time is a "run export now" click away). Phase 6.3: the `booking_confirmed` Worker writes D1; a *separate* Cron Worker exports to Sheets (read-only from the operator's side).
+
+## Cost — Cloudflare stays ~$5/mo to hundreds of clients
+
+The $5/mo paid tier is **per Cloudflare account, not per Worker/client.** Realistic per-client volume (~500 page visits/day, 5-30 bookings/day, ~500 availability reads/day, <1 MB rows/yr) sits well inside free tier indefinitely. Aggregate: **~$0 to 10 clients, ~$5 to hundreds**; you'd only exceed $5 past ~10M Worker req/mo (~600+ clinics). Beats the alternatives for our shape (Lambda ~$1-3 + cold starts + setup; trigger.dev $20-500+; Heroku/Render/Fly $7-25+/app). Apps Script is "$0" but the hidden cost is manual redeploy labor per client.
+
+## Cloudflare account model — one central account we own, per-client scoped tokens
+
+**One central Cloudflare account, owned by us; each client = one zone (domain) + one Worker; isolation via scoped API tokens, not account boundaries.** Why: the infra is **our IP** (clients pay to access the factory, they don't buy the infra); one ops surface at any scale (one login/billing/API); no per-client account-creation ritual at onboarding; trivial cross-client reporting. Blast-radius isolation without multi-account overhead: **per-client zones** (WAF/rate-limits/analytics apply per zone), **per-client scoped tokens** (a leaked token exposes only that client's Worker/KV/D1), **hardware 2FA** on the master login (reserved for account admin; deploys use scoped tokens), and Cloudflare **audit logs**. CI holds a `(client_id, worker, scoped_token)` matrix and `wrangler deploy`s each in parallel; team access via RBAC. Reconsider only at **>50 clinics**, **HIPAA/regulated data**, or a client explicitly buying their own infra (paid one-off; violates the standard factory model).
+
 ---
 
 # Jane appointment-type design — Path A + cohort attribution + leakage acceptance (decided 2026-06-20)
 
-> Advisory-session decisions on how the $49 offer is structured in the client's Jane EHR and how we attribute/track it. Recorded here (repo = source of truth) so the reasoning travels. Jane-side setup SOP: `docs/sop-jane-booking-confirmation-email.md`; the leakage backstop is Phase 7.1.
+> Advisory-session decisions on how the $49 offer is structured in the client's Jane EHR and how we attribute/track it. Recorded here (repo = source of truth) so the reasoning travels. Jane-side setup SOP: `docs/sop-jane-booking-confirmation-email.md`; the leakage backstop is **Phase 7.2** (renumbered — the polish backlog was reordered 2026-07-02, promoting the Cal.com-replacement item to 7.1).
 
 ## Decision A — Path A (two appointment types per therapist), NOT Path B (discount-at-billing)
 
@@ -610,6 +636,6 @@ Advantages over price-as-signal:
 Because $49 is publicly visible and can't be hidden without breaking ClinicSync Pro sync, some direct-bookers (est. **20-30%** of would-be direct-bookers) will grab the promo despite the deflection copy. Accepted, not fought, because:
 - **Attribution doesn't need funnel purity** — UTMs are the truth; direct-bookers lack them.
 - **Bounded cost** — each leak = **$75 unrealized** ($124 − $49); at 5-10/month ≈ **$375-750/month** soft loss, small vs. the revenue the funnel drives.
-- **Phase 7.1 is the backstop** — if leakage runs >10/month post-launch, 7.1 emails the assigned therapist per unmatched booking (cancel/honor). Gated on Justin confirming PatientSync ↔ Jane bidirectional capture.
+- **Phase 7.2 is the backstop** (was 7.1 before the 2026-07-02 backlog reorder) — if leakage runs >10/month post-launch, it auto-cancels the unmatched booking + emails the patient to rebook at the standard rate. Gated on Justin confirming PatientSync ↔ Jane bidirectional capture.
 
 **30-day watch:** once live, compare **`bookings_<skill>` count vs. Jane "Starter Session - By Invite Only" count**. The gap = leakage volume, which sizes whether 7.1 is worth building or the deflection copy already suffices.
