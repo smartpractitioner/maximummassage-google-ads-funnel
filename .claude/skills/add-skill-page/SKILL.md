@@ -470,6 +470,14 @@ There are currently **two** post-booking thank-you pages doing the same job: the
 
 **Resolution (2026-06-21): no repoint needed — the standalone Flow A therapist pages (`/brookelyn/`, `/meagan/`, etc.) are retired.** The previous flow they belonged to is effectively decommissioned; they won't be linked or driven to going forward. So `/booking-confirmed/` is simply the sole active post-booking page, and the legacy `/appointment-confirmed/` + the standalone Cal embeds are dead code to delete in a later cleanup. The "repoint the standalone pages" chunk is dropped from Phase 1.1 — there's nothing live to reconcile.
 
+## Decision 7 — Booking Slack notifications come from OUR backend, one channel per client (decided 2026-06-21)
+
+Instead of per-therapist Cal.com Slack workflows / Zapier zaps (tedious to set up per therapist × per client, scattered across outside vendors), **our backend posts a booking notification to Slack** when it processes the booking (Channel B — the `BOOKING_CREATED` webhook handler, Phase 1.5). **One Slack channel per client**, naming convention **`#<client-slug>-google-ads-bookings`**, via a per-client **Slack incoming-webhook URL** in config.
+
+**Why:** centralize in-house — no logging into every therapist's Cal.com or maintaining Zaps; consistent across all therapists automatically; trivially deployable per new client (create the channel + incoming webhook once, drop the URL in config). The Slack-post code is **engine** (reused); the webhook URL is **per-client config** (`SLACK_BOOKINGS_WEBHOOK_URL`, Phase 6 client-config).
+
+**One-time manual step per client** (do it with the AI session): create the Slack channel + an incoming webhook, paste the URL into config. **For Maximum Health now:** create `#maximumhealth-google-ads-bookings` + incoming webhook, wire the Phase 1.5 handler to post there, then **disable the existing Cal/Zap Slack notification** (the one currently firing for Brookelyn) so we don't double-notify.
+
 ## Per-therapist QA pass (required per skill page)
 
 After wiring a skill page to `bookingMode: 'calcom'`, QA **each active therapist** on that page before calling it done:
