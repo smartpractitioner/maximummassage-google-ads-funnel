@@ -21,9 +21,9 @@ This phase is a **parking lot** for everything that isn't core to the booking fu
 
 ### Context — why this item exists
 
-The Jane appointment type configuration for the booking flow (set up manually outside this plan) uses one promotional appointment type per therapist named "Starter Session (Private)" at $49, sitting alongside a regular full-price ($124) appointment type per therapist. The promo type's Before Booking description warns direct-bookers off:
+The Jane appointment type configuration for the booking flow (set up manually outside this plan; **source-of-truth SOP for the Jane side is [`docs/sop-jane-booking-confirmation-email.md`](sop-jane-booking-confirmation-email.md)**) uses one promotional appointment type per therapist named "Starter Session - By Invite Only" at $49, sitting alongside a regular full-price ($124) appointment type per therapist. The promo type's Description (before booking) warns direct-bookers off:
 
-> "This Starter Session is reserved for new clients who arrived via a promotional invitation link. If you booked this without receiving an invite directly from us, your appointment may be canceled and asked to be rebooked at the standard session rate."
+> "Do Not Choose - If you book this without going through the right channels, your appointment will be canceled and you will be asked to rebook at the standard session rate. To book a standard session right now, please review the other treatments in this list and select a regular massage option."
 
 That deflection copy does ~70-80% of the work of keeping direct-website-bookers off the promo. This item is the enforcement layer that catches the remaining 20-30% — visitors who book the promo from the public website despite the warning. When a $49 promo booking arrives in Jane without a matching landing-page lead record in PatientSync's database, the therapist is notified so they can decide whether to cancel + rebook at the standard rate, or honor the booking.
 
@@ -33,7 +33,7 @@ This matters because the price (and therefore the offer) is publicly visible on 
 
 Before any code work begins, Victor needs to confirm with Justin (the PatientSync developer) that the bidirectional data capture this item depends on is feasible. The question for Justin:
 
-> "Can PatientSync capture the patient identity (email at minimum, full name + phone ideally) from a Jane appointment that's been synced through ClinicSync Pro into PatientSync, and reliably match that identity bidirectionally against incoming landing-page lead records that PatientSync received from Cal.com / our backend? Specifically: when a booking shows up in Jane for the `Starter Session (Private)` appointment type, can PatientSync (or the bidirectional sync layer) look up the patient's email against the landing-page leads database, decide whether a match exists within a 48-72 hour recency window, and surface the result to a downstream automation?"
+> "Can PatientSync capture the patient identity (email at minimum, full name + phone ideally) from a Jane appointment that's been synced through ClinicSync Pro into PatientSync, and reliably match that identity bidirectionally against incoming landing-page lead records that PatientSync received from Cal.com / our backend? Specifically: when a booking shows up in Jane for the `Starter Session - By Invite Only` appointment type, can PatientSync (or the bidirectional sync layer) look up the patient's email against the landing-page leads database, decide whether a match exists within a 48-72 hour recency window, and surface the result to a downstream automation?"
 
 **If Justin says yes** → proceed with the build below.
 
@@ -62,13 +62,13 @@ Cal.com booking ──→ PatientSync ──→ ClinicSync Pro ──→ Jane (w
 ### Therapist email template (sent on no-match)
 
 ```
-Subject: FYI — Starter Session (Private) booking without landing-page match
+Subject: FYI — Starter Session - By Invite Only booking without landing-page match
 
 Patient: [first name + last name]
 Email: [email]
 Phone: [phone if available]
 Booking time: [date + time]
-Appointment type: Starter Session (Private)
+Appointment type: Starter Session - By Invite Only
 
 This booking landed under the promotional Starter Session type in Jane, but PatientSync couldn't find a matching landing-page lead within the last 72 hours. This usually means the patient booked directly via the website and ignored the Before Booking deflection note.
 
@@ -79,7 +79,7 @@ Your options:
 
 ### Volume calibration before building
 
-Before designing the email cadence or any escalation logic, **collect 30+ days of leakage data** post-launch by comparing `bookings_<skill>` against Jane Starter Session (Private) bookings:
+Before designing the email cadence or any escalation logic, **collect 30+ days of leakage data** post-launch by comparing `bookings_<skill>` against Jane Starter Session - By Invite Only bookings:
 
 - **0-1/month** → email-per-leak is fine, no rate-limiting needed
 - **5-10/month** → email-per-leak is fine but consider a weekly digest as an alternative
@@ -233,8 +233,43 @@ Worker-based booking service: availability rules per therapist → public slot A
 
 ---
 
+## 7.5 — Automated QA pass for the per-therapist / per-skill booking flow
+
+### Context — why this item exists
+
+Every skill page needs a QA pass **per active therapist** (see the "Per-therapist QA pass" step in `.claude/skills/add-skill-page/SKILL.md`): calendar loads with the right Cal handle, prefill lands, redirect to `/booking-confirmed/` renders, conversion fires. Doing that by hand across N therapists × M skill pages × every client is tedious and error-prone.
+
+### Why it matters
+
+Factory scale. Manual-only doesn't scale; but fully hands-off automation misses human judgment (does the calendar *feel* right, is the copy off, is the embed janky). Hybrid is the goal.
+
+### Sketch / earmark
+
+Automate the repetitive funnel walk with **Playwright** (or similar): a team member launches the tool and it drives quiz → grid → detail → Book → calendar → asserts the `booking_confirmed` dataLayer push + redirect for each therapist. **Hard rule: the team member must still do at least 2 manual runs themselves** to catch concerns a script won't. Open questions: how to avoid spamming real Cal bookings (test event type / auto-cancel via Cal API); GTM tag-firing + Jane sync likely stay semi-manual (Tag Assistant / EHR aren't easily scriptable).
+
+---
+
+## 7.6 — Internal front-end / UI for the factory (team-facing)
+
+### Context — why this item exists
+
+Today the factory runs via Claude Code + config files + SOPs. A GUI could let less-technical team members spin up a client / skill page by filling a form (business info, roster, keyword themes) → generate config → deploy, making the whole thing much easier to operate.
+
+### Consideration pass FIRST (before building anything)
+
+This one gets a deliberate think before we act. Questions to answer:
+- **Does a GUI in any way break our process or the quality of outputs?** The Claude-Code-guided workflow is reasoning-rich (the SKILL.md "why", copy/QS judgment, per-therapist tuning). If a form-driven GUI bypasses that, do pages get worse? What must stay human/Claude-judged vs. what's safe to formify?
+- What does the GUI own (config entry, deploy triggers) vs. what stays in Claude Code (copywriting, keyword theming, QS judgment)?
+- Build vs. buy; who maintains it; who actually uses it; does it earn its keep vs. just running the SOPs?
+
+### Why it matters
+
+Ease of team use at factory scale — but only if it doesn't erode the output quality that's the whole point. Decide the consideration pass before committing.
+
+---
+
 ## Future items (add as they come up)
 
-> Drop new subsections here as `7.5`, `7.6`, etc. when polish items surface during Phases 0-6. Keep each entry brief — what it is, why it matters, any sketch or dependency. Format follows 7.1 and 7.2 above.
+> Drop new subsections here as `7.7`, `7.8`, etc. when polish items surface during Phases 0-6. Keep each entry brief — what it is, why it matters, any sketch or dependency. Format follows 7.1 and 7.2 above.
 >
 > *(Note: the confirmation-page reconciliation that briefly lived here was promoted to core Phase 1.1 on 2026-06-19 — see the "single canonical confirmation page" decision in `.claude/skills/add-skill-page/SKILL.md`. Not a parking-lot item.)*

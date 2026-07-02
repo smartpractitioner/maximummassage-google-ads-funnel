@@ -470,6 +470,18 @@ There are currently **two** post-booking thank-you pages doing the same job: the
 
 **Resolution (2026-06-21): no repoint needed — the standalone Flow A therapist pages (`/brookelyn/`, `/meagan/`, etc.) are retired.** The previous flow they belonged to is effectively decommissioned; they won't be linked or driven to going forward. So `/booking-confirmed/` is simply the sole active post-booking page, and the legacy `/appointment-confirmed/` + the standalone Cal embeds are dead code to delete in a later cleanup. The "repoint the standalone pages" chunk is dropped from Phase 1.1 — there's nothing live to reconcile.
 
+## Per-therapist QA pass (required per skill page)
+
+After wiring a skill page to `bookingMode: 'calcom'`, QA **each active therapist** on that page before calling it done:
+1. Open the page with test UTMs + `gclid`; run the quiz so it recommends that therapist.
+2. Book with them → confirm the **Cal calendar loads with the right handle**.
+3. Book a test slot → confirm redirect to `/booking-confirmed/` renders (first name, **full** therapist name, time, add-to-calendar).
+4. In GTM **Preview**, confirm `booking_confirmed` fired **once** with both tags + correct variables (`skill`, `therapist_id`, UTMs).
+5. **Cancel the test booking in Cal.com** — it's a real appointment.
+6. Confirm inactive therapists (e.g. Tif) fall back to the demand-test flow, and that non-calcom pages are unchanged.
+
+The full scripted E2E suite is **Phase 4**; automating this repetitive walk (with a hard rule of **≥2 manual runs** regardless) is **Phase 7.5**.
+
 ## Channel B — `BOOKING_CREATED` webhook field map + design (captured 2026-06-20)
 
 The webhook payload shape is identical across clients (it's Cal.com's, not ours), so this map is factory-reusable. Everything lives under `payload`:
