@@ -533,7 +533,8 @@ function notifySlack(r) {
   // location, gclid, utm_source/medium/campaign/term/content, uid.
   const text = [
     ':calendar: *New booking* — ' + who,
-    '*Therapist:* ' + (r.bookedId || r.handle) + '    *Skill:* ' + r.skill,
+    '*Therapist:* ' + (r.bookedId || r.handle),
+    '*Skill:* ' + r.skill,
     '*When:* ' + when,
     '*Contact:* ' + ([r.email, r.phone].filter(String).join('  ·  ') || 'n/a'),
     '*Source:* ' + via + (r.gclid ? '   (gclid ✓)' : '')
