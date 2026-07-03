@@ -488,7 +488,9 @@ The per-therapist monthly cap counts a therapist's bookings **made this calendar
 
 ## Decision 9 — quiz and booking data stay UNLINKED (health-privacy firewall) (decided early, recorded 2026-07-03)
 
-`quiz_<skill>` and `bookings_<skill>` are **deliberately kept as separate tabs with no shared per-person key.** This is a **health-privacy compliance requirement**, not just data hygiene: a named person must never be joinable to *what they are seeking treatment for*. The quiz answers — and the skill/condition intent behind a booking — are **health information**; associating a name with them reveals what care that individual is receiving. So the two datasets are firewalled.
+`quiz_<skill>` and `bookings_<skill>` are **deliberately kept as separate tabs with no shared per-person key.** This is a **health-privacy compliance requirement**, not just data hygiene.
+
+**The quiz answers themselves are PHI (personal health information).** Visitors answer the quiz with details about their health/condition, so `quiz_<skill>` is a store of PHI that must remain **anonymized / de-identified** — never associated to a name, a booking, or a patient record. On top of that, *what they book for* (the skill/condition) is also health information. Both reasons point the same way: keep the quiz PHI on its own side of a firewall, unlinkable to any identity.
 
 **What this forbids (do not "helpfully" add later):**
 - No unique client/visitor ID (e.g. an `mh_cid`) stamped onto **both** the quiz submission and the booking to join them per person. We explicitly considered and **rejected** this.
