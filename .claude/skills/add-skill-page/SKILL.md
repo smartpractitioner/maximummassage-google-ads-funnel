@@ -120,6 +120,20 @@ Reuse without edits (these don't change per page):
 
 The Why Work With Us **subhead** gets a per-page rewrite leading into the matching-focused close. Same for the Healing section subhead — both retune around the modality without changing the cards.
 
+#### Copy-theming through the Quality Score + voice lens (durable principles)
+
+Run the drafted copy through the lens below. These are **copywriting principles that apply to every page** (this client and the factory), distilled from the QS resources (`ad-group-landing-page-quality-score-briefing.md` plus the `intro to quality score` and `quality score for landing pages` transcripts in the Flow B resources folder). They enrich the six-section production process above; they are not a separate audit.
+
+- **The QS weighting reality (~65/25/10).** Quality Score is roughly 65% expected CTR, 25% ad/keyword relevance, 10% landing-page factors. That last slice is small and mostly *technical* (load time, spiderability, transparency, navigability), which a modern static page already meets. **Copy is the landing-page piece we control most directly** — and message-match relevance also feeds the larger 25% relevance bucket — so copy earns attention out of proportion to the raw 10%. But don't over-index: a page that reads warm and on-intent has already won the copy game.
+- **Hero H1 = close semantic match, NOT verbatim.** Google scores semantic relevance, not literal string matching. The H1 and subhead must unmistakably deliver what the searcher asked for, but a natural headline beats a wooden verbatim insertion every time. The intuition: it's like **recognizing a friend's face across a room** — you don't need them in the exact outfit from the search box, you recognize the face. "Prenatal, postnatal, and postpartum massage" delivers the "prenatal massage calgary" intent cleanly without parroting the string. Reserve verbatim only when it reads naturally on its own.
+- **The Google-lumping signal.** When two keyword terms show **identical search volume and CPC** in the workbook (e.g. `maternity massage` and `prenatal massage`, both 480/mo at the same CPC), that is Google telling you it treats them as **one intent** and serves the same results for both. **Covering one covers the other** — don't stack synonyms to "capture" the second term. One natural mention of the concept wins the whole cluster.
+- **Weave a theme, never stuff.** The reader should feel the relevance without seeing a keyword pile. The modality's vocabulary rotates naturally across H1, subhead, benefit titles, session-steps, and FAQ. If a sentence exists only to hold a keyword, cut it.
+- **"Near me" never goes in body copy.** Geo intent is served by the city name ("Calgary"), which reads naturally; "near me" grates on a human reader and buys nothing semantically. Let geo targeting carry local intent. Cross-reference memory `project_google_ads_keyword_strategy.md`.
+- **Hero gets premium effort.** ~70%+ of visitors never scroll below the fold, so the hero largely sets the conversion rate. Restate the ad's promise so the page feels like a continuation of the ad, not a fresh pitch.
+- **The aloud-read is the final voice failsafe.** Read the finished page top to bottom aloud. Any sentence that grates or reads like SEO copy gets rewritten back to natural voice, even at a keyword cost. Visitors are anxious, curious humans clicking from an ad, not bots. Voice wins ties.
+
+**Scope note.** These are principles for the copy itself. The separate *editorial-pass* process used to QS-tune an already-written MH page (the Phase 2 A–F workflow) is MH-project-specific and lives in [docs/agent-contracts/editor-station-notes.md](../../../docs/agent-contracts/editor-station-notes.md) — a reference artifact, not a required factory step.
+
 ### Step 5 — Add data + config (code changes)
 
 Edit in order:
