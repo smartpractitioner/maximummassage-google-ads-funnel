@@ -336,6 +336,14 @@
     return out;
   }
 
+  // Decision 9 — opaque per-session join key (generated in utm-capture.js).
+  // Sent on every backend write + the Cal embed so the quiz (Sheet 2) and the
+  // lead/booking (Sheet 1) can be joined ONLY by someone with access to both.
+  const CONSENT_VERSION = 'v2.0-2026-07';
+  function userId() {
+    try { return sessionStorage.getItem('mh_user_id') || ''; } catch (_) { return ''; }
+  }
+
   function buildTallySrc() {
     const extras = [];
     UTM_KEYS.forEach((k) => {
@@ -829,11 +837,15 @@
   function postQuizSubmission(answers, recommendedId) {
     if (!window.mhBackend) return;
     const skill = (currentPageConfig && currentPageConfig.skill) || 'general';
+    // Decision 9 — quiz payload carries NO PII/attribution (no UTMs/gclid).
+    // Only the answers + the opaque user_id join key + the consent record.
     window.mhBackend.post('quiz_submission', {
       skill: skill,
       recommended_therapist_id: recommendedId || '',
       answers: answers.map((a) => ({ question: a.qText, answer: a.optLabel, qId: a.qId, optId: a.optId })),
-      ...collectUtms()
+      user_id: userId(),
+      consent_version: CONSENT_VERSION,
+      consent_timestamp: new Date().toISOString()
     });
   }
 
@@ -928,6 +940,8 @@
     });
     params.skill = currentSkill || 'general';
     if (lastRecommendedId) params.recommended_therapist_id = lastRecommendedId;
+    const uid = userId();
+    if (uid) params.user_id = uid;  // rides Cal's hidden field → BOOKING_CREATED webhook → bookings row
     return params;
   }
 
@@ -1028,6 +1042,7 @@
       recommended_therapist_id: lastRecommendedId || '',
       matched_recommendation: lastRecommendedId ? (lastRecommendedId === therapistId) : null,
       skill: (currentPageConfig && currentPageConfig.skill) || 'general',
+      user_id: userId(),
       ...collectUtms()
     };
 

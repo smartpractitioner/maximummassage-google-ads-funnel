@@ -26,12 +26,24 @@
  *   - ?action=available_therapists[&callback=fn] → JSON (or JSONP) of
  *     { therapistId: { available, reason? } } for the picker gray-out (1.2).
  *
+ * STORAGE — Decision 9 firewall (two physically separate spreadsheets):
+ * This script writes to TWO different Google Sheets, read by ID from Script
+ * Properties (Project Settings → Script Properties):
+ *   - SHEET_ID_LEADS_BOOKINGS  → Sheet 1 "MH - Leads + Bookings" (PII):
+ *       leads_<skill> + bookings_<skill> tabs.
+ *   - SHEET_ID_QUIZ            → Sheet 2 "MH - Quiz Data" (health answers, NO PII):
+ *       quiz_<skill> tabs only. gclid/UTMs/page_variant/flow are NOT written here.
+ * The two are joined only by an opaque per-session `user_id` UUID (generated
+ * client-side). Re-identification requires access to BOTH sheets — access
+ * control at the Workspace level is the technical firewall. Set the two
+ * Script Properties (and SLACK_BOOKINGS_WEBHOOK_URL) BEFORE redeploying.
+ *
  * Per-skill routing (added 2026-05):
  * Each payload carries a `skill` field. Lead/notify/update_contact rows are
  * written to a tab named `leads_<skill>` (defaulting to legacy `Leads` if no
  * skill provided, for backward compatibility with Flow B "general"). Quiz
- * submissions go to a separate `quiz_<skill>` tab. Tabs are auto-created
- * with the appropriate header row on first write.
+ * submissions go to a separate `quiz_<skill>` tab in Sheet 2. Tabs are
+ * auto-created with the appropriate header row on first write.
  *
  * Rows are matched back by GCLID when available. If GCLID is empty
  * (direct/organic traffic), the most recent row with the same email is
@@ -59,6 +71,7 @@ const LEAD_HEADERS = [
   'utm_content',
   'page_variant',
   'flow',
+  'user_id',
   'Notify Preference',
   'Notify Recorded At',
   // CASL consent record — populated when the user clicks
@@ -71,25 +84,23 @@ const LEAD_HEADERS = [
   'Consent Text'
 ];
 
+// Sheet 2 (Quiz Data) — NO PII. Decision 9: gclid/UTMs/page_variant/flow are
+// deliberately NOT stored on the quiz row (they'd be a re-identification join
+// risk). Joined to the lead/booking side only by the opaque per-session user_id.
 const QUIZ_HEADERS = [
   'Timestamp',
   'Skill',
   'Recommended Therapist ID',
   'Answers (JSON)',
-  'GCLID',
-  'utm_source',
-  'utm_medium',
-  'utm_campaign',
-  'utm_term',
-  'utm_content',
-  'page_variant',
-  'flow'
+  'user_id',
+  'consent_version',
+  'consent_timestamp'
 ];
 
 const BOOKING_HEADERS = [
   'Timestamp', 'Booking UID', 'Booking ID', 'Status',
   'Skill', 'Booked Therapist', 'Booked Handle', 'Recommended Therapist ID', 'Matched Recommendation',
-  'First Name', 'Last Name', 'Email', 'Phone',
+  'First Name', 'Last Name', 'Email', 'Phone', 'user_id',
   'Start Time', 'End Time', 'Event Type ID', 'Location',
   'GCLID', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'
 ];
@@ -192,16 +203,30 @@ function sanitizeSkillForTab(skill) {
   return String(skill).toLowerCase().replace(/[^a-z0-9_]+/g, '_').replace(/^_+|_+$/g, '');
 }
 
+// Decision 9 — the two physically separate spreadsheets, opened by ID from
+// Script Properties. Access to each is granted separately at the Workspace
+// level; that separation is the technical firewall.
+function leadsBookingsSS() {
+  const id = PropertiesService.getScriptProperties().getProperty('SHEET_ID_LEADS_BOOKINGS');
+  if (!id) throw new Error('Script Property SHEET_ID_LEADS_BOOKINGS is not set');
+  return SpreadsheetApp.openById(id);
+}
+
+function quizSS() {
+  const id = PropertiesService.getScriptProperties().getProperty('SHEET_ID_QUIZ');
+  if (!id) throw new Error('Script Property SHEET_ID_QUIZ is not set');
+  return SpreadsheetApp.openById(id);
+}
+
 function getOrCreateLeadsSheet(skill) {
-  return getOrCreateSheet(leadsTabName(skill), LEAD_HEADERS);
+  return getOrCreateSheet(leadsBookingsSS(), leadsTabName(skill), LEAD_HEADERS);
 }
 
 function getOrCreateQuizSheet(skill) {
-  return getOrCreateSheet(quizTabName(skill), QUIZ_HEADERS);
+  return getOrCreateSheet(quizSS(), quizTabName(skill), QUIZ_HEADERS);
 }
 
-function getOrCreateSheet(tabName, headers) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+function getOrCreateSheet(ss, tabName, headers) {
   let sheet = ss.getSheetByName(tabName);
   if (!sheet) {
     sheet = ss.insertSheet(tabName);
@@ -252,26 +277,24 @@ function appendLead(sheet, body) {
     body.utm_content || '',
     body.page_variant || '',
     body.flow || '',
+    body.user_id || '',
     '',
     ''
   ];
   sheet.appendRow(row);
 }
 
+// Sheet 2 quiz row — NO PII (Decision 9). Only skill/recommendation/answers +
+// the opaque user_id join key + consent record. Never write gclid/UTMs here.
 function appendQuiz(sheet, body) {
   const row = [
     new Date(),
     body.skill || '',
     body.recommended_therapist_id || '',
     JSON.stringify(body.answers || []),
-    body.gclid || '',
-    body.utm_source || '',
-    body.utm_medium || '',
-    body.utm_campaign || '',
-    body.utm_term || '',
-    body.utm_content || '',
-    body.page_variant || '',
-    body.flow || ''
+    body.user_id || '',
+    body.consent_version || '',
+    body.consent_timestamp ? new Date(body.consent_timestamp) : new Date()
   ];
   sheet.appendRow(row);
 }
@@ -331,6 +354,7 @@ function updateNotify(sheet, body) {
     row[gclidCol] = body.gclid || '';
     row[LEAD_HEADERS.indexOf('page_variant')] = body.page_variant || '';
     row[LEAD_HEADERS.indexOf('flow')] = body.flow || '';
+    row[LEAD_HEADERS.indexOf('user_id')] = body.user_id || '';
     row[notifyCol] = body.notify_preference || '';
     row[notifyTsCol] = new Date();
     if (isConsent) {
@@ -385,6 +409,7 @@ function updateContact(sheet, body) {
     row[emailCol] = body.email || '';
     row[phoneCol] = body.phone || '';
     row[LEAD_HEADERS.indexOf('Skill')] = body.skill || '';
+    row[LEAD_HEADERS.indexOf('user_id')] = body.user_id || '';
     sheet.appendRow(row);
   }
 }
@@ -432,6 +457,7 @@ function handleCalBooking(payload) {
     lastName: attendee.lastName || '',
     email: attendee.email || '',
     phone: attendee.phoneNumber || '',
+    userId: resp(payload, 'user_id'),
     start: payload.startTime || '',
     end: payload.endTime || '',
     eventTypeId: payload.eventTypeId || '',
@@ -444,11 +470,11 @@ function handleCalBooking(payload) {
     utm_content: resp(payload, 'utm_content')
   };
 
-  const sheet = getOrCreateSheet('bookings_' + sanitizeSkillForTab(skill), BOOKING_HEADERS);
+  const sheet = getOrCreateSheet(leadsBookingsSS(), 'bookings_' + sanitizeSkillForTab(skill), BOOKING_HEADERS);
   sheet.appendRow([
     new Date(), r.uid, r.bookingId, r.status,
     r.skill, r.bookedId, r.handle, r.recommendedId, r.matched,
-    r.firstName, r.lastName, r.email, r.phone,
+    r.firstName, r.lastName, r.email, r.phone, r.userId,
     r.start, r.end, r.eventTypeId, r.location,
     r.gclid, r.utm_source, r.utm_medium, r.utm_campaign, r.utm_term, r.utm_content
   ]);
@@ -476,7 +502,7 @@ function currentYearMonth() {
 // bookings_<skill> tabs, since caps are global across skills. Resets by month
 // automatically. Skips non-ACCEPTED rows (for when we handle cancellations).
 function bookingCountForMonth(therapistId, yearMonth) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = leadsBookingsSS();
   const tz = Session.getScriptTimeZone() || 'America/Edmonton';
   let count = 0;
   ss.getSheets().forEach(function (sheet) {
