@@ -1,0 +1,37 @@
+# Consent notice archive
+
+> **Purpose.** The canonical, immutable record of the **exact consent-notice wording** shown at quiz Q1 for each `consent_version` value written to the `quiz_<skill>` rows. When the notice text or the linked privacy policy changes, **bump the version, add a new section here, and never edit a past section** — a historical consent record must be reconstructable from its `consent_version` alone.
+>
+> **How the version is recorded:** the client-side quiz stamps `consent_version` + `consent_timestamp` (the timestamp of quiz submission, taken as the affirmative act of answering Q1) onto the `quiz_<skill>` row in Sheet 2. See Decision 9 (revised 2026-07-03) in `.claude/skills/add-skill-page/SKILL.md`.
+>
+> **Consent model:** informed **implied** consent under Alberta PIPA (non-regulated massage therapy) — notice above Q1 + the affirmative act of answering. No checkbox, no cookie banner for AB-only traffic. See [`sop-privacy-consent-alberta.md`](sop-privacy-consent-alberta.md).
+
+---
+
+## `v2.0-2026-07` — ACTIVE (shipped)
+
+**Effective:** 2026-07-07. First version shown in production (the quiz consent notice did not exist on the live pages before this).
+
+**Notice text shown above quiz Q1** (`{{FLOW_NOUN}}` resolved per skill — "prenatal therapist", "lymphatic drainage therapist", "deep tissue therapist", "therapeutic massage therapist"):
+
+> Your answers match you to a {{FLOW_NOUN}} and are stored securely.
+> Not a medical assessment. **How we use your info.**
+
+- **"How we use your info"** links to `/privacy-policy/`.
+- **Linked privacy policy:** `public/privacy-policy/index.html`, reconciled version, Last Updated 2026-07-07 (two-sheet + `user_id` architecture-agnostic language).
+- **Linked terms:** `public/terms/index.html`, Last Updated 2026-07-07.
+
+**Why v2.0 (not v1.0) is the first shipped version:** the notice wording was reconciled together with the privacy policy + terms in the 2026-07-03 refactor. Because the linked policy text changed, the version was bumped to v2.0 before the notice ever appeared in production. See v1.0 below.
+
+---
+
+## `v1.0-2026-07` — SUPERSEDED (never shown in production)
+
+**Status:** internal draft identifier, superseded by `v2.0-2026-07` during the same 2026-07-03/07 privacy refactor, **before any consent was captured** (the quiz consent notice was not yet on the live pages, and the booking funnel was not live).
+
+**Draft notice text** (identical wording to v2.0):
+
+> Your answers match you to a {{FLOW_NOUN}} and are stored securely.
+> Not a medical assessment. **How we use your info.**
+
+**Why superseded:** v1.0 was paired with the pre-reconciliation privacy policy, which still carried the stale Landingi/Tally-era claim that quiz answers are "never exported to spreadsheets" — inaccurate under the two-sheet architecture. The policy was reconciled (architecture-agnostic language) and the version bumped to v2.0 before launch. No `quiz_<skill>` rows were ever stamped `v1.0-2026-07`.

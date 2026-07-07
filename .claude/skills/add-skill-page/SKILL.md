@@ -500,18 +500,29 @@ The per-therapist monthly cap counts a therapist's bookings **made this calendar
 
 **Why derived, not a counter tab:** single source of truth = the booking rows; self-correcting; no drift; no pre-populating therapists; and it fixed a real off-by-one (a maintained counter had drifted). `>= cap` grays at exactly the cap. Skips non-`ACCEPTED` rows so cancellation handling can drop them later. Perf: scans `bookings_<skill>` tabs per availability call — fine at clinic volume; becomes a trivial query on Cloudflare D1 (Phase 6).
 
-## Decision 9 — quiz and booking data stay UNLINKED (health-privacy firewall) (decided early, recorded 2026-07-03)
+## Decision 9 — quiz PHI and lead/booking PII stay firewalled by physical separation + access control (revised 2026-07-03)
 
-`quiz_<skill>` and `bookings_<skill>` are **deliberately kept as separate tabs with no shared per-person key.** This is a **health-privacy compliance requirement**, not just data hygiene.
+> **This revises the original framing.** The firewall used to be enforced by the *absence of any shared per-person key* (quiz and booking in separate tabs, no join field). That was correct in intent but weak in implementation: `leads_` and `quiz_` tabs lived in the **same Sheet** and shared `gclid` + UTMs, which is a latent join risk (anyone with access to the one file could correlate rows). The revised design keeps the same goal — quiz PHI unlinkable to identity *by anyone without authorization* — but enforces it **structurally**, not by the hope that no one adds a key.
 
-**The quiz answers themselves are PHI (personal health information).** Visitors answer the quiz with details about their health/condition, so `quiz_<skill>` is a store of PHI that must remain **anonymized / de-identified** — never associated to a name, a booking, or a patient record. On top of that, *what they book for* (the skill/condition) is also health information. Both reasons point the same way: keep the quiz PHI on its own side of a firewall, unlinkable to any identity.
+**The quiz answers themselves are PHI.** Visitors describe their health/condition in the quiz, so the quiz store is PHI that must stay de-identified from name/booking/patient-record for everyone outside a narrow, authorized, business-justified boundary. *What* they book for (the skill) is also health information. Both point the same way: quiz data lives on its own side of a firewall.
 
-**What this forbids (do not "helpfully" add later):**
-- No unique client/visitor ID (e.g. an `mh_cid`) stamped onto **both** the quiz submission and the booking to join them per person. We explicitly considered and **rejected** this.
-- The `_mh_cid` GA cookie ([functions/track.js](../../../functions/track.js)) is `HttpOnly` and stays that way — it must not be surfaced to front-end JS to bridge quiz↔booking.
-- No merging the tabs; no joining quiz rows to a named booking on `gclid`/timestamp/anything.
+**The revised firewall — two physically separate Google Sheets + an opaque join key:**
+- **Sheet 1 "MH - Leads + Bookings"** — `leads_<skill>` + `bookings_<skill>` tabs (PII + booking history).
+- **Sheet 2 "MH - Quiz Data"** — `quiz_<skill>` tabs only. Health answers, **PII-stripped**: `gclid`, all UTMs, `page_variant`, `flow` are removed from the quiz row entirely.
+- **Join key = an opaque, per-session `user_id` UUID** generated client-side (`crypto.randomUUID()`), written to both sheets. The join is *possible but access-gated*: re-identification requires access to **both** sheets, which is the compliance boundary. Access to one side alone permits nothing.
+- **Access control at the Google Workspace level is the technical enforcement** (the two sheets have separate permission grants) — not a policy promise, an actual permissions wall. This migrates to per-database access control on Cloudflare D1 in Phase 7 with the same shape.
+- **Consent** captured at quiz Q1 (informed implied consent under Alberta PIPA) and recorded on the quiz row as `consent_version` + `consent_timestamp`.
 
-**What is still allowed:** *aggregate* funnel analytics (quiz→booking conversion *rate*, not per-person tracing), and cohort attribution on the **booking side only** (booking ↔ Jane patient export on email — that's the patient's own care record, already inside the clinic's PHI boundary). The quiz stays anonymous interest data on its own side of the wall.
+**Why a deliberate opaque key now, when the old rule forbade any shared key:** a per-session UUID that only resolves with dual-sheet access gives us legitimate, auditable joins (DSAR fulfilment, a specific consent-withdrawal deletion across both sides) **without** exposing correlation to anyone who holds just one sheet. The old "no key at all" rule made lawful operations (deleting a person's data on request) awkward while still leaking a de-facto key (`gclid`) in one shared file. Structural separation + an opaque gated key is both safer and more operable.
+
+**What this still forbids (do not "helpfully" undo):**
+- No PII in Sheet 2. Never write name/email/phone/`gclid`/UTMs into a `quiz_` row.
+- The `_mh_cid` GA cookie ([functions/track.js](../../../functions/track.js)) stays `HttpOnly` — it is not the join key and must not be surfaced to front-end JS to bridge quiz↔booking.
+- No un-gated joins: quiz PHI is never transmitted to Google/Meta/Microsoft/ad platforms, and the two sheets are never merged into one.
+
+**What is still allowed:** *aggregate* funnel analytics (quiz→booking conversion *rate*), authorized dual-access joins with documented business justification (DSAR, consent-withdrawal deletion), and cohort attribution on the **booking side only** (booking ↔ Jane patient export on email — the patient's own care record, already inside the clinic's PHI boundary).
+
+**Compliance basis:** Alberta PIPA for non-regulated professions (massage therapy in AB as of 2026-07). Other regimes are handled per the Phase 6.5 framework. SOPs: [`docs/sop-privacy-consent-alberta.md`](../../../docs/sop-privacy-consent-alberta.md) (Alberta-specific, from the playbook Victor received + endorsed) and [`docs/sop-privacy-safeguards.md`](../../../docs/sop-privacy-safeguards.md) (factory-general). The client-facing disclosure layer is the reconciled [`public/privacy-policy/index.html`](../../../public/privacy-policy/index.html) + [`public/terms/index.html`](../../../public/terms/index.html).
 
 ## Per-therapist QA pass (required per skill page)
 

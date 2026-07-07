@@ -238,7 +238,19 @@ Variations rotate through later sections; the hero anchors to the focal intent. 
 
 Phase 2 handled copy. Phase 3 aligns the **non-copy elements** that need to match audience/intent — specifically images and social proof — then opens the door to user-driven iteration on the whole page.
 
-Four sequential steps:
+Five sequential steps (3.0 added 2026-07-03):
+
+### 3.0 — Two-sheet + `user_id` architecture (Decision 9 firewall, ships first)
+
+A storage-layer refactor that ships **before** the page-touching steps below, so the architecture change and the copy/image work don't collide in the same files. Closes the Decision 9 firewall properly: quiz PHI is split from lead/booking PII into **two physically separate Google Sheets**, joined only by an opaque per-session `user_id` UUID, with access control at the Google Workspace level as the *technical* enforcement (not policy alone). See **Decision 9 (revised 2026-07-03)** in [`.claude/skills/add-skill-page/SKILL.md`](../.claude/skills/add-skill-page/SKILL.md) for the full rationale.
+
+- **Sheet 1 "MH - Leads + Bookings"** — `leads_<skill>` + `bookings_<skill>` tabs (PII + booking history), each gains a `user_id` column.
+- **Sheet 2 "MH - Quiz Data"** — `quiz_<skill>` tabs only. Health answers, **no PII**: `gclid`/UTMs/`page_variant`/`flow` are stripped from the quiz row entirely; row becomes `Date, skill, recommended_therapist_id, answers, user_id, consent_version, consent_timestamp`.
+- **Client-side** generates `user_id` (`crypto.randomUUID()`, `sessionStorage.mh_user_id`) and passes it on every backend call + the Cal.com embed URL.
+- **Consent** is captured at quiz Q1 (informed implied consent per the Alberta playbook) and recorded on the quiz row (`consent_version`, `consent_timestamp`).
+- Apps Script reads two Sheet IDs from Script Properties (`SHEET_ID_LEADS_BOOKINGS`, `SHEET_ID_QUIZ`); Victor creates the sheets + sets the properties before redeploy.
+
+The client-facing disclosure layer (privacy policy + terms + footer + quiz notice) is reconciled to this architecture in **Phase 6.5**; this step is the plumbing. SOPs: [`docs/sop-privacy-consent-alberta.md`](sop-privacy-consent-alberta.md), [`docs/sop-privacy-safeguards.md`](sop-privacy-safeguards.md).
 
 ### 3.1 — Image review + alignment (invoke image-sourcing SOP)
 
@@ -364,6 +376,42 @@ Per-page image sourcing follows [`docs/sop-image-sourcing.md`](sop-image-sourcin
 **Sequencing:** Phase 5 (rollout) → **Phase 6 (BI + Reporting)** → Phase 7 (Portability + multi-agent factory staffing) → Phase 8 (polish backlog).
 
 **Do not start Phase 6 execution before consulting Victor.** Victor has additional documentation about laying out this reporting that must be gathered before the design conversation begins. See the companion file's "Execution workflow" section.
+
+---
+
+## Phase 6.5 — Legal + consent reconciliation (MH-specific compliance gate)
+
+Reconcile the **existing** client-facing legal layer with the two-sheet + `user_id` architecture (Phase 3.0). This is **reconciliation, not from-scratch drafting** — `public/privacy-policy/index.html` and `public/terms/index.html` already exist (comprehensive, PIPA/PIPEDA-aware, last updated 2026-04-13) but carry stale Landingi/Tally-era language promising quiz answers are "never exported to spreadsheets," which contradicts the current architecture. Positioned as its own gate between Phase 6 and Phase 7 because it must clear before real ad traffic runs.
+
+**Scope (MH-specific):**
+1. Reconcile privacy policy + terms with the two-sheet + `user_id` architecture using **architecture-agnostic language** (describes both current Sheets and future Cloudflare D1 without needing another rewrite at migration). *(Done in commit 2 of the 2026-07-03 refactor.)*
+2. Wire consent notices across all touchpoints (quiz Q1, booking form, footers) linking to the updated privacy policy.
+3. Consent recording on backend rows (`consent_version`, `consent_timestamp` — ships with Phase 3.0).
+4. Retention-window defaults + per-client override structure (see `docs/sop-privacy-safeguards.md`).
+5. DSAR procedure documented + operational.
+6. Breach-response plan documented.
+7. **Legal review with a template lawyer** for MH as first client — validates the reconciled docs against PIPA + PIPEDA; output is a reusable template for subsequent Alberta clients. **Flag the consent-model tension to counsel** (Alberta playbook's informed-implied vs. the multi-jurisdiction SOP's express consent) and let them adjudicate — do not silently ship one interpretation.
+8. Bump `consent_version` to `v2.0-2026-07` reflecting the reconciled notice + policy text.
+
+**Factory-general framework work is Phase 7, NOT here** — the multi-jurisdiction template library, regime-detection framework, and per-client customization playbook build on this MH reconciliation but ship with the factory buildout. CMP is no longer open-ended research: `docs/sop-cmp-comparison.md` elevates **Enzuzo** as the factory default (agency plan ~$5/domain, Waterloo-based, Google CMP Gold), Byscuit as the Canadian-data-residency fallback, Consently for solo/budget pilots; per-jurisdiction banner behavior (AB = none, BC/ON/QC = required) bakes into factory config in Phase 7.
+
+**Factory scope note:** the factory is massage-therapy-only for now, so onboarding intake needs jurisdiction but not profession. Expanding to other professions (naturopathy, chiropractic, etc.) later means adding a profession input + health-custodian status to the regime table.
+
+---
+
+## Google Ads Launch Gate
+
+> Not a phase — a checkpoint. Once **Phase 6.5 (legal reconciliation) is complete AND at least one skill page (target: prenatal) has passed Phase 4 E2E testing**, the funnel is compliant + tested and ads can start driving real traffic. The BI dashboard (Phase 6), the rest of the Phase 5 rollout, factory buildout (Phase 7), and polish (Phase 8) all proceed **in parallel** with ads running — data flows into whatever backend is live (Sheets now, Cloudflare D1 later) and analytics catch up whenever they're ready.
+
+**Prerequisites for launch:**
+- ✔ Phase 6.5 done (legal docs reconciled + counsel-reviewed)
+- ✔ ≥1 skill page passed Phase 4 E2E (target: prenatal)
+- ✔ Booking flow live (Phase 1 ✅)
+- ✔ Conversion tracking live (Phase 1 ✅)
+- ✔ Slack notifications firing (Phase 1 ✅)
+- ✔ Cal.com webhooks configured per therapist (Brookelyn done; Meagan/Charlotte/Lindsey remaining)
+
+**NOT prerequisites** (can trail launch): ❌ BI dashboard (Phase 6) · ❌ rest of Phase 5 rollout · ❌ factory buildout (Phase 7) · ❌ polish backlog (Phase 8).
 
 ---
 
