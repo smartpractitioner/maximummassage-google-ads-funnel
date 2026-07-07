@@ -784,8 +784,16 @@
     const optionsHtml = q.options.map((opt) =>
       `<button type="button" class="native-quiz__option" data-quiz-option="${escapeHtml(opt.id)}" data-quiz-q="${escapeHtml(q.id)}">${escapeHtml(opt.label)}</button>`
     ).join('');
+    // Q1-only informed-consent notice (Alberta implied consent). Answering Q1
+    // is the affirmative act; consent_version + timestamp are recorded on submit.
+    let notice = '';
+    if (qIdx === 0) {
+      const flowNoun = (currentPageConfig && currentPageConfig.flowNoun) || 'massage therapist';
+      notice = `<p class="native-quiz__consent">Your answers match you to a ${escapeHtml(flowNoun)} and are stored securely. Not a medical assessment. <a href="/privacy-policy/" target="_blank" rel="noopener">How we use your info</a>.</p>`;
+    }
     return `
       <div class="native-quiz" data-view-root="quiz">
+        ${notice}
         <p class="native-quiz__progress">Question ${qIdx + 1} of ${total}</p>
         <h3 class="native-quiz__heading">${escapeHtml(q.text)}</h3>
         <div class="native-quiz__options">${optionsHtml}</div>

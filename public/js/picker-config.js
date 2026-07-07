@@ -363,36 +363,42 @@
     '/massage-therapy-calgary-flow-b/': {
       skill: 'general',
       sheetTab: 'leads_general',
+      flowNoun: 'massage therapist',
       quizQuestions: null,  // Flow B keeps the Tally iframe for now
       bookingMode: 'demand_test'
     },
     '/prenatal-massage-calgary/': {
       skill: 'prenatal',
       sheetTab: 'leads_prenatal',
+      flowNoun: 'prenatal therapist',
       quizQuestions: PRENATAL_QUIZ,
       bookingMode: 'calcom'  // canonical page — first live on real Cal.com booking
     },
     '/deep-tissue-massage-calgary/': {
       skill: 'deep_tissue',
       sheetTab: 'leads_deep_tissue',
+      flowNoun: 'deep tissue therapist',
       quizQuestions: DEEP_TISSUE_QUIZ,
       bookingMode: 'demand_test'  // flips to 'calcom' at Phase 5 rollout
     },
     '/sports-massage-calgary/': {
       skill: 'sports',
       sheetTab: 'leads_sports',
+      flowNoun: 'sports massage therapist',
       quizQuestions: SPORTS_QUIZ,
       bookingMode: 'demand_test'  // benched
     },
     '/tmj-massage-calgary/': {
       skill: 'tmj',
       sheetTab: 'leads_tmj',
+      flowNoun: 'TMJ therapist',
       quizQuestions: TMJ_QUIZ,
       bookingMode: 'demand_test'  // benched
     },
     '/lymphatic-drainage-massage-calgary/': {
       skill: 'lymphatic',
       sheetTab: 'leads_lymphatic',
+      flowNoun: 'lymphatic drainage therapist',
       quizQuestions: LYMPHATIC_QUIZ,
       bookingMode: 'demand_test'  // flips to 'calcom' at Phase 5 rollout
     }
