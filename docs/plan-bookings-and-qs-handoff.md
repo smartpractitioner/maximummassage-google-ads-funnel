@@ -401,17 +401,18 @@ Reconcile the **existing** client-facing legal layer with the two-sheet + `user_
 
 ## Google Ads Launch Gate
 
-> Not a phase — a checkpoint. Once **Phase 6.5 (legal reconciliation) is complete AND at least one skill page (target: prenatal) has passed Phase 4 E2E testing**, the funnel is compliant + tested and ads can start driving real traffic. The BI dashboard (Phase 6), the rest of the Phase 5 rollout, factory buildout (Phase 7), and polish (Phase 8) all proceed **in parallel** with ads running — data flows into whatever backend is live (Sheets now, Cloudflare D1 later) and analytics catch up whenever they're ready.
+> Not a phase — a checkpoint. The gate is **when the campaign can run as designed, with every ad group's landing page ready** — not when the top-priority page is polished.
 
-**Prerequisites for launch:**
-- ✔ Phase 6.5 done (legal docs reconciled + counsel-reviewed)
-- ✔ ≥1 skill page passed Phase 4 E2E (target: prenatal)
-- ✔ Booking flow live (Phase 1 ✅)
-- ✔ Conversion tracking live (Phase 1 ✅)
-- ✔ Slack notifications firing (Phase 1 ✅)
-- ✔ Cal.com webhooks configured per therapist (Brookelyn done; Meagan/Charlotte/Lindsey remaining)
+**Why full page coverage is the real gate (the actual rationale):** Google Ads campaigns are structured as **multiple ad groups per campaign**, each targeting a specific keyword theme (prenatal, lymphatic, deep tissue, therapeutic-anchor) and each needing **its own dedicated landing page** for Quality Score + message match. Launching with only prenatal ready means the campaign has **no landing pages for the other ad groups** → you either pause those ad groups (a fragmented campaign) or point them at mismatched pages (which Google Ads doesn't optimize well). So the launch gate is "**all the landing pages that fill this campaign's ad groups are ready**," not "the first page is done." A single polished page does not launch a campaign.
 
-**NOT prerequisites** (can trail launch): ❌ BI dashboard (Phase 6) · ❌ rest of Phase 5 rollout · ❌ factory buildout (Phase 7) · ❌ polish backlog (Phase 8).
+**Prerequisites for launch (ALL required):**
+- ✔ **Phase 3 complete on prenatal** (3.1–3.4)
+- ✔ **Phase 4 formal E2E on prenatal**
+- ✔ **Phase 5 rollout complete on lymphatic, deep tissue, and therapeutic** — each includes its own Phase 3 (3.1–3.4) treatment + Phase 4 E2E as part of the dual-track workflow
+- ✔ **Phase 6.5 legal counsel sign-off** on the reconciled privacy policy + terms
+- Backend foundations already in place: booking flow, conversion tracking, Slack notifications (Phase 1 ✅), and per-therapist Cal.com → PatientSync → ClinicSync Pro → Jane verified end-to-end + the two-sheet firewall / `user_id` join / consent recording (Phase 3.0 ✅, verified 2026-07-09).
+
+**NOT prerequisites** (explicitly out of scope for launch; can trail it): ❌ Phase 6 BI + Reporting dashboard · ❌ Phase 7 portability + multi-agent factory · ❌ Phase 8 polish backlog.
 
 ---
 
