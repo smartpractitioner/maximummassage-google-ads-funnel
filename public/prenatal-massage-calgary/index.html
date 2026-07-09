@@ -15,11 +15,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:ital,opsz,wght@0,12..96,500;0,12..96,600;0,12..96,700;1,12..96,400;1,12..96,500;1,12..96,700&family=Manrope:wght@400;500;600;700&family=Mulish:wght@500;700;800&display=swap">
 
 <link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/logo.webp">
-<link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/woman-massage.webp">
+<link rel="preload" as="image" fetchpriority="high" href="/images/prenatal/prenatal-hero.webp">
 
 <meta property="og:title" content="Prenatal, Postnatal & Postpartum Massage Calgary | Maximum Health">
 <meta property="og:description" content="Specialized prenatal, postnatal, and postpartum massage. Support at every stage of pregnancy and beyond. $49 starter session.">
-<meta property="og:image" content="/images/flow-b-v3/woman-massage.webp">
+<meta property="og:image" content="/images/prenatal/prenatal-hero.webp">
 
 <link rel="stylesheet" href="/css/flow-b-v3.css?v=v3-book2">
 <link rel="stylesheet" href="/css/picker.css?v=v3-book4">
@@ -73,6 +73,10 @@
 @media (min-width: 768px) {
   .benefits { max-width: 560px; }
 }
+/* Prenatal hero is a landscape (4:3) image; override the shared 4/4.7 portrait
+   hero ratio for THIS page only so the full composition shows without cropping
+   the therapist or the mother's face. Other skill pages keep the shared ratio. */
+.hero-image { aspect-ratio: 4 / 3; }
 </style>
 
 <script type="application/ld+json">
@@ -211,7 +215,7 @@
   </div>
 
   <div class="hero-image">
-    <img src="/images/flow-b-v3/woman-massage.webp" alt="Calm massage session" width="800" height="940" fetchpriority="high">
+    <img src="/images/prenatal/prenatal-hero.webp" alt="Pregnant woman receiving a calm side-lying prenatal massage" width="1019" height="768" fetchpriority="high">
   </div>
 </section>
 
@@ -302,7 +306,7 @@
 <!-- ============ 5. HEALING ============ -->
 <section class="healing">
   <div class="healing-image">
-    <img src="/images/flow-b-v3/consult-on-table.webp" alt="Therapist consulting with a client" width="800" height="720" loading="lazy">
+    <img src="/images/prenatal/prenatal-healing.webp" alt="Pregnant woman connecting warmly with her massage therapist" width="1000" height="860" loading="lazy">
   </div>
   <h2>Healing isn't just the one-hour on the table</h2>
   <p class="healing-body">By combining whole-body understanding with nervous-system-aware treatment, we create a clearer path toward feeling at home in your changing body, before, during, and after pregnancy.</p>
