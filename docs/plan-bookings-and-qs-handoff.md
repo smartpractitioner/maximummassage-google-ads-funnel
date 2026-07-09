@@ -440,6 +440,26 @@ Refactor:
 - Theme tokens (colors, fonts, brand teal) move from `flow-b-v3.css` into CSS custom properties driven from `client-config.css`. Engine CSS uses the tokens; client CSS sets them.
 - The SKILL.md becomes a **client-agnostic** template: the voice/tone rules are stated as "first-person, mobile-text-message tone, no em dashes" — the specific source of those rules (Maximum Health user feedback) gets cross-referenced in a Maximum Health-specific addendum.
 
+### 7.2a Brand capture — derive the client's skin from their existing brand (added 2026-07-09)
+
+**Principle: constant skeleton, variable skin.** Every client's landing pages share the same *bones* — the Flow B v3 structure, section order, picker/quiz/booking mechanics, layout grid. What changes per client is the **brand skin**: the visual layer retuned to match how that client's brand already looks and feels, so a visitor arriving from the client's own site or a brand-matched ad feels continuity, not a dropped-in template. The engine stays identical; only the tokens change.
+
+**The brand-capture step (runs once at onboarding, feeds `client-config.css`).** Before building the first page, study the client's existing brand as the design source of truth:
+- Their **website** (primary source — colors, typography, spacing, overall feel)
+- Their **logo(s)** + any brand guide, business cards, existing ads
+- The **emotional register** (calm / clinical / premium / energetic)
+
+Derive the per-client design tokens from it:
+- **Color** — background colors, primary/brand color, button colors, accents, text colors
+- **Typography** — font families + the size/scale
+- **Shape language** — corner radius (rounded vs. square), border weights, button/card shapes
+- **Logo** — files + placements (topbar, footer)
+- **Feel** — shadow depth, whitespace density, imagery style
+
+These become the values in `client-config.css` (the CSS custom properties from 7.2); engine CSS consumes the tokens and never hardcodes a brand value. **What does NOT change:** section skeleton, component structure, funnel mechanics, the copy framework — only the skin.
+
+**Why this belongs in the factory, not per-page improvisation:** trust and message-match both lift when the page reads as *this client's* page rather than a generic funnel. Capturing the brand once (into tokens) means every subsequent skill page for that client inherits the correct skin automatically — the design analog of the voice capture already encoded for the copywriter. Cross-reference: the **designer / brand-capture agent** in 7.6 owns this step; the onboarding playbook (7.4) invokes it.
+
 ### 7.3 Migrate Apps Script → Cloudflare Workers
 
 The backend abstraction layer (Phase 1.6) makes this a low-risk change for the front-end — only the endpoint URL changes. The actual migration:
@@ -453,7 +473,7 @@ The backend abstraction layer (Phase 1.6) makes this a low-risk change for the f
 Document the "drop this engine onto a new client" procedure in a new `/onboard-new-client` skill MD as a numbered checklist. Roughly:
 
 1. Clone the repo template (engine + empty client-config skeleton).
-2. Fill out `client-config.js` and `client-config.css` (brand tokens, business info, GTM/GA4 ids, backend URL placeholder).
+2. Fill out `client-config.js` and `client-config.css` — run the **brand-capture step (7.2a)** to derive the design tokens (colors, fonts, shape language, logo, feel) from the client's existing brand, then add business info, GTM/GA4 ids, backend URL placeholder.
 3. Populate the practitioner roster + per-skill profiles (drafted with the new client's voice — invoke `/add-skill-page` for each modality they offer).
 4. Set up the new client's Cloudflare Pages project + Worker, paste in their Google Ads / GA4 / Cal.com credentials.
 5. Build their first skill page using `/add-skill-page` with the new keyword data from their account's workbook.
@@ -475,6 +495,7 @@ Portability + config extraction is only half of "the factory." The other half is
 
 - **Copywriter agent** — reads SKILL.md Step 4 + `feedback_skill_page_structure_reference.md` + QS briefing + memory files on voice. Identity: "human-first voice; keyword theme, not stuffing." Refuses SEO-copy output. Has WebSearch + WebFetch for competitive research.
 - **Keyword strategist agent** — reads `project_keyword_workbook_system.md`, ROI model, keyword workbook. Owns "which keywords matter and how they map to sections." Outputs a keyword-theme brief that the copywriter consumes. Never touches copy directly.
+- **Designer / brand-capture agent** — runs the brand-capture step (7.2a): studies the client's existing brand (website, logo, brand guide) and outputs the `client-config.css` design-token set (colors, fonts, shape language, logo, feel). Owns the client's *skin*; never touches copy or structure. Its token output is what the page builder consumes.
 - **Page builder agent** — mechanical HTML assembly from copywriter drafts + designer's tokens. Narrow scope, deterministic.
 - **QA agent** — runs the Playwright suite from Phase 8.5 + a "human reader test" pass against copywriter output ("does any sentence read like SEO copy?").
 - **Deployment engineer agent** — Cloudflare + wrangler + per-client config wiring.
