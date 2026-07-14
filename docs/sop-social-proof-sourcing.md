@@ -103,6 +103,19 @@ Then Step 4 of the process checks the lookup before placing a review — if the 
 
 ## Process (five steps)
 
+### Step 0 — Reality check: reviews are a HUMAN-supplied input (learned 2026-07-14)
+
+**Claude cannot pull reviews from the platforms that actually hold them.** Verified on Maximum Health:
+- **Google Business Profile** — Google blocks automated fetching of the profile/Maps reviews. A share link just bounces to a search error.
+- **Yelp** — 403 (bot-blocked).
+- **Sun Life Lumino provider profiles** — 403 (bot-blocked). *Still unverified whether they carry public patient reviews at all vs. insurance-directory credentialing only.*
+- **Medimap / Fresha / WellnessLiving** — listings exist but carry **zero** reviews.
+- **Review aggregators (e.g. Birdeye) are the one usable back door** — they mirror Google reviews and are fetchable, but typically expose **only the first handful** (5 of 50 for MH).
+
+**So, same shape as image sourcing: the human supplies the raw material, Claude does the selection work on it.** The human (who is logged into the client's GBP dashboard) **pastes or exports the review set** — reviewer name, star rating, full text. Claude then filters by audience/demographic/modality, de-dupes across placements, and drafts the placements for approval.
+
+**Factory implication:** `review_sources` in client-config is not enough on its own — onboarding must also capture an **export/paste of the actual reviews**, because the platforms won't give them to an automated agent. Budget for a human step here on every client.
+
 ### Step 1 — Worker pulls candidate reviews from client sources
 
 Worker searches the client's designated review sources for reviews that match:
@@ -144,8 +157,8 @@ If no candidate feels right → user gives feedback ("more specific to modality"
 - Include: review text, reviewer name (first name + last initial usually), star rating, source (if the design shows it)
 
 **For therapist detail-panel reviews:**
-- **Implementation prerequisite:** `public/js/therapist-picker.js` needs the `skills.<skillId>.review` override pattern implemented (mirrors the existing per-skill `bio`, `tags`, `specialty` overrides). Update the `getProfile(t, skill)` resolver to merge the review the same way.
-- Once the override pattern is in place, add the modality-specific review to the therapist's `skills.<currentSkill>.review` block in the picker config.
+- **Implementation prerequisite: ALREADY DONE (verified 2026-07-14).** `getProfile(t, skill)` in `public/js/therapist-picker.js` already merges `review: ovr.review || base.review`, exactly like `bio` / `tags` / `specialty`. **No code change is needed** — just add a `review` block inside the therapist's `skills.<skillId>` map and it overrides the base one. (The SOP previously listed this as a hard blocker; it isn't.)
+- **Stub guard (existing, keep it):** `buildReviewCard()` skips the whole review card when the text is missing or starts with `[STUB` — so a placeholder never renders to a visitor. The failure mode isn't an ugly stub on the page; it's a therapist showing **no social proof at all**. Treat a stub as a silent hole to fill, not a harmless default.
 
 ### Step 5 — Worker verifies the placed review renders correctly
 
