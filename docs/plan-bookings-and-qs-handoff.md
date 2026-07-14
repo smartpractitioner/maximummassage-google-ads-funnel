@@ -238,7 +238,7 @@ Variations rotate through later sections; the hero anchors to the focal intent. 
 
 Phase 2 handled copy. Phase 3 aligns the **non-copy elements** that need to match audience/intent — specifically images and social proof — then opens the door to user-driven iteration on the whole page.
 
-Five sequential steps (3.0 added 2026-07-03):
+Six sequential steps (3.0 added 2026-07-03; 3.5 added 2026-07-14):
 
 ### 3.0 — Two-sheet + `user_id` architecture (Decision 9 firewall, ships first)
 
@@ -291,6 +291,29 @@ Each Phase 3 adjustment (from 3.1, 3.2, or 3.3) gets recorded into `.claude/skil
 - ❌ **NOT portable (client-specific content):** "Prenatal hero should use teal on off-white." (Colors are client-config, not lessons.)
 
 The 80% factory pattern is what gets captured as lessons. The 20% client-specific content lives in client-config (Phase 7).
+
+### 3.5 — Page speed review + optimization (added 2026-07-14)
+
+**Runs after 3.3 (page content is final) and BEFORE Phase 4 E2E.** That ordering is load-bearing: perf work (deferring/lazy-loading scripts) can silently break conversion firing, so the E2E suite must validate the **optimized** page, not the pre-optimization one. Any lesson this step produces gets recorded per 3.4.
+
+**Why prenatal specifically, and why this step didn't exist:** the only page-speed check in the plan was the Phase 5 per-page spot-check — and Phase 5 covers the *remaining* pages. Prenatal, the **canonical template every other page is cloned from**, had no perf pass at all. Perf debt in the template propagates to all four pages. Fix it at the source.
+
+**This is a review + optimization pass, not an acceptance gate.** The Phase 5 spot-check is pass/fail ("only act if LCP > 2.5s"). This is different: actively find and remove the cost, so the template *starts* fast and every cloned page inherits it.
+
+**Scope:**
+1. **Baseline** — PageSpeed Insights / Lighthouse mobile run on live prenatal. Record LCP, CLS, INP, TBT, total transfer size.
+2. **Optimize the usual suspects**, in leverage order for our stack:
+   - **Hero image** — the single biggest LCP lever. Correctly sized webp, `preload`, explicit width/height (prevents CLS), `fetchpriority="high"`.
+   - **Below-fold images** — `loading="lazy"`, never preloaded.
+   - **Render-blocking resources** — defer/async non-critical JS + CSS; inline critical CSS if it earns its keep.
+   - **Third-party scripts** — GTM, GA, Cal.com embed. **The Cal.com embed is the heaviest third-party asset and must not load until the lightbox opens.** Verify.
+   - **Font loading** — `font-display: swap`, subset if needed.
+3. **Re-measure and confirm the gain is real** (≥2 runs — Lighthouse is noisy; a single run is not evidence).
+4. **Regression-check the funnel** — quiz → grid → detail → Cal embed → booking still works. Any deferred script that breaks conversion firing is a hard fail, and no LCP gain justifies it.
+
+**Hard constraint (unchanged): no Lighthouse SEO check, ever.** Paid-ads-only; crawlers are blocked at Cloudflare. We run the **performance** audit only. See memory `feedback_paid_ads_no_seo.md`.
+
+**Prior art to mine before starting:** `perf/` holds ~17 Lighthouse runs from May 2026 (`baseline` → `post-render-blocking` → `post-lazy-gtm` → `post-aria` → `final`) documenting an earlier optimization campaign on Flow A/B. **The runs exist; the lessons were never written down.** Read them for what already worked before re-deriving it. **Factory implication:** whatever wins here belongs as an **engine/template default** (fast by construction), not a per-page rediscovery — capture it in a perf SOP so every page for every client starts optimized.
 
 ---
 
@@ -356,7 +379,7 @@ For therapeutic (new page): no dual-track since there's nothing to back up. Clea
 
 Each page rollout includes a quick acceptance pass on the four LP technical factors. Not optimization — just confirmation they're acceptable. Per the QS-for-LP transcript these are mostly non-issues for our stack:
 
-- **Load time:** mobile LCP < 2.5s (target acceptable, not best-in-class). Hero image preload in place, no oversized assets, no render-blocking scripts. Spot-check via PageSpeed Insights mobile run, log the LCP number, only act if it's > 2.5s.
+- **Load time:** mobile LCP < 2.5s. Hero image preload in place, no oversized assets, no render-blocking scripts. Spot-check via PageSpeed Insights mobile run, log the LCP number, only act if it's > 2.5s. **This is legitimately a spot-check (not an optimization pass) because these pages are cloned from a prenatal template already optimized in Phase 3.5** — so the only realistic regression source is this page's own new assets (usually the hero image). If a page comes back slow, the hero is the first suspect.
 - **Spider ability:** robots.txt allows crawl (it doesn't on go.maximummassage.ca because paid-ads-only, per memory — so this factor is intentionally fine-as-is for us; the QS spider check is about whether Google can read the page, not whether we want them to index it).
 - **Transparency:** clinic name + address + phone link + privacy + terms all visible in footer. Already in place.
 - **Navigability:** the lightbox-funnel is acceptable as a single-page LP per the transcript.
@@ -408,9 +431,9 @@ Reconcile the **existing** client-facing legal layer with the two-sheet + `user_
 **Why full page coverage is the real gate (the actual rationale):** Google Ads campaigns are structured as **multiple ad groups per campaign**, each targeting a specific keyword theme (prenatal, lymphatic, deep tissue, therapeutic-anchor) and each needing **its own dedicated landing page** for Quality Score + message match. Launching with only prenatal ready means the campaign has **no landing pages for the other ad groups** → you either pause those ad groups (a fragmented campaign) or point them at mismatched pages (which Google Ads doesn't optimize well). So the launch gate is "**all the landing pages that fill this campaign's ad groups are ready**," not "the first page is done." A single polished page does not launch a campaign.
 
 **Prerequisites for launch (ALL required):**
-- ✔ **Phase 3 complete on prenatal** (3.1–3.4)
+- ✔ **Phase 3 complete on prenatal** (3.1–3.5, including the 3.5 page-speed optimization pass)
 - ✔ **Phase 4 formal E2E on prenatal**
-- ✔ **Phase 5 rollout complete on lymphatic, deep tissue, and therapeutic** — each includes its own Phase 3 (3.1–3.4) treatment + Phase 4 E2E as part of the dual-track workflow
+- ✔ **Phase 5 rollout complete on lymphatic, deep tissue, and therapeutic** — each includes its own Phase 3 (3.1–3.4) treatment + Phase 4 E2E as part of the dual-track workflow. (They inherit prenatal's 3.5 optimizations via the template, so each needs only the per-page perf **spot-check**, not a full optimization pass.)
 - ✔ **Client sign-off on their legal pages** — for MH this is **already satisfied**. See "Legal approval — the client signs off, not a lawyer" below.
 - Backend foundations already in place: booking flow, conversion tracking, Slack notifications (Phase 1 ✅), per-therapist Cal.com → PatientSync → ClinicSync Pro → Jane verified end-to-end, the two-sheet firewall / `user_id` join / consent recording (Phase 3.0 ✅, verified 2026-07-09), and all nine Cal.com hidden fields configured per therapist event type (✅ verified 2026-07-14).
 
