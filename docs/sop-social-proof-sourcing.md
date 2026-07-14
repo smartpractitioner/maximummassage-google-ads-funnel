@@ -95,7 +95,27 @@ If SOME modality-specific reviews exist + generic reviews fill the gap → mix t
 | **Modality-generic ↔ modality-specific** | *Content.* Does the review name a modality? | A generic review is **fine anywhere** — it just adds no modality signal. Modality-specific is a bonus, and must match the page. |
 | **About-this-therapist ↔ not about them** | *Truthful attribution.* Is the review actually about the person whose card it sits on? | **Governs therapist cards absolutely.** |
 
-**So a review that is modality-generic but therapist-specific is PERFECTLY VALID on that therapist's card.** *"Brookelyn is incredible, best massage I've ever had"* names no modality — and belongs on Brookelyn's card, because **it's true**. That's the ideal fallback for a therapist panel: you don't need a prenatal-specific review, you just need one that's genuinely **about her**.
+**So a review that is modality-generic but therapist-specific is PERFECTLY VALID on that therapist's card.** *"Brookelyn is incredible, best massage I've ever had"* names no modality — and belongs on Brookelyn's card, because **it's true**. You don't *need* a prenatal-specific review for her card; you need one that's genuinely **about her**.
+
+**But that's the floor, not the goal. Always chase the best one available:**
+
+### Preference ladder — therapist detail-panel card
+
+| | Review | Example (Brookelyn, prenatal page) | |
+|---|---|---|---|
+| **① BEST** | **Therapist-specific + modality-specific** (+ audience-matched) | *"Brookelyn was wonderful through my whole pregnancy — I felt safe with her every session."* | The gold standard. Names her AND proves she does *this* work for *this* visitor. Chase this one. |
+| **② GOOD** | **Therapist-specific + modality-generic** | *"Brookelyn is incredible, best massage I've ever had."* | Fully acceptable. True attribution, just no modality signal. The realistic fallback for a thin pool. |
+| **③ NOT ALLOWED** | **Not about the therapist** (however glowing) | *"Relaxing and a great place to get an excellent massage"* placed under Brookelyn's name | Forbidden — implies an endorsement of *her* that doesn't exist. No exceptions. |
+
+### Preference ladder — page testimonial section
+
+| | Review | |
+|---|---|---|
+| **① BEST** | Modality-specific **+ audience-matched** | *"My prenatal massages here got me through the third trimester."* |
+| **② GOOD** | Generic (clinic-level) **+ audience-matched** | The thin-reviews fallback. What MH's prenatal page ships today. |
+| **③ NOT ALLOWED** | **Audience mismatch** | A male reviewer on a prenatal page — regardless of how good the review is. |
+
+**Practical consequence for the "ask the therapists to gather reviews" step:** coach them on *how* to ask, because it costs nothing to turn a ② into a ①. Tell the client to invite reviewers to mention **(a) the therapist by name** and **(b) what they came in for**. That single sentence of guidance is the difference between a review that merely fills a card and one that sells the page.
 
 **The one forbidden move: a review that isn't about the therapist at all, placed under their name.**
 
