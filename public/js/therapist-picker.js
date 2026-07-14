@@ -760,7 +760,7 @@
       nativeQuizState = { qIdx: 0, answers: [] };
       stage.innerHTML = renderNativeQuestion(currentPageConfig.quizQuestions, 0);
       setView('quiz');
-      pushView('quiz');
+      pushView('quiz', { qIdx: 0 });
       return;
     }
     // Fallback: Tally iframe (Flow B "general" still uses this).
@@ -791,14 +791,38 @@
       const flowNoun = (currentPageConfig && currentPageConfig.flowNoun) || 'massage therapist';
       notice = `<p class="native-quiz__consent">Your answers match you to a ${escapeHtml(flowNoun)} and are stored securely. Not a medical assessment. <a href="/privacy-policy/" target="_blank" rel="noopener">How we use your info</a>.</p>`;
     }
+    // Back control from Q2 onward. Deliberately routed through data-action="back"
+    // -> history.back() -> popstate, which is the exact path the phone's native
+    // back button takes. One code path means the button and the phone can't drift.
+    const back = qIdx > 0
+      ? `<button type="button" class="native-quiz__back" data-action="back">
+           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+           Back
+         </button>`
+      : '';
     return `
       <div class="native-quiz" data-view-root="quiz">
         ${notice}
-        <p class="native-quiz__progress">Question ${qIdx + 1} of ${total}</p>
+        <div class="native-quiz__topbar">
+          ${back}
+          <p class="native-quiz__progress">Question ${qIdx + 1} of ${total}</p>
+        </div>
         <h3 class="native-quiz__heading">${escapeHtml(q.text)}</h3>
         <div class="native-quiz__options">${optionsHtml}</div>
       </div>
     `;
+  }
+
+  // Rewind the quiz to a given question, discarding any answers made after it, so
+  // the visitor genuinely re-answers rather than stacking a second answer.
+  function goToQuestion(idx) {
+    const questions = currentPageConfig && currentPageConfig.quizQuestions;
+    if (!Array.isArray(questions)) return;
+    const target = Math.max(0, Math.min(idx, questions.length - 1));
+    nativeQuizState.qIdx = target;
+    nativeQuizState.answers = nativeQuizState.answers.slice(0, target);
+    const stage = overlay.querySelector('[data-view="quiz"]');
+    if (stage) stage.innerHTML = renderNativeQuestion(questions, target);
   }
 
   function handleNativeQuizAnswer(qId, optId) {
@@ -813,6 +837,9 @@
     if (nativeQuizState.qIdx < questions.length) {
       const stage = overlay.querySelector('[data-view="quiz"]');
       stage.innerHTML = renderNativeQuestion(questions, nativeQuizState.qIdx);
+      // Each question is its own history entry, so back (button OR phone) rewinds
+      // one question instead of blowing out of the quiz entirely.
+      pushView('quiz', { qIdx: nativeQuizState.qIdx });
     } else {
       finishNativeQuiz();
     }
@@ -1149,6 +1176,7 @@
       inHistoryNav = true;
       try {
         if (s.mhView === 'quiz') {
+          if (typeof s.qIdx === 'number') goToQuestion(s.qIdx);
           setView('quiz');
         } else if (s.mhView === 'grid') {
           const stage = overlay.querySelector('[data-view="grid"]');

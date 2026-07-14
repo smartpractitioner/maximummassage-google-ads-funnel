@@ -22,7 +22,7 @@
 <meta property="og:image" content="/images/prenatal/prenatal-hero.webp">
 
 <link rel="stylesheet" href="/css/flow-b-v3.css?v=v3-book2">
-<link rel="stylesheet" href="/css/picker.css?v=v3-book5">
+<link rel="stylesheet" href="/css/picker.css?v=v3-book6">
 
 <style>
 /* Prenatal page additions (Benefits section). Hosted inline so the Flow B
@@ -115,23 +115,53 @@
 .testimonial-dots {
   display: flex;
   justify-content: center;
-  gap: 9px;
-  margin-top: 18px;
+  gap: 2px;
+  margin-top: 14px;
 }
+/* The visible dot is 8px, but the CLICKABLE button is 26px - an 8px hit target is
+   fine for a thumb and miserable for a mouse. The dot is drawn with ::before so the
+   target can be big without the dot looking big. */
 .testimonial-dots button {
-  width: 8px; height: 8px; padding: 0;
-  border: 0; border-radius: 50%;
-  background: #BFD0D4;
+  width: 26px; height: 26px; padding: 0;
+  border: 0; background: transparent;
+  display: grid; place-items: center;
   cursor: pointer;
+}
+.testimonial-dots button::before {
+  content: "";
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #BFD0D4;
   transition: background .2s ease, transform .2s ease;
 }
-.testimonial-dots button[aria-current="true"] {
+.testimonial-dots button[aria-current="true"]::before {
   background: #1F8FA6;
   transform: scale(1.3);
+}
+.testimonial-dots button:focus-visible {
+  outline: 2px solid #1F8FA6;
+  outline-offset: 2px;
+  border-radius: 50%;
 }
 @media (min-width: 768px) {
   .testimonial-card { flex-basis: 46%; }
 }
+
+/* Benefit icons (Phase 3.3): each benefit gets a distinct mark so the six are
+   individually identifiable at a glance instead of reading as one wall of text.
+   Inline SVG, so they cost zero extra requests. */
+.benefits-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+}
+.benefit-icon {
+  flex: 0 0 auto;
+  width: 25px;
+  height: 25px;
+  margin-top: 1px;
+}
+.benefit-text { min-width: 0; }
 </style>
 
 <script type="application/ld+json">
@@ -289,28 +319,46 @@
   <h2>Benefits of pregnancy and postpartum massage</h2>
   <ul class="benefits-list">
     <li>
-      <p class="benefit-title">Less back, hip, and pelvic pain.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-2.2 2-2.2 3.6 0 5.6s2.2 3.6 0 5.6-2.2 3.6 0 5.6"/><path d="M9.6 5.6h4.8M9.6 11.2h4.8M9.6 16.8h4.8" opacity=".5"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">Less back, hip, and pelvic pain.</p>
       <p class="benefit-body">As your centre of gravity shifts, your low back and hips take on extra load. Targeted side-lying work eases that strain.</p>
+      </div>
     </li>
     <li>
-      <p class="benefit-title">Less swelling and pressure in your hands and feet.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.4s5 5.6 5 9.1a5 5 0 0 1-10 0c0-3.5 5-9.1 5-9.1z"/><path d="M9.7 13.1a2.5 2.5 0 0 0 2.3 2.5" opacity=".5"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">Less swelling and pressure in your hands and feet.</p>
       <p class="benefit-body">Sessions can include gentle lymphatic work to help your body move accumulated fluid out of swollen ankles, legs, and hands.</p>
+      </div>
     </li>
     <li>
-      <p class="benefit-title">Better sleep and calmer nerves.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 14.6A8.5 8.5 0 0 1 9.4 3.8a8.5 8.5 0 1 0 10.8 10.8z"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">Better sleep and calmer nerves.</p>
       <p class="benefit-body">Massage activates the parasympathetic nervous system, which lowers cortisol and helps your body actually rest.</p>
+      </div>
     </li>
     <li>
-      <p class="benefit-title">Mood support, especially in postpartum.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.2s-6.6-4.3-8.5-8.1A4.65 4.65 0 0 1 12 7.4a4.65 4.65 0 0 1 8.5 4.7c-1.9 3.8-8.5 8.1-8.5 8.1z"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">Mood support, especially in postpartum.</p>
       <p class="benefit-body">Research links regular massage to improved serotonin and dopamine levels, and to reduced symptoms of postpartum depression and anxiety.</p>
+      </div>
     </li>
     <li>
-      <p class="benefit-title">Faster recovery after delivery.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-6.8"/><path d="M12 14.2c0-3.4 2.8-6.1 6.1-6.1 0 3.4-2.7 6.1-6.1 6.1z"/><path d="M12 14.2c0-2.8-2.3-5.1-5.1-5.1 0 2.8 2.3 5.1 5.1 5.1z" opacity=".5"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">Faster recovery after delivery.</p>
       <p class="benefit-body">Specialized postpartum work supports tissue healing, reduces muscle soreness, and addresses changes from c-section or vaginal birth.</p>
+      </div>
     </li>
     <li>
-      <p class="benefit-title">Time that's actually for you.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.3V12l3.1 1.9"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">Time that's actually for you.</p>
       <p class="benefit-body">Sometimes the most therapeutic part is one hour where someone is taking care of you instead.</p>
+      </div>
     </li>
   </ul>
 </section>
@@ -320,7 +368,7 @@
   <div class="why-header">
     <h2>Why work with us</h2>
     <p class="why-sub">
-      Most spas treat prenatal massage as an add-on. We've built a clinic where pregnancy and postpartum care is at the heart of what we do, with the right therapist matched to your specific stage and concerns.
+      Most spas treat prenatal massage as an add-on. Here it's real clinical work, with therapists who've trained specifically for pregnancy and postpartum, matched to your stage and your concerns.
     </p>
   </div>
   <div class="why-list">
@@ -596,7 +644,7 @@
 <script src="/js/utm-capture.js?v=v3-book4" defer></script>
 <script src="/js/mh-backend.js?v=v3-book3" defer></script>
 <script src="/js/picker-config.js?v=v3-book4" defer></script>
-<script src="/js/therapist-picker.js?v=v3-book4" defer></script>
+<script src="/js/therapist-picker.js?v=v3-book6" defer></script>
 
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

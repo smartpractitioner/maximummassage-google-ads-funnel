@@ -276,6 +276,39 @@
   font-weight: 600;
   text-decoration: underline;
 }
+/* Quiz topbar: Back sits left, the progress label stays optically centred. */
+.native-quiz__topbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  margin-bottom: 12px;
+}
+.native-quiz__topbar .native-quiz__progress { margin: 0; }
+.native-quiz__back {
+  position: absolute;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: 0;
+  padding: 6px 8px 6px 0;   /* generous hit area, flush-left visually */
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  color: var(--brand-primary-dark);
+  cursor: pointer;
+}
+.native-quiz__back:hover { opacity: 0.75; }
+.native-quiz__back:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 .native-quiz__progress {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
   font-size: 12.5px;
