@@ -65,11 +65,20 @@ These are settled. A new page should ship with all of them already true.
 
 **This is the dominant LCP factor on MH and it is NOT a page problem.** The hero image is small (22KB) and preloaded, yet LCP swings between **2.9s and 10.2s** depending purely on whether Cloudflare's edge has the image cached. On a cold edge fetch the hero can stall for **5–9 seconds**.
 
-No amount of image optimization fixes this — the asset is already tiny. The two candidate fixes, neither yet implemented:
+No amount of image optimization fixes this — the asset is already tiny. The two candidate fixes, **neither yet implemented, both to be evaluated on measured evidence at the client's Phase 3.5 pass**:
 1. **Cloudflare Images** for the hero — better edge distribution than a static asset pull.
-2. **An edge cache warmer** — a Cron Trigger that periodically requests the page/hero to keep edges warm. (Cloudflare Cron Triggers are free and already in the Phase 7 stack.)
+2. **An edge cache warmer** — a Cron Trigger that periodically requests the page/hero to keep edges warm. (Cloudflare Cron Triggers are free and already in the factory's Cloudflare stack.)
+
+**Measure first, then decide.** Neither fix is a default. Baseline the page, quantify the variance, and adopt a fix only if the variance is actually costing you. If LCP is stable, do nothing — both options add moving parts.
 
 **Diagnose before you optimize:** if a page measures slow *and highly variable*, suspect cold-edge cache, not the page. Chasing it with more image compression is wasted effort.
+
+## Third-party tags: audit, but respect the client's decisions
+
+Every unreviewed tag is invisible weight, so **enumerate what the tag manager is actually firing** at each audit. But an audited tag is not automatically a tag to remove — the client may value the data more than the milliseconds.
+
+**Record the keep/remove decision per client so it isn't re-litigated at every page.** MH's decisions:
+- **Microsoft Clarity (~26KB, 50-100ms TBT) — KEEP** (Victor, 2026-07-14). The heatmap / session-replay data is worth the cost. Do not remove it in a perf pass.
 
 ---
 
