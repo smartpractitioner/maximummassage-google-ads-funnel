@@ -88,7 +88,16 @@ If SOME modality-specific reviews exist + generic reviews fill the gap → mix t
 
 ### ⚠️ HARD LIMIT on the fallback — never attribute a review to a therapist it isn't about
 
-**The generic-review fallback applies to the PAGE TESTIMONIAL section only. It does NOT apply to per-therapist detail-panel review cards.**
+**These are TWO INDEPENDENT AXES. Don't conflate them:**
+
+| Axis | What it governs | Rule |
+|---|---|---|
+| **Modality-generic ↔ modality-specific** | *Content.* Does the review name a modality? | A generic review is **fine anywhere** — it just adds no modality signal. Modality-specific is a bonus, and must match the page. |
+| **About-this-therapist ↔ not about them** | *Truthful attribution.* Is the review actually about the person whose card it sits on? | **Governs therapist cards absolutely.** |
+
+**So a review that is modality-generic but therapist-specific is PERFECTLY VALID on that therapist's card.** *"Brookelyn is incredible, best massage I've ever had"* names no modality — and belongs on Brookelyn's card, because **it's true**. That's the ideal fallback for a therapist panel: you don't need a prenatal-specific review, you just need one that's genuinely **about her**.
+
+**The one forbidden move: a review that isn't about the therapist at all, placed under their name.**
 
 The detail-panel card renders **inside a named therapist's panel, with 5 stars and a Google badge**. A visitor reasonably reads that as *"this therapist was reviewed 5 stars."* Placing a generic clinic review there — one that never mentions that therapist — **implies a personal endorsement that does not exist.** On a health page, where someone is choosing who will physically treat them (and, on prenatal, treat them while pregnant), that is a misrepresentation. **Do not do it, and do not let a thin review pool pressure you into it.**
 
