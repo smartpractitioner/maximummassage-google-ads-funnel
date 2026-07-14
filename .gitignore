@@ -5,6 +5,12 @@ reports-workspace/
 landing pageplanning/*.xlsx
 *Lead Capture*.xlsx
 
+# Image source originals — raw material only. Only the optimized .webp ships.
+# Source PNG/JPG/zip must never reach the CDN (they were deploying ~7.4 MB of
+# unreferenced originals). See docs/sop-image-sourcing.md (performance budget).
+public/images/therapists/originals/
+public/images/**/*.zip
+
 # Ad-hoc migration scripts (keep local, don't track)
 /apply_rewrites.js
 /apply_uploadcare.js
