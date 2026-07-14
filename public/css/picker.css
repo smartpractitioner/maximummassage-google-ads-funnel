@@ -27,6 +27,13 @@
   --offer-bg: #F9E3B4;
   --offer-text: #7A6434;
 
+  /* Notice panel — same component family as the amber .picker-intro box, but a
+     calm shaded blue so it reads as a pattern interrupt rather than a second
+     offer. Stands out enough to be read; blends enough not to shout. */
+  --notice-bg: #E2EDF3;
+  --notice-text: #3C5B6B;
+  --notice-link: #1F6E86;
+
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
@@ -249,15 +256,24 @@
   display: flex;
   flex-direction: column;
 }
+/* Consent notice above Q1. Mirrors the .picker-intro box (same padding, radius,
+   centring, line-height) so it reads as the same component family, but in a
+   shaded blue instead of the amber offer colour — a pattern interrupt that
+   still blends. Slightly smaller type than .picker-intro: it's a notice, not
+   an offer. */
 .native-quiz__consent {
-  font-size: 11.5px;
-  line-height: 1.45;
-  color: var(--ink-soft, #6a6a6a);
   text-align: center;
-  margin: 0 0 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  background: var(--notice-bg);
+  color: var(--notice-text);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  margin: 0 0 18px;
 }
 .native-quiz__consent a {
-  color: var(--brand-primary-dark);
+  color: var(--notice-link);
+  font-weight: 600;
   text-decoration: underline;
 }
 .native-quiz__progress {

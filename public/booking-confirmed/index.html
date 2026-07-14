@@ -177,6 +177,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h1 class="bc-headline">See you soon<span data-bc-name></span>!</h1>
 
       <div class="bc-details">
+        <p class="bc-detail"><strong>Session</strong> <span data-bc-session>Massage Starter Session</span></p>
         <p class="bc-detail"><strong>With</strong> <span data-bc-therapist>your therapist</span></p>
         <p class="bc-detail"><strong>When</strong> <span data-bc-when>-</span></p>
         <p class="bc-detail"><strong>Where</strong> 213 19 St NW #4, Calgary, AB T2N 2H9</p>
@@ -200,6 +201,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h2 class="bc-h2">What happens next</h2>
         <ul class="bc-list">
           <li>You'll get a <strong>confirmation email from Jane</strong> (our booking system) with your appointment details and your account login.</li>
+          <li>That email also has a link to your <strong>intake form</strong>. Please fill it in <strong>at least 48 hours before</strong> your appointment, so your therapist can read it and plan your session before you arrive.</li>
           <li>You'll get a <strong>reminder</strong> before your visit so it doesn't sneak up on you.</li>
           <li>Need to change or cancel? You can do it anytime from <strong>your Jane account</strong>, using the link in that email.</li>
           <li>Questions before your visit? Your therapist will go over everything with you at your intake.</li>
@@ -277,6 +279,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var firstName = params.get('name') || (lead && lead.first_name) || '';
   if (firstName) booked.querySelector('[data-bc-name]').textContent = ', ' + firstName;
 
+  // Skill -> the session the visitor actually booked, so the confirmation names
+  // the thing they came for ("Pregnancy Massage Starter Session"), not a generic
+  // massage. Driven by the skill param the picker forwards from the skill page.
+  var SESSION_NAMES = {
+    prenatal:    'Pregnancy Massage Starter Session',
+    deep_tissue: 'Deep Tissue Massage Starter Session',
+    sports:      'Sports Massage Starter Session',
+    tmj:         'TMJ Massage Starter Session',
+    lymphatic:   'Lymphatic Drainage Massage Starter Session'
+  };
+  var skillId = params.get('skill') || '';
+  var sessionName = SESSION_NAMES[skillId] || 'Massage Starter Session';
+  var sessionEl = booked.querySelector('[data-bc-session]');
+  if (sessionEl) sessionEl.textContent = sessionName;
+
   var therapistId = params.get('therapist') || '';
   var therapistName = THERAPIST_NAMES[therapistId] ||
     (therapistId ? therapistId.charAt(0).toUpperCase() + therapistId.slice(1) : '');
@@ -295,7 +312,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // ---------- Add to calendar ----------
   var calWrap = booked.querySelector('[data-bc-cal-wrap]');
   if (startIso) {
-    var calTitle = (therapistName ? 'Massage with ' + therapistName : 'Massage') + ' — Maximum Health';
+    var calTitle = (therapistName ? sessionName + ' with ' + therapistName : sessionName) + ' — Maximum Health';
     renderCalButtons(booked.querySelector('[data-bc-cal-buttons]'), calTitle, startIso, endIso, '213 19 St NW #4, Calgary, AB T2N 2H9', bid);
   } else {
     calWrap.hidden = true;

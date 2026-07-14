@@ -87,6 +87,51 @@
     url("/images/prenatal/prenatal-cta.webp");
   background-position: 72% center;
 }
+
+/* Testimonials as a swipeable carousel (Phase 3.3). The in-focus card sits toward
+   the LEFT and the next card's edge pokes past the right screen edge - that peek is
+   what signals "swipe me", turning a passive scroll into an engagement moment.
+   Full-bleed: negative margins cancel the section's 22px padding so the peeking card
+   runs to the screen edge, while the padding keeps the first card aligned to the copy.
+   Prenatal-only: the other skill pages still show a single testimonial, where a
+   carousel would render as one lonely card + one dot. Promote to shared CSS in Phase 5. */
+.testimonial-list {
+  flex-direction: row;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 14px;
+  margin: 0 -22px;
+  padding: 4px 22px 6px;
+  scroll-padding-left: 22px;
+}
+.testimonial-list::-webkit-scrollbar { display: none; }
+.testimonial-card {
+  flex: 0 0 82%;
+  max-width: 400px;
+  scroll-snap-align: start;
+}
+.testimonial-dots {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 18px;
+}
+.testimonial-dots button {
+  width: 8px; height: 8px; padding: 0;
+  border: 0; border-radius: 50%;
+  background: #BFD0D4;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+}
+.testimonial-dots button[aria-current="true"] {
+  background: #1F8FA6;
+  transform: scale(1.3);
+}
+@media (min-width: 768px) {
+  .testimonial-card { flex-basis: 46%; }
+}
 </style>
 
 <script type="application/ld+json">
@@ -232,7 +277,7 @@
 <!-- ============ 2. KEY STATS ============ -->
 <section class="stats">
   <div class="stats-grid">
-    <div class="stat-card"><div class="stat-big">1,749+</div><div class="stat-label">Calgarians served</div></div>
+    <div class="stat-card"><div class="stat-big">6,237</div><div class="stat-label">Calgarians served</div></div>
     <div class="stat-card"><div class="stat-big">28</div><div class="stat-label">years in business</div></div>
     <div class="stat-card"><div class="stat-big">91%</div><div class="stat-label">of first-time clients return and stay</div></div>
     <div class="stat-card"><div class="stat-big">100%</div><div class="stat-label">Licensed Registered Massage Therapists</div></div>
@@ -404,6 +449,11 @@
     </article>
 
   </div>
+  <div class="testimonial-dots" aria-label="Testimonial navigation">
+    <button type="button" aria-label="Show testimonial 1" aria-current="true"></button>
+    <button type="button" aria-label="Show testimonial 2" aria-current="false"></button>
+    <button type="button" aria-label="Show testimonial 3" aria-current="false"></button>
+  </div>
 </section>
 
 <!-- ============ 7. FAQ ============ -->
@@ -509,6 +559,36 @@
         btn.setAttribute('aria-expanded', 'true');
       }
     });
+  }
+
+  // Testimonial carousel dots (Phase 3.3): keep the dots in sync with the swipe,
+  // and let a dot tap scroll to its card.
+  var tList = document.querySelector('.testimonial-list');
+  var tDots = document.querySelector('.testimonial-dots');
+  if (tList && tDots) {
+    var cards = [].slice.call(tList.querySelectorAll('.testimonial-card'));
+    var dots = [].slice.call(tDots.querySelectorAll('button'));
+    var base = cards.length ? cards[0].offsetLeft : 0;
+    var sync = function () {
+      var best = Infinity, at = 0;
+      cards.forEach(function (c, i) {
+        var d = Math.abs((c.offsetLeft - base) - tList.scrollLeft);
+        if (d < best) { best = d; at = i; }
+      });
+      dots.forEach(function (b, i) { b.setAttribute('aria-current', i === at ? 'true' : 'false'); });
+    };
+    var t;
+    tList.addEventListener('scroll', function () {
+      window.clearTimeout(t);
+      t = window.setTimeout(sync, 60);
+    }, { passive: true });
+    dots.forEach(function (b, i) {
+      b.addEventListener('click', function () {
+        if (!cards[i]) return;
+        tList.scrollTo({ left: cards[i].offsetLeft - base, behavior: 'smooth' });
+      });
+    });
+    sync();
   }
 })();
 </script>
