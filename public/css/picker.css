@@ -262,7 +262,10 @@
    still blends. Slightly smaller type than .picker-intro: it's a notice, not
    an offer. */
 .native-quiz__consent {
-  text-align: center;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: left;
   font-size: 13px;
   line-height: 1.45;
   background: var(--notice-bg);
@@ -271,6 +274,10 @@
   border-radius: var(--radius-sm);
   margin: 0 0 18px;
 }
+/* Info icon sits in its own gutter; the text is its own column so wrapped
+   lines stay indented and align under the text, never under the icon. */
+.native-quiz__consent-i { flex: 0 0 auto; display: block; line-height: 0; margin-top: 1px; }
+.native-quiz__consent-t { flex: 1 1 auto; min-width: 0; }
 .native-quiz__consent a {
   color: var(--notice-link);
   font-weight: 600;

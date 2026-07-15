@@ -17,6 +17,7 @@
 > Just so you know: your answers are only used to match you with the right {{FLOW_NOUN}}, and they're stored securely. It is not a medical assessment. **Read how we use your info here.**
 
 - Link target `/privacy-policy/`. Rendered in the shaded-blue `.native-quiz__consent` panel.
+- **Presentation change (2026-07-15, no version bump):** added a circled-**i** info icon in a left gutter with the notice text in its own indented column (icon never has text wrapping under it). **Wording is identical to the text above** — this is presentation only, so the `consent_version` stays `v3.1`. If anything it *strengthens* the informed-consent position by drawing more attention to the notice.
 
 ---
 

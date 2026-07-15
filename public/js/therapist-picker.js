@@ -790,7 +790,7 @@
     let notice = '';
     if (qIdx === 0) {
       const flowNoun = (currentPageConfig && currentPageConfig.flowNoun) || 'massage therapist';
-      notice = `<p class="native-quiz__consent">Just so you know: your answers are only used to match you with the right ${escapeHtml(flowNoun)}, and they're stored securely. It is not a medical assessment. <a href="/privacy-policy/" target="_blank" rel="noopener">Read how we use your info here</a>.</p>`;
+      notice = `<p class="native-quiz__consent"><span class="native-quiz__consent-i" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18"><circle cx="10" cy="10" r="9" fill="#1F6E86"/><circle cx="10" cy="6" r="1.35" fill="#fff"/><rect x="8.65" y="8.7" width="2.7" height="6.1" rx="1.35" fill="#fff"/></svg></span><span class="native-quiz__consent-t">Just so you know: your answers are only used to match you with the right ${escapeHtml(flowNoun)}, and they're stored securely. It is not a medical assessment. <a href="/privacy-policy/" target="_blank" rel="noopener">Read how we use your info here</a>.</span></p>`;
     }
     // Back control from Q2 onward. Deliberately routed through data-action="back"
     // -> history.back() -> popstate, which is the exact path the phone's native
