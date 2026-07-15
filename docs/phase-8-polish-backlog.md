@@ -381,6 +381,22 @@ The former 8.8 ("Bring PatientSync calendar provisioning in-house to the factory
 
 ---
 
+## 8.9 — Final-CTA copy A/B test: "adapts to your body" (live) vs. "already understands"
+
+> **Earmarked 2026-07-15.** When there's enough traffic to run a copy A/B test, pit the shipped final-CTA copy against the "already understands" variant below. Both were written in the same pass (direct, emotionally-moving register per navorapartners.com; second person; no em dashes; each closes cleanly into the "See Our Therapists - Book Your Session" button). Do not build the test until Phase 8 sweep / real traffic — this is a parked experiment, not a to-do. Ties into the parked "CTA A/B variants" work.
+
+**Variant A — LIVE (shipped 2026-07-15, `final-cta` in the prenatal page).** Angle: names the generic-spa frustration head-on and sells the differentiation.
+- **Headline:** Pregnancy massage that adapts to your body, not the other way around.
+- **Body:** Most places treat prenatal as a regular massage with a pillow tucked under your belly. Here, every session is shaped around your trimester, your aches, and how your body is changing this week, by RMTs trained specifically for this work. Come find the one who fits you. Your first 60 minutes is just $49, and if it is not, you don't pay.
+
+**Variant B — CHALLENGER (earmarked, not built).** Angle: the being-genuinely-understood emotional core ("trained for it, and lived it"; "understood instead of managed").
+- **Headline:** You deserve a therapist who already understands what your body is carrying.
+- **Body:** You should not have to explain what the third trimester feels like, or brace for hands that do not know a pregnant body. Our RMTs are trained for exactly this, and many have carried it themselves, so you feel understood from the first minute instead of just managed. Meet them below and choose the one who feels right. Your first session is $49.
+
+> A third variation ("You are allowed to enjoy this, not just get through it" — the emotional-payoff angle) was also written this pass and can be added as a Variant C if a 3-way test is wanted. Full text is in the 2026-07-15 chat / copywriting-agent output if needed.
+
+---
+
 ## Future items (add as they come up)
 
 > Drop new subsections here as `7.9`, `8.10`, etc. when polish items surface during Phases 0-6. Keep each entry brief — what it is, why it matters, any sketch or dependency. Format follows the sections above.
