@@ -165,6 +165,7 @@
 
 /* Desktop-only elements — hidden on mobile; the desktop layer re-shows them. */
 .hero-h1--d, .hero-sub--d, .offer-scarcity, .guarantee-band { display: none; }
+.cta-txt--d { display: none; }
 
 /* =====================================================================
    DESKTOP LAYER (Phase 3.3). >=1024px only; mobile untouched. Mobile fonts,
@@ -174,13 +175,24 @@
    ===================================================================== */
 @media (min-width: 1024px) {
   main { display: block; }
+  .cta-txt--m { display: none; }
+  .cta-txt--d { display: inline; }
   /* Force every section full-width; some were shrink-wrapping inconsistently. */
   main > section, .guarantee-band { width: 100%; box-sizing: border-box; }
   /* flow-b-v3.css caps these at max-width:560px + adds huge side-padding to
      .final-cta on >=480px (a mobile/tablet treatment). Undo it for desktop. */
   .stats, .why, .healing, .testimonials, .final-cta { max-width: none; }
   .final-cta { padding-inline: 0; }
-  .footer { max-width: 1180px; margin-inline: auto; padding-inline: 40px; box-sizing: border-box; }
+  .footer { max-width: none; margin-inline: 0; padding-inline: 40px; padding-block: 60px 40px; box-sizing: border-box; background: #241F1C; color: #C9BFB8; }
+  .footer-logo { background: #fff; border-radius: 12px; padding: 12px 20px; display: block; width: fit-content; margin: 0 auto 20px; }
+  .footer-brand-name { color: #F3ECE6; }
+  .footer-brand-tag, .footer-address { color: #C9BFB8; }
+  .footer-credit, .footer-copy { color: #8C817A; }
+  .footer-credit a, .footer-legal a { color: #D8CEC7; }
+  .footer-legal .sep { color: #6E645D; }
+  .footer-divider { border-top-color: rgba(255,255,255,.12); }
+  .footer-fineprint { color: #7D726B; }
+  .footer-fineprint .star { color: #C9BFB8; }
   .footer-map { max-width: 520px; margin-inline: auto; aspect-ratio: 5 / 3; }
   .hero, .benefits, .faq { max-width: 1180px; margin-inline: auto; padding-inline: 40px; }
   .hero-topbar { padding-inline: max(40px, calc((100vw - 1180px) / 2)); }
@@ -212,13 +224,13 @@
   .offer-cur { font-size: 0.62em; font-weight: 600; vertical-align: 6px; margin-right: 2px; }
   .offer-price-old { font-size: 22px; }
   .fudx-grid { justify-content: flex-start; }
-  .offer-scarcity { display: block; position: absolute; right: 0; top: 50%; transform: translateY(-50%); max-width: 150px; margin: 0; text-align: left; font-size: 12px; line-height: 1.25; font-weight: 700; letter-spacing: .02em; color: #C15A20; }
+  .offer-scarcity { display: block; position: absolute; right: 0; top: 50%; transform: translateY(-50%); max-width: 132px; margin: 0; text-align: left; font-size: 15px; line-height: 1.2; font-weight: 700; letter-spacing: .01em; color: #C15A20; }
   .offer-card .guarantee { display: none; }
 
   /* ---- Guarantee band ---- */
   .guarantee-band { display: block; background: var(--alt-bg-cool); border-top: 1px solid #CFE6E9; padding-block: 64px; }
-  .guarantee-band__inner { display: flex; align-items: center; gap: 36px; max-width: 900px; margin: 0 auto; padding-inline: 40px; box-sizing: border-box; }
-  .guarantee-band__badge { flex: 0 0 auto; width: 68px; height: 68px; border-radius: 50%; background: var(--brand-teal); display: grid; place-items: center; border: 3px solid #fff; box-shadow: 0 0 0 2px var(--brand-teal), 0 8px 18px -8px rgba(20,90,100,.6); }
+  .guarantee-band__inner { display: flex; align-items: center; gap: 30px; width: fit-content; max-width: 100%; margin: 0 auto; padding-inline: 40px; box-sizing: border-box; }
+  .guarantee-band__badge { flex: 0 0 auto; display: block; line-height: 0; }
   .guarantee-band__text { max-width: 640px; }
   .guarantee-band__text h2 { margin: 0; font-size: 40px; line-height: 1.08; letter-spacing: -0.01em; color: var(--ink); }
   .guarantee-band__text h2 span { display: block; }
@@ -226,7 +238,7 @@
   .guarantee-band__text p { margin: 14px 0 0; font-size: 20px; line-height: 1.5; color: var(--ink-soft-2); max-width: none; }
 
   /* ---- Stats: 4 across ---- */
-  .stats { background: var(--surface-card); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding-block: 44px; }
+  .stats { background: var(--alt-bg-cool); padding-block: 44px; }
   .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; }
   .stat-big { font-size: 42px; }
 
@@ -348,10 +360,10 @@
       <div class="offer-price-row">
         <div class="offer-price"><span class="offer-cur">$</span>49</div>
         <div class="offer-price-old">$124</div>
-        <p class="offer-scarcity">&#9203; Limited availability each week</p>
+        <p class="offer-scarcity">&#9203; Limited weekly availability</p>
       </div>
 
-      <button type="button" class="btn-cta" data-open-picker>Book Your $49 Starter Session</button>
+      <button type="button" class="btn-cta" data-open-picker><span class="cta-txt--m">Book Your $49 Starter Session</span><span class="cta-txt--d">See Our Therapists - Book Your Session</span></button>
 
       <div class="fudx-grid">
         <div class="fudx-item">
@@ -421,7 +433,7 @@
 <section class="guarantee-band" aria-label="Our guarantee">
   <div class="guarantee-band__inner">
     <div class="guarantee-band__badge" aria-hidden="true">
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg>
+      <svg width="70" height="70" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="badgeGradD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F8FA6"/><stop offset="1" stop-color="#0E3A47"/></linearGradient></defs><g fill="url(#badgeGradD)"><circle cx="46" cy="24" r="3.2"/><circle cx="44.32" cy="32.42" r="3.2"/><circle cx="39.56" cy="39.56" r="3.2"/><circle cx="32.42" cy="44.32" r="3.2"/><circle cx="24" cy="46" r="3.2"/><circle cx="15.58" cy="44.32" r="3.2"/><circle cx="8.44" cy="39.56" r="3.2"/><circle cx="3.68" cy="32.42" r="3.2"/><circle cx="2" cy="24" r="3.2"/><circle cx="3.68" cy="15.58" r="3.2"/><circle cx="8.44" cy="8.44" r="3.2"/><circle cx="15.58" cy="3.68" r="3.2"/><circle cx="24" cy="2" r="3.2"/><circle cx="32.42" cy="3.68" r="3.2"/><circle cx="39.56" cy="8.44" r="3.2"/><circle cx="44.32" cy="15.58" r="3.2"/></g><circle cx="24" cy="24" r="19" fill="url(#badgeGradD)" stroke="#FAEAC9" stroke-width="1.5"/><path d="M15 24.5 L21.5 31 L33.5 17.5" fill="none" stroke="#FAEAC9" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="guarantee-band__text">
       <h2>100% Guarantee, <span>love it or you don’t pay*</span></h2>
