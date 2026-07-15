@@ -390,6 +390,12 @@
 @media (min-width: 720px) {
   .picker-grid { grid-template-columns: repeat(4, 1fr); }
 }
+/* Desktop: the lightbox is narrowed to 672px (≥1024), so 4 cramped cards
+   overflow and force a scroll. Drop to 3 across for larger, cleaner cards
+   that fit without scrolling. Mobile (2) and tablet (4) untouched. */
+@media (min-width: 1024px) {
+  .picker-grid { grid-template-columns: repeat(3, 1fr); }
+}
 .picker-card {
   position: relative;
   background: #fff;

@@ -22,7 +22,7 @@
 <meta property="og:image" content="/images/prenatal/prenatal-hero.webp">
 
 <link rel="stylesheet" href="/css/flow-b-v3.css?v=v3-book2">
-<link rel="stylesheet" href="/css/picker.css?v=v3-book9">
+<link rel="stylesheet" href="/css/picker.css?v=v3-book10">
 
 <style>
 /* Prenatal page additions (Benefits section). Hosted inline so the Flow B
@@ -207,12 +207,14 @@
 
   .offer-card { background: transparent; border: 0; box-shadow: none; padding: 0; max-width: 540px; margin: 0; }
   .offer-eyebrow { margin-bottom: 18px; }
-  .offer-price-row { position: relative; justify-content: center; align-items: baseline; gap: 10px; margin-bottom: 16px; }
+  .offer-price-row { position: static; justify-content: center; align-items: baseline; gap: 16px; margin-bottom: 20px; flex-wrap: nowrap; }
   .offer-price { font-size: 54px; line-height: 1; }
   .offer-cur { font-size: 0.62em; font-weight: 600; vertical-align: 6px; margin-right: 2px; }
   .offer-price-old { font-size: 22px; }
   .fudx-grid { justify-content: flex-start; }
-  .offer-scarcity { display: block; position: absolute; right: 0; top: 50%; transform: translateY(-50%); max-width: 132px; margin: 0; text-align: left; font-size: 15px; line-height: 1.2; font-weight: 700; letter-spacing: .01em; color: #C15A20; }
+  .offer-scarcity { display: flex; align-items: center; align-self: center; gap: 8px; position: static; transform: none; max-width: none; margin: 0; }
+  .offer-scarcity-i { font-size: 26px; line-height: 1; flex: 0 0 auto; }
+  .offer-scarcity-t { text-align: left; font-size: 15px; line-height: 1.2; font-weight: 700; letter-spacing: .01em; color: #C15A20; max-width: 120px; }
   .offer-card .guarantee { display: none; }
 
   /* ---- Guarantee band ---- */
@@ -348,7 +350,7 @@
       <div class="offer-price-row">
         <div class="offer-price"><span class="offer-cur">$</span>49</div>
         <div class="offer-price-old">$124</div>
-        <p class="offer-scarcity">&#9203; Limited weekly availability</p>
+        <p class="offer-scarcity"><span class="offer-scarcity-i" aria-hidden="true">&#9203;</span><span class="offer-scarcity-t">Limited weekly availability</span></p>
       </div>
 
       <button type="button" class="btn-cta" data-open-picker>See Our Therapists - Book Your Session</button>
@@ -425,7 +427,7 @@
     </div>
     <div class="guarantee-band__text">
       <h2><span>Love it or you don’t pay*</span></h2>
-      <p>Paying for someone that doesn’t meet expectations is a bummer. That’s why we invite you to <em>“try us before you buy us.”</em> We’re so confident we’ll be the last therapist you’ll work with, <strong>we guarantee it.</strong></p>
+      <p>Paying for someone that doesn’t meet expectations is a bummer. That’s why we invite you to <em>“try us before you buy us.”</em> We’re so confident we’ll be the last therapist you’ll work with — <strong>we guarantee it.</strong></p>
     </div>
   </div>
 </section>
@@ -652,9 +654,9 @@
 <!-- ============ 8. FINAL CTA (overlay) ============ -->
 <section class="final-cta">
   <div class="final-cta-eyebrow">Your next step</div>
-  <h2>Pregnancy massage that adapts to your body, not the other way around.</h2>
-  <p>Most places treat prenatal as a regular massage with a pillow tucked under your belly. Here, every session is shaped around your trimester, your aches, and how your body is changing this week, by RMTs trained specifically for this work. Come find the one who fits you. Your first 60 minutes is just $49, and if it is not, you don’t pay.</p>
-  <button type="button" class="btn-cta btn-cta-cream" data-open-picker>Book Your $49 Starter Session</button>
+  <h2>Pregnancy massage that adapts to your body, not the other way around</h2>
+  <p>Most places treat prenatal as a regular massage with a pillow tucked under your belly. Here, every session is shaped around your trimester, your aches, and how your body is changing this week, by RMTs with specific pregnancy massage training. Come find the one who fits you. Your first 60 minutes is just $49, and if you don’t love it, you don’t pay.</p>
+  <button type="button" class="btn-cta btn-cta-cream" data-open-picker>See Our Therapists - Book Your Session</button>
 </section>
 
 <!-- ============ 9. FOOTER ============ -->
