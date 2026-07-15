@@ -165,7 +165,6 @@
 
 /* Desktop-only elements — hidden on mobile; the desktop layer re-shows them. */
 .hero-h1--d, .hero-sub--d, .offer-scarcity, .guarantee-band { display: none; }
-.cta-txt--d { display: none; }
 
 /* =====================================================================
    DESKTOP LAYER (Phase 3.3). >=1024px only; mobile untouched. Mobile fonts,
@@ -175,8 +174,6 @@
    ===================================================================== */
 @media (min-width: 1024px) {
   main { display: block; }
-  .cta-txt--m { display: none; }
-  .cta-txt--d { display: inline; }
   /* Force every section full-width; some were shrink-wrapping inconsistently. */
   main > section, .guarantee-band { width: 100%; box-sizing: border-box; }
   /* flow-b-v3.css caps these at max-width:560px + adds huge side-padding to
@@ -354,7 +351,7 @@
         <p class="offer-scarcity">&#9203; Limited weekly availability</p>
       </div>
 
-      <button type="button" class="btn-cta" data-open-picker><span class="cta-txt--m">Book Your $49 Starter Session</span><span class="cta-txt--d">See Our Therapists - Book Your Session</span></button>
+      <button type="button" class="btn-cta" data-open-picker>See Our Therapists - Book Your Session</button>
 
       <div class="fudx-grid">
         <div class="fudx-item">
@@ -655,8 +652,8 @@
 <!-- ============ 8. FINAL CTA (overlay) ============ -->
 <section class="final-cta">
   <div class="final-cta-eyebrow">Your next step</div>
-  <h2>Feel supported, at every stage of pregnancy and beyond</h2>
-  <p>Thoughtful care for every stage of pregnancy and beyond. Specialized training, side-lying sessions that are safe at every trimester, and a $49 starter session to make sure we're the right fit for each other. Care that meets you where you are, starting with the right match for you.</p>
+  <h2>Pregnancy massage that adapts to your body, not the other way around.</h2>
+  <p>Most places treat prenatal as a regular massage with a pillow tucked under your belly. Here, every session is shaped around your trimester, your aches, and how your body is changing this week, by RMTs trained specifically for this work. Come find the one who fits you. Your first 60 minutes is just $49, and if it is not, you don’t pay.</p>
   <button type="button" class="btn-cta btn-cta-cream" data-open-picker>Book Your $49 Starter Session</button>
 </section>
 
