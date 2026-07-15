@@ -44,6 +44,16 @@
   --radius-md: 10px;
   --radius-lg: 14px;
   --radius-pill: 20px;
+
+  /* Interaction-standard tokens (Phase 3.5). Engine defaults for the quiz/picker
+     feel; themeable per client at the brand-capture step. Behavior = engine,
+     look/timing = token. */
+  --mh-radius-control: 16px;          /* softer corners on options + picker cards */
+  --mh-select-fill: #E4F2F3;          /* brand tint an option eases to when picked */
+  --mh-anim-fill: 340ms;              /* selection fill / illuminate */
+  --mh-anim-slide: 260ms;             /* question-to-question transition */
+  --mh-anim-bar: 420ms;               /* progress bar glide */
+  --mh-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 /* box-sizing on overlay descendants only — global * resets would
@@ -283,39 +293,14 @@
   font-weight: 600;
   text-decoration: underline;
 }
-/* Quiz topbar: Back sits left, the progress label stays optically centred. */
-.native-quiz__topbar {
-  position: relative;
+/* Progress head: "QUESTION X OF Y" label left, live percent right. */
+.native-quiz__progresshead {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 24px;
-  margin-bottom: 12px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 8px;
 }
-.native-quiz__topbar .native-quiz__progress { margin: 0; }
-.native-quiz__back {
-  position: absolute;
-  left: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: 0;
-  padding: 6px 8px 6px 0;   /* generous hit area, flush-left visually */
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  color: var(--brand-primary-dark);
-  cursor: pointer;
-}
-.native-quiz__back:hover { opacity: 0.75; }
-.native-quiz__back:focus-visible {
-  outline: 2px solid var(--brand-primary);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
 .native-quiz__progress {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
   font-size: 12.5px;
@@ -323,9 +308,30 @@
   font-weight: 700;
   color: var(--brand-primary-dark);
   text-transform: uppercase;
-  margin: 0 0 12px;
-  text-align: center;
-  opacity: 0.85;
+  margin: 0;
+}
+.native-quiz__pct {
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+/* Thin progress bar. The fill GLIDES to the new width (never jumps). */
+.native-quiz__bar {
+  height: 6px;
+  background: #E7ECEE;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 0 0 22px;
+}
+.native-quiz__bar-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--brand-primary);
+  border-radius: 999px;
+  transition: width var(--mh-anim-bar) var(--mh-ease);
 }
 .native-quiz__heading {
   font-family: 'Mulish', 'Manrope', system-ui, sans-serif;
@@ -334,38 +340,118 @@
   line-height: 1.2;
   letter-spacing: -0.4px;
   color: var(--text-dark);
-  margin: 0 0 20px;
-  text-align: center;
+  margin: 0 0 18px;
+  text-align: left;
   text-wrap: balance;
 }
 .native-quiz__options {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 .native-quiz__option {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-  background: #FFFFFF;
+  background: var(--bg-white);
   color: var(--text-dark);
   border: 1.5px solid var(--brand-primary-border);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
+  border-radius: var(--mh-radius-control);
+  padding: 16px 18px;
   font-family: inherit;
   font-size: 15px;
   font-weight: 600;
   line-height: 1.35;
   text-align: left;
   cursor: pointer;
-  transition: background 120ms ease, border-color 120ms ease, transform 80ms ease;
+  transition: background var(--mh-anim-fill) var(--mh-ease),
+              border-color var(--mh-anim-fill) var(--mh-ease),
+              transform 80ms ease;
   -webkit-tap-highlight-color: transparent;
+}
+.native-quiz__option-label { flex: 1 1 auto; min-width: 0; }
+/* Tactile radio: empty ring by default; fills brand + white check when picked. */
+.native-quiz__radio {
+  flex: 0 0 auto;
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #C4D3D6;
+  background: transparent;
+  transition: background var(--mh-anim-fill) var(--mh-ease),
+              border-color var(--mh-anim-fill) var(--mh-ease);
+}
+.native-quiz__radio::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 3.5px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0.5);
+  opacity: 0;
+  transition: opacity 150ms ease 110ms, transform 160ms var(--mh-ease) 110ms;
 }
 .native-quiz__option:hover {
   background: var(--brand-primary-light);
   border-color: var(--brand-primary);
 }
-.native-quiz__option:active {
-  transform: scale(0.99);
+/* Palpable selection: the whole card eases to the brand tint, ring fills, check draws. */
+.native-quiz__option.is-selected {
+  background: var(--mh-select-fill);
+  border-color: var(--brand-primary);
+}
+.native-quiz__option.is-selected .native-quiz__radio {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+.native-quiz__option.is-selected .native-quiz__radio::after {
+  opacity: 1;
+  transform: rotate(45deg) scale(1);
+}
+.native-quiz__option:active { transform: scale(0.99); }
+
+/* Back control now sits at the BOTTOM, below the options. */
+.native-quiz__back {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 18px 0 0;
+  background: none;
+  border: 0;
+  padding: 8px 6px 4px 0;
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.native-quiz__back:hover { color: var(--brand-primary-dark); }
+.native-quiz__back:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Gentle question-to-question transitions (direction-aware). */
+@keyframes mhQinFwd  { from { opacity: 0; transform: translateX(18px);  } to { opacity: 1; transform: translateX(0); } }
+@keyframes mhQinBack { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: translateX(0); } }
+.native-quiz.mh-qin-fwd  { animation: mhQinFwd  var(--mh-anim-slide) var(--mh-ease) both; }
+.native-quiz.mh-qin-back { animation: mhQinBack var(--mh-anim-slide) var(--mh-ease) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .native-quiz__bar-fill,
+  .native-quiz__option,
+  .native-quiz__radio,
+  .native-quiz__radio::after { transition: none; }
+  .native-quiz.mh-qin-fwd,
+  .native-quiz.mh-qin-back { animation: none; }
 }
 
 /* ---------- Therapist picker grid ---------- */
@@ -407,7 +493,7 @@
   position: relative;
   background: #fff;
   border: 1px solid var(--brand-primary-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--mh-radius-control);
   padding: var(--space-md);
   text-align: center;
   cursor: pointer;

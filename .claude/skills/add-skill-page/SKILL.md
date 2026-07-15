@@ -524,6 +524,23 @@ The per-therapist monthly cap counts a therapist's bookings **made this calendar
 
 **Compliance basis:** Alberta PIPA for non-regulated professions (massage therapy in AB as of 2026-07). Other regimes are handled per the Phase 6.5 framework. SOPs: [`docs/sop-privacy-consent-alberta.md`](../../../docs/sop-privacy-consent-alberta.md) (Alberta-specific, from the playbook Victor received + endorsed) and [`docs/sop-privacy-safeguards.md`](../../../docs/sop-privacy-safeguards.md) (factory-general). The client-facing disclosure layer is the reconciled [`public/privacy-policy/index.html`](../../../public/privacy-policy/index.html) + [`public/terms/index.html`](../../../public/terms/index.html).
 
+## Decision 10 — Quiz/picker interaction standards + the custom-calendar direction (Phase 3.5, decided 2026-07-15)
+
+> **Why this exists.** The picker/quiz/booking is a **shared engine** — polish here propagates to every skill page and future client. Design target: the "Book a free strategy call" lightbox at **leadgenjay.com/consult** (mobile), rebuilt in **our brand tokens**. Full brief: [`docs/worker-instructions-booking-quiz-experience-upgrade.md`](../../../docs/worker-instructions-booking-quiz-experience-upgrade.md). Two parts with an approval gate; **Part A shipped, Part B approved-pending.**
+
+**Part A — quiz interaction standards (SHIPPED, engine defaults).** These are now the canonical quiz feel; every skill page inherits them via `therapist-picker.js` + `picker.css`:
+- **Auto-advance is kept** (Victor's call, 2026-07-15) — tapping an answer still advances with no Continue button. Rationale: lowest friction / completion bias (same logic as Decision 1 calendar-first). leadgenjay uses a Continue button; we deliberately don't. What we ported is the *feel*, not the extra tap.
+- **Palpable selection fill:** on tap, the whole option card eases to the brand tint + the radio fills with a white check over `--mh-anim-fill` (~340ms), **then** auto-advances (~300ms). Makes the choice tangible before the slide.
+- **Tactile radio** on the right of each option (empty ring → filled brand circle + check when selected).
+- **Animated progress bar** that **glides** to the new percentage (`transition: width`), never jumps; paired with a "QUESTION X OF Y" label (left) + live "NN%" (right). Percentage = `(qIdx+1)/total`. Both label and bar are shown (leadgenjay shows both).
+- **Back button moved to the BOTTOM** of each step (below the options), not the top.
+- **Gentle question-to-question transition** (direction-aware slide+fade: forward from the right, back from the left).
+- **`prefers-reduced-motion` respected:** the fill delay, bar glide, and slide are all disabled for those users; the quiz still advances and the bar snaps to the right width. Non-negotiable engine default.
+
+**Design values that became brand tokens** (in `picker.css` `:root`, so the brand-capture step can theme them per client — behavior stays engine-default, look/timing is a token): `--mh-radius-control` (16px, softer corners on options + picker cards), `--mh-select-fill` (the tint an option eases to), `--mh-anim-fill`, `--mh-anim-slide`, `--mh-anim-bar` (timings), `--mh-ease` (shared easing curve).
+
+**Part B — custom calendar UI on Cal.com's API (APPROVED, NOT YET BUILT).** Replace the Cal.com **iframe UI** (not its engine) with our own calendar driven by Cal.com's public API: month grid → tap an available day → the calendar collapses and slides to a clean **slot-only column with a back arrow** → tap a slot → confirm → **contact step LAST** (name/email/phone after the slot, Calendly-style, preserving Decision 1's calendar-first + completion bias). Every booking stays a real Cal.com booking, so the entire downstream (`BOOKING_CREATED` webhook → `bookings_<skill>` + Jane + monthly-cap + `/booking-confirmed/` conversion) and all attribution (`skill`, `recommended_therapist_id`, `user_id`, UTMs/`gclid`) is preserved unchanged. Token stays server-side via `mhBackend` (do not ship an account-scoped Cal token in client JS). This supersedes the earlier Cal.com iframe-config tweaks (`hideEventTypeDetails` / `column_view`), which were a stopgap while the iframe was still in use. Build only after Victor reviews Part A.
+
 ## Per-therapist QA pass (required per skill page)
 
 After wiring a skill page to `bookingMode: 'calcom'`, QA **each active therapist** on that page before calling it done:

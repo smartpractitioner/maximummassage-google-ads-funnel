@@ -683,7 +683,7 @@
       // Native quiz option button
       const quizOpt = target.closest('[data-quiz-option]');
       if (quizOpt) {
-        handleNativeQuizAnswer(quizOpt.getAttribute('data-quiz-q'), quizOpt.getAttribute('data-quiz-option'));
+        selectNativeQuizOption(quizOpt, quizOpt.getAttribute('data-quiz-q'), quizOpt.getAttribute('data-quiz-option'));
         return;
       }
 
@@ -758,8 +758,8 @@
     const stage = overlay.querySelector('[data-view="quiz"]');
     // Native quiz path: page config carries an array of weighted questions.
     if (currentPageConfig && Array.isArray(currentPageConfig.quizQuestions) && currentPageConfig.quizQuestions.length > 0) {
-      nativeQuizState = { qIdx: 0, answers: [] };
-      stage.innerHTML = renderNativeQuestion(currentPageConfig.quizQuestions, 0);
+      nativeQuizState = { qIdx: 0, answers: [], pct: 0 };
+      mountQuestion(stage, currentPageConfig.quizQuestions, 0, 'init');
       setView('quiz');
       pushView('quiz', { qIdx: 0 });
       return;
@@ -777,13 +777,21 @@
   }
 
   // ---------- Native quiz ----------
-  let nativeQuizState = { qIdx: 0, answers: [] };
+  let nativeQuizState = { qIdx: 0, answers: [], pct: 0 };
+
+  // Progress percentage for the animated bar / label. (qIdx+1)/total so the
+  // bar reads 100% on the final question and glides up as you advance.
+  function quizPct(qIdx, total) { return Math.round(((qIdx + 1) / total) * 100); }
 
   function renderNativeQuestion(questions, qIdx) {
     const q = questions[qIdx];
     const total = questions.length;
+    const pct = quizPct(qIdx, total);
     const optionsHtml = q.options.map((opt) =>
-      `<button type="button" class="native-quiz__option" data-quiz-option="${escapeHtml(opt.id)}" data-quiz-q="${escapeHtml(q.id)}">${escapeHtml(opt.label)}</button>`
+      `<button type="button" class="native-quiz__option" data-quiz-option="${escapeHtml(opt.id)}" data-quiz-q="${escapeHtml(q.id)}" aria-pressed="false">`
+      + `<span class="native-quiz__option-label">${escapeHtml(opt.label)}</span>`
+      + `<span class="native-quiz__radio" aria-hidden="true"></span>`
+      + `</button>`
     ).join('');
     // Q1-only informed-consent notice (Alberta implied consent). Answering Q1
     // is the affirmative act; consent_version + timestamp are recorded on submit.
@@ -804,14 +812,72 @@
     return `
       <div class="native-quiz" data-view-root="quiz">
         ${notice}
-        <div class="native-quiz__topbar">
-          ${back}
-          <p class="native-quiz__progress">Question ${qIdx + 1} of ${total}</p>
+        <div class="native-quiz__progresshead">
+          <span class="native-quiz__progress">Question ${qIdx + 1} of ${total}</span>
+          <span class="native-quiz__pct">${pct}%</span>
         </div>
+        <div class="native-quiz__bar"><span class="native-quiz__bar-fill" data-quiz-bar></span></div>
         <h3 class="native-quiz__heading">${escapeHtml(q.text)}</h3>
         <div class="native-quiz__options">${optionsHtml}</div>
+        ${back}
       </div>
     `;
+  }
+
+  // Reduced-motion: skip the fill delay + slide/bar animations for these users.
+  const mhPrefersReduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  // Mount a question into the stage AND run the polish: glide the progress bar
+  // from the previous percentage to this one, and slide the question in.
+  // direction: 'init' (first) | 'fwd' (advance) | 'back' (rewind).
+  function mountQuestion(stage, questions, qIdx, direction) {
+    if (!stage) return;
+    const total = questions.length;
+    const toPct = quizPct(qIdx, total);
+    const fromPct = (typeof nativeQuizState.pct === 'number') ? nativeQuizState.pct : 0;
+    stage.innerHTML = renderNativeQuestion(questions, qIdx);
+    const bar = stage.querySelector('[data-quiz-bar]');
+    if (bar) {
+      if (mhPrefersReduced) {
+        bar.style.transition = 'none';
+        bar.style.width = toPct + '%';
+      } else {
+        bar.style.transition = 'none';
+        bar.style.width = fromPct + '%';
+        void bar.offsetWidth;              // commit the start width with no transition
+        bar.style.transition = '';         // restore the CSS width transition
+        requestAnimationFrame(function () { bar.style.width = toPct + '%'; });
+      }
+    }
+    nativeQuizState.pct = toPct;
+    if (!mhPrefersReduced && (direction === 'fwd' || direction === 'back')) {
+      const root = stage.querySelector('.native-quiz');
+      if (root) root.classList.add(direction === 'back' ? 'mh-qin-back' : 'mh-qin-fwd');
+    }
+  }
+
+  // Tap an answer -> the card fills/illuminates (~fill token), THEN we advance.
+  // Auto-advance is kept (Victor, 2026-07-15); the fill just makes it palpable.
+  let mhQuizAnimating = false;
+  function selectNativeQuizOption(optEl, qId, optId) {
+    if (mhQuizAnimating) return;
+    const questions = currentPageConfig && currentPageConfig.quizQuestions;
+    if (!Array.isArray(questions)) return;
+    const q = questions[nativeQuizState.qIdx];
+    if (!q || q.id !== qId) return;
+    mhQuizAnimating = true;
+    const siblings = optEl.parentNode ? optEl.parentNode.querySelectorAll('.native-quiz__option') : [];
+    for (let i = 0; i < siblings.length; i++) {
+      siblings[i].classList.remove('is-selected');
+      siblings[i].setAttribute('aria-pressed', 'false');
+    }
+    optEl.classList.add('is-selected');
+    optEl.setAttribute('aria-pressed', 'true');
+    const wait = mhPrefersReduced ? 0 : 300;
+    setTimeout(function () {
+      mhQuizAnimating = false;
+      handleNativeQuizAnswer(qId, optId);
+    }, wait);
   }
 
   // Rewind the quiz to a given question, discarding any answers made after it, so
@@ -823,7 +889,7 @@
     nativeQuizState.qIdx = target;
     nativeQuizState.answers = nativeQuizState.answers.slice(0, target);
     const stage = overlay.querySelector('[data-view="quiz"]');
-    if (stage) stage.innerHTML = renderNativeQuestion(questions, target);
+    if (stage) mountQuestion(stage, questions, target, 'back');
   }
 
   function handleNativeQuizAnswer(qId, optId) {
@@ -837,7 +903,7 @@
     nativeQuizState.qIdx += 1;
     if (nativeQuizState.qIdx < questions.length) {
       const stage = overlay.querySelector('[data-view="quiz"]');
-      stage.innerHTML = renderNativeQuestion(questions, nativeQuizState.qIdx);
+      mountQuestion(stage, questions, nativeQuizState.qIdx, 'fwd');
       // Each question is its own history entry, so back (button OR phone) rewinds
       // one question instead of blowing out of the quiz entirely.
       pushView('quiz', { qIdx: nativeQuizState.qIdx });
