@@ -232,7 +232,7 @@
   .lb { border-radius: var(--radius-lg); max-height: 88vh; }
 }
 @media (min-width: 1024px) {
-  .lb { max-width: 960px; }
+  .lb { max-width: 672px; }  /* narrowed 30% (960 -> 672) on Victor's desktop review */
 }
 
 .lb__stage { position: relative; }

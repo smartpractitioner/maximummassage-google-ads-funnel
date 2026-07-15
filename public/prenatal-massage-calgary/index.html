@@ -22,7 +22,7 @@
 <meta property="og:image" content="/images/prenatal/prenatal-hero.webp">
 
 <link rel="stylesheet" href="/css/flow-b-v3.css?v=v3-book2">
-<link rel="stylesheet" href="/css/picker.css?v=v3-book6">
+<link rel="stylesheet" href="/css/picker.css?v=v3-book9">
 
 <style>
 /* Prenatal page additions (Benefits section). Hosted inline so the Flow B
@@ -181,6 +181,7 @@
   .stats, .why, .healing, .testimonials, .final-cta { max-width: none; }
   .final-cta { padding-inline: 0; }
   .footer { max-width: 1180px; margin-inline: auto; padding-inline: 40px; box-sizing: border-box; }
+  .footer-map { max-width: 520px; margin-inline: auto; aspect-ratio: 5 / 3; }
   .hero, .benefits, .faq { max-width: 1180px; margin-inline: auto; padding-inline: 40px; }
   .hero-topbar { padding-inline: max(40px, calc((100vw - 1180px) / 2)); }
 
@@ -206,21 +207,23 @@
 
   .offer-card { background: transparent; border: 0; box-shadow: none; padding: 0; max-width: 540px; margin: 0; }
   .offer-eyebrow { margin-bottom: 18px; }
-  .offer-price-row { justify-content: flex-start; margin-bottom: 16px; }
+  .offer-price-row { position: relative; justify-content: center; align-items: baseline; gap: 10px; margin-bottom: 16px; }
   .offer-price { font-size: 54px; line-height: 1; }
   .offer-cur { font-size: 0.62em; font-weight: 600; vertical-align: 6px; margin-right: 2px; }
   .offer-price-old { font-size: 22px; }
   .fudx-grid { justify-content: flex-start; }
-  .offer-scarcity { display: block; margin: 16px 0 0; font-size: 13px; font-weight: 700; letter-spacing: .02em; color: #C15A20; }
+  .offer-scarcity { display: block; position: absolute; right: 0; top: 50%; transform: translateY(-50%); max-width: 150px; margin: 0; text-align: left; font-size: 12px; line-height: 1.25; font-weight: 700; letter-spacing: .02em; color: #C15A20; }
   .offer-card .guarantee { display: none; }
 
   /* ---- Guarantee band ---- */
   .guarantee-band { display: block; background: var(--alt-bg-cool); border-top: 1px solid #CFE6E9; padding-block: 64px; }
   .guarantee-band__inner { display: flex; align-items: center; gap: 36px; max-width: 900px; margin: 0 auto; padding-inline: 40px; box-sizing: border-box; }
   .guarantee-band__badge { flex: 0 0 auto; width: 68px; height: 68px; border-radius: 50%; background: var(--brand-teal); display: grid; place-items: center; border: 3px solid #fff; box-shadow: 0 0 0 2px var(--brand-teal), 0 8px 18px -8px rgba(20,90,100,.6); }
-  .guarantee-band__text h2 { margin: 0; font-size: 40px; line-height: 1.06; letter-spacing: -0.01em; color: var(--ink); }
+  .guarantee-band__text { max-width: 640px; }
+  .guarantee-band__text h2 { margin: 0; font-size: 40px; line-height: 1.08; letter-spacing: -0.01em; color: var(--ink); }
+  .guarantee-band__text h2 span { display: block; }
   .guarantee-band__text h2 span { color: var(--brand-teal); }
-  .guarantee-band__text p { margin: 12px 0 0; font-size: 20px; line-height: 1.5; color: var(--ink-soft-2); max-width: 720px; }
+  .guarantee-band__text p { margin: 14px 0 0; font-size: 20px; line-height: 1.5; color: var(--ink-soft-2); max-width: none; }
 
   /* ---- Stats: 4 across ---- */
   .stats { background: var(--surface-card); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding-block: 44px; }
@@ -231,7 +234,7 @@
   .benefits { padding-block: 84px; }
   .benefits h2 { text-align: left; font-size: 40px; max-width: 640px; margin: 0 0 40px; }
   .benefits-list { max-width: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0 64px; counter-reset: bnum; }
-  .benefits-list li { min-width: 0; border-top: 1px solid #EAE0D8; padding: 26px 0; gap: 22px; align-items: flex-start; }
+  .benefits-list li { min-width: 0; border-top: 0; padding: 24px 28px; gap: 20px; align-items: flex-start; }
   .benefits-list li .benefit-icon { display: none; }
   .benefits-list li::before { counter-increment: bnum; content: counter(bnum, decimal-leading-zero); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 600; font-size: 28px; color: var(--brand-teal); min-width: 42px; line-height: 1.1; }
   .benefit-title { font-size: 19px; }
@@ -241,17 +244,19 @@
   .why-header { max-width: 760px; margin-inline: auto; margin-bottom: 48px; }
   .why-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
   .why-card { min-width: 0; padding: 32px; }
+  .why > .btn-cta, .healing-inner > .btn-cta { width: fit-content; max-width: none; padding: 16px 44px; margin: 44px auto 0; display: block; }
 
   /* ---- Healing: image left / text right (wrapper centres the 2-col) ---- */
   .healing { background: var(--alt-bg-warm); padding-block: 84px; }
   .healing-inner { width: min(100%, 1180px); margin-inline: auto; padding-inline: 40px; box-sizing: border-box; display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px; align-items: center; }
   .healing-inner > * { min-width: 0; }
   .healing-image { grid-column: 1; grid-row: 1 / span 20; margin: 0; }
-  .healing-inner > :not(.healing-image) { grid-column: 2; max-width: none; }
+  .healing-inner > :not(.healing-image) { grid-column: 2; max-width: none; text-align: left; }
   .healing h2 { text-align: left; font-size: 40px; margin-top: 0; }
 
   /* ---- Testimonials: static 3-up ---- */
   .testimonials { background: var(--alt-bg-cool); padding-block: 84px; }
+  .testimonials h2 { text-align: center; }
   .testimonial-list { flex-direction: row; overflow: visible; gap: 28px; margin-inline: auto; padding: 0 40px; scroll-snap-type: none; box-sizing: border-box; }
   .testimonial-card { flex: 1 1 0; min-width: 0; max-width: none; }
   .testimonial-dots { display: none; }
@@ -264,7 +269,7 @@
   /* ---- Final CTA ---- */
   .final-cta { padding-block: 100px; }
   .final-cta > * { width: min(100%, 820px); margin-inline: auto; padding-inline: 40px; box-sizing: border-box; }
-  .final-cta h2 { font-size: 46px; }
+  .final-cta h2 { font-size: 46px; text-align: center; margin-inline: auto; }
   .final-cta p { font-size: 20px; max-width: 660px; }
 }
 </style>
@@ -343,6 +348,7 @@
       <div class="offer-price-row">
         <div class="offer-price"><span class="offer-cur">$</span>49</div>
         <div class="offer-price-old">$124</div>
+        <p class="offer-scarcity">&#9203; Limited availability each week</p>
       </div>
 
       <button type="button" class="btn-cta" data-open-picker>Book Your $49 Starter Session</button>
@@ -363,8 +369,6 @@
           <span>Matched with a therapist you'll love</span>
         </div>
       </div>
-
-      <p class="offer-scarcity">&#9203; Limited starter-session availability each week</p>
 
       <div class="guarantee">
         <div class="guarantee-row">
@@ -421,7 +425,7 @@
     </div>
     <div class="guarantee-band__text">
       <h2>100% Guarantee, <span>love it or you don’t pay*</span></h2>
-      <p>Paying for someone that doesn’t meet expectations is a bummer. “Try us before you buy us,” we’re so confident we’ll be the last therapist you’ll work with, we guarantee it.</p>
+      <p>Paying for someone that doesn’t meet expectations is a bummer. That’s why we invite you to <em>“try us before you buy us.”</em> We’re so confident we’ll be the last therapist you’ll work with, we guarantee it.</p>
     </div>
   </div>
 </section>
