@@ -835,25 +835,55 @@
     const total = questions.length;
     const toPct = quizPct(qIdx, total);
     const fromPct = (typeof nativeQuizState.pct === 'number') ? nativeQuizState.pct : 0;
-    stage.innerHTML = renderNativeQuestion(questions, qIdx);
-    const bar = stage.querySelector('[data-quiz-bar]');
-    if (bar) {
-      if (mhPrefersReduced) {
-        bar.style.transition = 'none';
-        bar.style.width = toPct + '%';
-      } else {
-        bar.style.transition = 'none';
-        bar.style.width = fromPct + '%';
-        void bar.offsetWidth;              // commit the start width with no transition
-        bar.style.transition = '';         // restore the CSS width transition
-        requestAnimationFrame(function () { bar.style.width = toPct + '%'; });
-      }
+    const animate = !mhPrefersReduced && (direction === 'fwd' || direction === 'back');
+
+    // Build the incoming question off-DOM so we can cross-fade it against the old one.
+    const tmp = document.createElement('div');
+    tmp.innerHTML = renderNativeQuestion(questions, qIdx);
+    const newRoot = tmp.firstElementChild;
+
+    function glideBar() {
+      const bar = newRoot.querySelector('[data-quiz-bar]');
+      if (!bar) return;
+      if (mhPrefersReduced) { bar.style.transition = 'none'; bar.style.width = toPct + '%'; return; }
+      bar.style.transition = 'none';
+      bar.style.width = fromPct + '%';
+      void bar.offsetWidth;                // commit the start width with no transition
+      bar.style.transition = '';           // restore the CSS width transition
+      requestAnimationFrame(function () { bar.style.width = toPct + '%'; });
     }
+
+    // Clear any still-fading outgoing node from a previous rapid transition so the
+    // "current" question is unambiguous.
+    const stale = stage.querySelectorAll('.native-quiz.mh-qout-fwd, .native-quiz.mh-qout-back');
+    for (let i = 0; i < stale.length; i++) stale[i].remove();
+    const oldRoot = stage.querySelector('.native-quiz');
+
+    if (!animate || !oldRoot) {
+      stage.innerHTML = '';
+      stage.appendChild(newRoot);
+      glideBar();
+      nativeQuizState.pct = toPct;
+      return;
+    }
+
+    // Cross-fade: the incoming question drives layout/height in normal flow; the
+    // outgoing one is lifted to an overlay and fades out over it (no hard cut).
+    stage.style.position = 'relative';
+    oldRoot.style.position = 'absolute';
+    oldRoot.style.top = '0';
+    oldRoot.style.left = '0';
+    oldRoot.style.right = '0';
+    oldRoot.style.pointerEvents = 'none';
+    oldRoot.classList.add(direction === 'back' ? 'mh-qout-back' : 'mh-qout-fwd');
+    newRoot.classList.add(direction === 'back' ? 'mh-qin-back' : 'mh-qin-fwd');
+    stage.appendChild(newRoot);
+    glideBar();
     nativeQuizState.pct = toPct;
-    if (!mhPrefersReduced && (direction === 'fwd' || direction === 'back')) {
-      const root = stage.querySelector('.native-quiz');
-      if (root) root.classList.add(direction === 'back' ? 'mh-qin-back' : 'mh-qin-fwd');
-    }
+    setTimeout(function () {
+      if (oldRoot && oldRoot.parentNode) oldRoot.parentNode.removeChild(oldRoot);
+      stage.style.position = '';
+    }, 340);
   }
 
   // Tap an answer -> the card fills/illuminates (~fill token), THEN we advance.
@@ -873,7 +903,9 @@
     }
     optEl.classList.add('is-selected');
     optEl.setAttribute('aria-pressed', 'true');
-    const wait = mhPrefersReduced ? 0 : 300;
+    // Let the fill fully land (~fill token) plus a small beat, THEN advance, so
+    // the selection is felt before the cross-fade rather than cut short.
+    const wait = mhPrefersReduced ? 0 : 380;
     setTimeout(function () {
       mhQuizAnimating = false;
       handleNativeQuizAnswer(qId, optId);
