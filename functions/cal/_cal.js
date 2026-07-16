@@ -19,15 +19,16 @@ export const CAL_TZ = 'America/Edmonton';
 export const CAL_SLOTS_VERSION = '2024-09-04';    // GET /v2/slots
 export const CAL_BOOKINGS_VERSION = '2026-02-25'; // POST /v2/bookings
 
-// therapist id -> { keyEnv, username, eventTypeSlug }. Derived from the handle
-// map in public/js/picker-config.js (e.g. 'lstauffer/60min'). If Victor supplies
-// numeric eventTypeIds, add `eventTypeId` to a therapist here and the callers
-// prefer it over username+slug automatically.
+// therapist id -> { keyEnv, eventTypeId, username, eventTypeSlug }. eventTypeId
+// (Victor's, 2026-07-15) is the stable identifier and is PREFERRED by callers
+// via applyEventType(); username+eventTypeSlug (from the handle map in
+// public/js/picker-config.js, e.g. 'lstauffer/60min') stay as a fallback.
+// The Cal API KEYS live only as CF Pages env vars (secrets/, gitignored) — never here.
 export const THERAPISTS = {
-  brookelyn: { keyEnv: 'CAL_KEY_BROOKELYN', username: 'bbrolly',   eventTypeSlug: '60min' },
-  meagan:    { keyEnv: 'CAL_KEY_MEAGAN',    username: 'meaganb',   eventTypeSlug: '60min' },
-  charlotte: { keyEnv: 'CAL_KEY_CHARLOTTE', username: 'ctooth',    eventTypeSlug: '90min' },
-  lindsey:   { keyEnv: 'CAL_KEY_LINDSEY',   username: 'lstauffer', eventTypeSlug: '60min' }
+  brookelyn: { keyEnv: 'CAL_KEY_BROOKELYN', eventTypeId: 4629049, username: 'bbrolly',   eventTypeSlug: '60min' },
+  meagan:    { keyEnv: 'CAL_KEY_MEAGAN',    eventTypeId: 4629138, username: 'meaganb',   eventTypeSlug: '60min' },
+  charlotte: { keyEnv: 'CAL_KEY_CHARLOTTE', eventTypeId: 4629081, username: 'ctooth',    eventTypeSlug: '90min' },
+  lindsey:   { keyEnv: 'CAL_KEY_LINDSEY',   eventTypeId: 5202422, username: 'lstauffer', eventTypeSlug: '60min' }
 };
 
 // Resolve a therapist id to its secret key + event identity, or a reason it

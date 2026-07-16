@@ -46,7 +46,7 @@ export async function onRequestPost(context) {
     attendee: {
       name: String(a.name).slice(0, 120),
       email: String(a.email).slice(0, 160),
-      timeZone: CAL_TZ,
+      timeZone: a.timeZone ? String(a.timeZone).slice(0, 64) : CAL_TZ,
       language: 'en'
     },
     bookingFieldsResponses: responses
