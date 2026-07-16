@@ -54,6 +54,13 @@ export async function onRequestPost(context) {
   if (a.phone) payload.attendee.phoneNumber = String(a.phone).slice(0, 40);
   applyEventType(payload, r.therapist);
 
+  // Diagnostic: ?dryrun=1 returns the payload we WOULD send (no Cal call), to
+  // confirm deploy + inspect shape. Safe (creates nothing).
+  const dbgUrl = new URL(request.url);
+  if (dbgUrl.searchParams.get('dryrun') === '1') {
+    return json({ ok: true, dryrun: true, version: CAL_BOOKINGS_VERSION, payload: payload });
+  }
+
   let res, text;
   try {
     const ctrl = new AbortController();
