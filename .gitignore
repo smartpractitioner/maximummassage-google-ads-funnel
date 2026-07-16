@@ -49,3 +49,11 @@ perf/*.json
 # names; never commit, never deploy. Claude reads them locally; only the selected
 # review TEXT ends up in the picker/page. See docs/sop-social-proof-sourcing.md.
 client-assets/
+
+# --- Secrets / credentials — NEVER commit. Real home: Cloudflare Pages env vars + a password manager. ---
+secrets/
+.env
+.env.*
+.dev.vars
+*.dev.vars
+/Cloudflare from Custom Web Calendar UI.txt
