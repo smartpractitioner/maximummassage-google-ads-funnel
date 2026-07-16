@@ -51,7 +51,13 @@ export async function onRequestPost(context) {
     },
     bookingFieldsResponses: responses
   };
-  if (a.phone) payload.attendee.phoneNumber = String(a.phone).slice(0, 40);
+  if (a.phone) {
+    // Cal wants E.164. Strip to digits; assume North American (+1) for a bare
+    // 10-digit number, otherwise pass through with a leading +.
+    let digits = String(a.phone).replace(/[^\d]/g, '').slice(0, 15);
+    if (digits.length === 10) digits = '1' + digits;
+    if (digits) payload.attendee.phoneNumber = '+' + digits;
+  }
   applyEventType(payload, r.therapist);
 
   // Diagnostic: ?dryrun=1 returns the payload we WOULD send (no Cal call), to
