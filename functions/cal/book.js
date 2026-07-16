@@ -54,8 +54,10 @@ export async function onRequestPost(context) {
   if (a.phone) payload.attendee.phoneNumber = String(a.phone).slice(0, 40);
   applyEventType(payload, r.therapist);
 
-  let res, data;
+  let res, text;
   try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(function () { ctrl.abort(); }, 20000);
     res = await fetch(`${CAL_BASE}/bookings`, {
       method: 'POST',
       headers: {
@@ -63,12 +65,17 @@ export async function onRequestPost(context) {
         'cal-api-version': CAL_BOOKINGS_VERSION,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      signal: ctrl.signal
     });
-    data = await res.json();
+    clearTimeout(timer);
+    text = await res.text();
   } catch (e) {
-    return json({ ok: false, error: 'upstream_unreachable' }, 502);
+    return json({ ok: false, error: 'upstream_unreachable', detail: String((e && e.message) || e) }, 502);
   }
+
+  let data;
+  try { data = JSON.parse(text); } catch (_) { data = { raw: String(text).slice(0, 400) }; }
 
   if (!res.ok) return json({ ok: false, error: 'cal_error', status: res.status, detail: data }, 502);
 
