@@ -887,3 +887,71 @@
   padding: 40px 0;
   margin: 0;
 }
+
+/* ---------- Custom calendar (our UI on the Cal.com API; Phase 3.5 Part B) ---------- */
+.cal { padding: var(--space-lg); }
+.cal__back {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: 0; padding: 0 0 12px; cursor: pointer;
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.3px; color: var(--text-muted);
+}
+.cal__back:hover { color: var(--brand-primary-dark); }
+.cal__title { font-family: 'Mulish', 'Manrope', system-ui, sans-serif; font-size: 20px; font-weight: 800; color: var(--text-dark); text-align: center; margin: 0 0 4px; }
+.cal__tznote { text-align: center; font-size: 12px; color: var(--text-muted); margin: 0 0 18px; }
+.cal__status { text-align: center; color: var(--text-muted); font-size: 14px; padding: 34px 6px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.cal__status--error p { margin: 0; line-height: 1.5; }
+.cal__status--error a { color: var(--brand-primary-dark); font-weight: 700; white-space: nowrap; }
+.cal__spinner { width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--brand-primary-light); border-top-color: var(--brand-primary); animation: calspin 0.8s linear infinite; }
+@keyframes calspin { to { transform: rotate(360deg); } }
+.cal__nav { display: flex; align-items: center; justify-content: space-between; margin: 0 0 12px; }
+.cal__month { font-family: 'Mulish', 'Manrope', system-ui, sans-serif; font-size: 17px; font-weight: 800; color: var(--text-dark); }
+.cal__navbtn { width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--brand-primary-light); color: var(--brand-primary-dark); font-size: 22px; line-height: 1; cursor: pointer; transition: background 0.15s ease; }
+.cal__navbtn:hover { background: #C4E4E6; }
+.cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal__dow { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); padding: 6px 0; }
+.cal__day { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; font-size: 15px; border: 0; background: transparent; border-radius: 50%; color: var(--text-dark); font-family: inherit; }
+.cal__day--empty { visibility: hidden; }
+.cal__day--off { color: #C0C9CB; }
+.cal__day--avail { cursor: pointer; font-weight: 700; color: var(--brand-primary-dark); background: var(--brand-primary-light); transition: transform 0.12s ease, background 0.15s ease; }
+.cal__day--avail:hover { background: #C4E4E6; transform: translateY(-1px); }
+.cal__day--today { outline: 2px solid var(--brand-primary); outline-offset: -2px; }
+.cal__empty { text-align: center; font-size: 13px; color: var(--text-muted); margin: 16px 0 0; }
+
+.cal-day, .cal-contact { padding: var(--space-lg); }
+.cal-circ-back { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--brand-primary-border); background: #fff; color: var(--brand-primary-dark); font-size: 18px; line-height: 1; cursor: pointer; }
+.cal-circ-back:hover { background: var(--brand-primary-light); }
+.cal-day__head { display: flex; align-items: center; gap: 14px; margin: 0 0 20px; }
+.cal-day__title { display: flex; flex-direction: column; line-height: 1.15; }
+.cal-day__title strong { font-family: 'Mulish', 'Manrope', system-ui, sans-serif; font-size: 20px; font-weight: 800; color: var(--text-dark); }
+.cal-day__title span { font-size: 13px; color: var(--text-muted); }
+.cal-tz { margin: 0 0 18px; }
+.cal-tz__label { display: block; font-size: 13px; font-weight: 700; color: var(--text-dark); margin: 0 0 6px; }
+.cal-tz__field { position: relative; }
+.cal-tz__field::after { content: '\25BE'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--brand-primary-dark); font-size: 12px; }
+.cal-tz__select { width: 100%; font: inherit; font-size: 15px; padding: 12px 34px 12px 14px; border: 1.5px solid var(--brand-primary-border); border-radius: 12px; background: #fff; color: var(--text-dark); -webkit-appearance: none; appearance: none; cursor: pointer; }
+.cal-tz__select:focus { outline: 2px solid var(--brand-primary); outline-offset: 1px; border-color: var(--brand-primary); }
+.cal-day__prompt { font-family: 'Mulish', 'Manrope', system-ui, sans-serif; font-weight: 800; font-size: 17px; color: var(--text-dark); text-align: center; margin: 0 0 14px; }
+.cal-slots { display: flex; flex-direction: column; gap: 12px; }
+.cal-slot-row { display: flex; gap: 10px; }
+.cal-slot { flex: 1 1 auto; padding: 16px; border-radius: var(--mh-radius-control); border: 1.5px solid var(--brand-primary); background: #fff; color: var(--brand-primary-dark); font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
+.cal-slot:hover { background: var(--brand-primary-light); }
+.cal-slot-row.is-selected .cal-slot { background: #7C8B8E; border-color: #7C8B8E; color: #fff; }
+.cal-slot__select { flex: 0 0 auto; padding: 16px 26px; border-radius: var(--mh-radius-control); border: 0; background: var(--brand-primary); color: #fff; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
+.cal-slot__select:hover { background: var(--brand-primary-dark); }
+
+.cal-contact { display: flex; flex-direction: column; }
+.cal-contact__title { font-family: 'Mulish', 'Manrope', system-ui, sans-serif; font-size: 20px; font-weight: 800; color: var(--text-dark); text-align: center; margin: 14px 0 4px; }
+.cal-contact__when { text-align: center; color: var(--brand-primary-dark); font-weight: 600; font-size: 14px; margin: 0 0 18px; }
+.cal-contact__form { display: flex; flex-direction: column; gap: 12px; }
+.cal-contact__input { width: 100%; font: inherit; font-size: 16px; padding: 14px 16px; border: 1.5px solid var(--brand-primary-border); border-radius: 12px; background: #fff; color: var(--text-dark); -webkit-appearance: none; }
+.cal-contact__input:focus { outline: 2px solid var(--brand-primary); outline-offset: 1px; border-color: var(--brand-primary); }
+.cal-contact__err { color: #b74a4a; font-size: 13px; margin: 2px 0 0; text-align: center; }
+.cal-contact__submit { margin-top: 4px; }
+
+/* Gentle fade when swapping month -> day -> contact (pure opacity, ease-out). */
+.cal-fade { animation: mhQFade var(--mh-anim-fade) ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .cal-fade { animation: none; }
+  .cal__day--avail, .cal__navbtn, .cal-slot { transition: none; }
+}

@@ -687,6 +687,19 @@
         return;
       }
 
+      // ---- Custom calendar interactions ----
+      if (calState) {
+        if (target.closest('[data-cal-prev]')) { calState.month--; if (calState.month < 0) { calState.month = 11; calState.year--; } calLoadMonth(); return; }
+        if (target.closest('[data-cal-next]')) { calState.month++; if (calState.month > 11) { calState.month = 0; calState.year++; } calLoadMonth(); return; }
+        const dayBtn = target.closest('[data-cal-day]');
+        if (dayBtn) { calState.date = dayBtn.getAttribute('data-cal-day'); calState.slot = null; calState.view = 'day'; calRenderFade(); return; }
+        if (target.closest('[data-cal-tomonth]')) { calState.view = 'month'; calState.slot = null; calRenderFade(); return; }
+        const slotBtn = target.closest('[data-cal-slot]');
+        if (slotBtn) { const arr = calState.slots[calState.date] || []; calState.slot = arr[parseInt(slotBtn.getAttribute('data-cal-slot'), 10)] || null; calRender(); return; }
+        if (target.closest('[data-cal-select]')) { if (calState.slot) { calState.view = 'contact'; calRenderFade(); } return; }
+        if (target.closest('[data-cal-today]')) { calState.view = 'day'; calState.slot = null; calRenderFade(); return; }
+      }
+
       const card = target.closest('[data-therapist]');
       if (card && card.classList.contains('picker-card') && !card.hasAttribute('disabled')) {
         showDetail(card.getAttribute('data-therapist'));
@@ -698,7 +711,18 @@
       if (form) {
         e.preventDefault();
         submitLeadForm(form);
+        return;
       }
+      const calForm = e.target.closest('[data-cal-form]');
+      if (calForm) {
+        e.preventDefault();
+        submitCalBooking(calForm);
+      }
+    });
+
+    overlay.addEventListener('change', (e) => {
+      const tz = e.target.closest('[data-cal-tz]');
+      if (tz && calState) { calState.tz = tz.value; calRender(); }
     });
 
     document.addEventListener('keydown', (e) => {
@@ -1100,34 +1124,215 @@
     } catch (_) { /* swallow */ }
   }
 
-  function buildCalendarView(t) {
-    return `
-      <button type="button" class="detail-panel__back" data-action="back-to-detail" data-therapist="${t.id}">
-        <span aria-hidden="true">&larr;</span> Back
-      </button>
-      <div class="lb-calendar">
-        <h3 class="lb-calendar__title">Pick a time with ${escapeHtml(t.name.split(' ')[0])}</h3>
-        <div class="lb-calendar__embed" data-cal-inline>
-          <p class="lb-calendar__loading">Loading available times&hellip;</p>
-        </div>
-      </div>
-    `;
-  }
+  // ===== Custom calendar UI (our own, driven by the Cal.com API via /cal proxy) =====
+  // Replaces the Cal.com iframe. Flow (leadgenjay): month grid -> tap an available
+  // day -> collapse to that day's slots column -> pick a slot -> confirm -> contact
+  // step (name/email/phone, LAST) -> POST /cal/book. Every booking is still a real
+  // Cal.com booking, so BOOKING_CREATED webhook + bookings_<skill> + Jane + the
+  // /booking-confirmed/ conversion are all unchanged. The secret Cal key lives only
+  // in the Pages Function; the browser never sees it.
+  const CAL_LOCAL_TZ = 'America/Edmonton';
+  let calState = null;
 
-  function renderCalendar(t) {
-    currentCalendarTherapistId = t.id;
-    const stage = overlay.querySelector('[data-view="calendar"]');
-    stage.innerHTML = buildCalendarView(t);
-    setView('calendar');
-    stage.scrollTop = 0;
-    mountCalEmbed(getBooking(t.id), stage.querySelector('[data-cal-inline]'));
+  function calStage() { return overlay.querySelector('[data-view="calendar"]'); }
+  function calRoot() { const s = calStage(); return s ? s.querySelector('[data-cal-root]') : null; }
+
+  function calMonthRangeUTC(year, month) {
+    return {
+      start: new Date(Date.UTC(year, month, 1, 0, 0, 0)).toISOString(),
+      end: new Date(Date.UTC(year, month + 1, 1, 0, 0, 0)).toISOString()
+    };
+  }
+  // YYYY-MM-DD in the clinic timezone — matches Cal's slot grouping keys.
+  function calDateKey(d) {
+    const p = new Intl.DateTimeFormat('en-CA', { timeZone: CAL_LOCAL_TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(d);
+    return p.find(x => x.type === 'year').value + '-' + p.find(x => x.type === 'month').value + '-' + p.find(x => x.type === 'day').value;
+  }
+  // Timezone selector (leadgenjay shows one on the slots view). Display-only:
+  // the slots are absolute instants, so changing tz just reformats the clock
+  // times; the chosen tz also rides the booking as the attendee's timeZone so
+  // their Cal confirmation email reads in their zone. Defaults to the clinic's.
+  const CAL_TZ_ZONES = ['America/Edmonton', 'America/Vancouver', 'America/Winnipeg', 'America/Toronto', 'America/Halifax'];
+  function calCurrentTz() { return (calState && calState.tz) || CAL_LOCAL_TZ; }
+  function calFmtTime(iso) {
+    try { return new Date(iso).toLocaleTimeString('en-US', { timeZone: calCurrentTz(), hour: 'numeric', minute: '2-digit' }); }
+    catch (_) { return iso; }
+  }
+  function calTzLabel(zone) {
+    try {
+      const now = new Date();
+      const off = new Intl.DateTimeFormat('en-US', { timeZone: zone, timeZoneName: 'longOffset' }).formatToParts(now).find(function (p) { return p.type === 'timeZoneName'; }).value;
+      const abbr = new Intl.DateTimeFormat('en-US', { timeZone: zone, timeZoneName: 'short' }).formatToParts(now).find(function (p) { return p.type === 'timeZoneName'; }).value;
+      return off + ' ' + zone.replace('America/', '') + ' (' + abbr + ')';
+    } catch (_) { return zone; }
+  }
+  function calMonthLabel(year, month) {
+    return new Date(year, month, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
   }
 
   function showCalendar(id) {
     const t = findTherapist(id);
     if (!t) return;
-    renderCalendar(t);
+    currentCalendarTherapistId = t.id;
+    const now = new Date();
+    calState = { t: t, year: now.getFullYear(), month: now.getMonth(), slots: {}, view: 'month', loading: true, error: false, notConfigured: false, date: null, slot: null, submitting: false, tz: CAL_LOCAL_TZ };
+    const stage = calStage();
+    stage.innerHTML = '<div class="cal" data-cal-root></div>';
+    setView('calendar');
+    stage.scrollTop = 0;
     pushView('calendar', { tid: t.id });
+    calLoadMonth();
+  }
+
+  function calLoadMonth() {
+    calState.view = 'month'; calState.loading = true; calState.error = false; calState.notConfigured = false;
+    calRender();
+    const range = calMonthRangeUTC(calState.year, calState.month);
+    const stamp = calState.year + '-' + calState.month;
+    const url = '/cal/slots?therapist=' + encodeURIComponent(calState.t.id) + '&start=' + encodeURIComponent(range.start) + '&end=' + encodeURIComponent(range.end);
+    fetch(url, { headers: { 'Accept': 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!calState || (calState.year + '-' + calState.month) !== stamp) return; // month changed mid-flight
+        calState.loading = false;
+        if (d && d.ok) calState.slots = d.slots || {};
+        else if (d && d.configured === false) { calState.notConfigured = true; calState.slots = {}; }
+        else calState.error = true;
+        calRender();
+      })
+      .catch(function () { if (!calState) return; calState.loading = false; calState.error = true; calRender(); });
+  }
+
+  function calRender() {
+    const root = calRoot();
+    if (!root || !calState) return;
+    if (calState.view === 'day') root.innerHTML = calRenderDay();
+    else if (calState.view === 'contact') root.innerHTML = calRenderContact();
+    else root.innerHTML = calRenderMonth();
+  }
+  // Re-render with a gentle opacity fade (matches the quiz's pure-fade lesson).
+  function calRenderFade() {
+    calRender();
+    const root = calRoot();
+    if (root && !mhPrefersReduced) { root.classList.remove('cal-fade'); void root.offsetWidth; root.classList.add('cal-fade'); }
+  }
+
+  function calRenderMonth() {
+    const t = calState.t;
+    const back = '<button type="button" class="cal__back" data-action="back-to-detail" data-therapist="' + escapeHtml(t.id) + '"><span aria-hidden="true">&larr;</span> Back</button>';
+    const head = back + '<h3 class="cal__title">Pick a time with ' + escapeHtml(t.name.split(' ')[0]) + '</h3>';
+    if (calState.loading) return head + '<div class="cal__status"><span class="cal__spinner" aria-hidden="true"></span>Loading available times&hellip;</div>';
+    if (calState.notConfigured || calState.error) {
+      return head + '<div class="cal__status cal__status--error"><p>We could not load the calendar right now.</p><p>Please call us at <a href="tel:+14032830725">(403) 283-0725</a> and we will get you booked in.</p></div>';
+    }
+    const nav = '<div class="cal__nav"><button type="button" class="cal__navbtn" data-cal-prev aria-label="Previous month">&lsaquo;</button><span class="cal__month">' + calMonthLabel(calState.year, calState.month) + '</span><button type="button" class="cal__navbtn" data-cal-next aria-label="Next month">&rsaquo;</button></div>';
+    const dow = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(function (d) { return '<span class="cal__dow">' + d + '</span>'; }).join('');
+    const first = new Date(calState.year, calState.month, 1);
+    const startWeekday = first.getDay();
+    const daysInMonth = new Date(calState.year, calState.month + 1, 0).getDate();
+    const todayKey = calDateKey(new Date());
+    let cells = '';
+    for (let i = 0; i < startWeekday; i++) cells += '<span class="cal__day cal__day--empty"></span>';
+    for (let day = 1; day <= daysInMonth; day++) {
+      const key = calDateKey(new Date(calState.year, calState.month, day));
+      const avail = Array.isArray(calState.slots[key]) && calState.slots[key].length > 0 && key >= todayKey;
+      let cls = 'cal__day' + (key === todayKey ? ' cal__day--today' : '') + (avail ? ' cal__day--avail' : ' cal__day--off');
+      cells += avail
+        ? '<button type="button" class="' + cls + '" data-cal-day="' + key + '">' + day + '</button>'
+        : '<span class="' + cls + '">' + day + '</span>';
+    }
+    const anyAvail = Object.keys(calState.slots).some(function (k) { return k >= todayKey && calState.slots[k] && calState.slots[k].length; });
+    const emptyNote = anyAvail ? '' : '<p class="cal__empty">No open times this month. Try the next month.</p>';
+    return head + nav + '<div class="cal__grid">' + dow + cells + '</div>' + emptyNote;
+  }
+
+  function calRenderDay() {
+    const key = calState.date;
+    const slots = calState.slots[key] || [];
+    const dObj = new Date(key + 'T12:00:00');
+    const weekday = dObj.toLocaleDateString('en-US', { weekday: 'long' });
+    const nice = dObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const list = slots.map(function (s, i) {
+      const sel = calState.slot && calState.slot.start === s.start;
+      return '<div class="cal-slot-row' + (sel ? ' is-selected' : '') + '">'
+        + '<button type="button" class="cal-slot" data-cal-slot="' + i + '">' + escapeHtml(calFmtTime(s.start)) + '</button>'
+        + (sel ? '<button type="button" class="cal-slot__select" data-cal-select>Select</button>' : '')
+        + '</div>';
+    }).join('');
+    const tzOptions = CAL_TZ_ZONES.map(function (z) { return '<option value="' + z + '"' + (z === calCurrentTz() ? ' selected' : '') + '>' + escapeHtml(calTzLabel(z)) + '</option>'; }).join('');
+    return '<div class="cal-day"><div class="cal-day__head">'
+      + '<button type="button" class="cal-circ-back" data-cal-tomonth aria-label="Back to calendar"><span aria-hidden="true">&larr;</span></button>'
+      + '<div class="cal-day__title"><strong>' + escapeHtml(weekday) + '</strong><span>' + escapeHtml(nice) + '</span></div></div>'
+      + '<div class="cal-tz"><span class="cal-tz__label">Time zone</span><div class="cal-tz__field"><select class="cal-tz__select" data-cal-tz aria-label="Time zone">' + tzOptions + '</select></div></div>'
+      + '<p class="cal-day__prompt">Choose a time</p>'
+      + '<div class="cal-slots">' + (list || '<p class="cal__empty">No times left on this day.</p>') + '</div></div>';
+  }
+
+  function calRenderContact() {
+    const s = calState.slot;
+    let when = '';
+    if (s) { try { when = new Date(s.start).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: calCurrentTz() }) + ' at ' + calFmtTime(s.start); } catch (_) {} }
+    return '<div class="cal-contact">'
+      + '<button type="button" class="cal-circ-back" data-cal-today aria-label="Back to times"><span aria-hidden="true">&larr;</span></button>'
+      + '<h3 class="cal-contact__title">Almost done</h3>'
+      + '<p class="cal-contact__when">' + escapeHtml(when) + ' with ' + escapeHtml(calState.t.name.split(' ')[0]) + '</p>'
+      + '<form class="cal-contact__form" data-cal-form novalidate>'
+      + '<input class="cal-contact__input" name="name" type="text" autocomplete="name" placeholder="Your name" required>'
+      + '<input class="cal-contact__input" name="email" type="email" autocomplete="email" placeholder="Email" required>'
+      + '<input class="cal-contact__input" name="phone" type="tel" autocomplete="tel" placeholder="Phone" required>'
+      + '<p class="cal-contact__err" data-cal-err hidden></p>'
+      + '<button type="submit" class="btn btn--primary btn--block cal-contact__submit" data-cal-submit>Confirm booking</button>'
+      + '</form></div>';
+  }
+
+  function calShowErr(el, msg) { if (!el) return; el.textContent = msg; el.hidden = false; }
+
+  function submitCalBooking(form) {
+    if (!calState || calState.submitting) return;
+    const name = (form.name.value || '').trim();
+    const email = (form.email.value || '').trim();
+    const phone = (form.phone.value || '').trim();
+    const err = form.querySelector('[data-cal-err]');
+    if (!name || !email || !phone) { calShowErr(err, 'Please add your name, email, and phone so we can confirm.'); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { calShowErr(err, 'That email does not look right, please check it.'); return; }
+    if (!calState.slot) { calShowErr(err, 'Please pick a time first.'); return; }
+    calState.submitting = true;
+    const btn = form.querySelector('[data-cal-submit]');
+    if (btn) { btn.disabled = true; btn.textContent = 'Booking your session'; }
+    const payload = {
+      therapist: calState.t.id,
+      start: new Date(calState.slot.start).toISOString(),
+      attendee: { name: name, email: email, phone: phone, timeZone: calCurrentTz() },
+      attribution: calPrefillParams()
+    };
+    fetch('/cal/book', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d && d.ok && d.uid) { calRedirectBooked(d, name); return; }
+        calState.submitting = false;
+        if (btn) { btn.disabled = false; btn.textContent = 'Confirm booking'; }
+        calShowErr(err, (d && d.configured === false)
+          ? 'Online booking is not live yet. Please call (403) 283-0725 and we will book you in.'
+          : 'That time may have just been taken. Please pick another, or call (403) 283-0725.');
+      })
+      .catch(function () {
+        calState.submitting = false;
+        if (btn) { btn.disabled = false; btn.textContent = 'Confirm booking'; }
+        calShowErr(err, 'A network hiccup stopped that. Please try again, or call (403) 283-0725.');
+      });
+  }
+
+  // Same /booking-confirmed/ redirect contract the iframe used, so the guarded
+  // conversion (deduped by uid) fires there exactly as before.
+  function calRedirectBooked(d, name) {
+    const params = new URLSearchParams();
+    if (d.uid) params.set('bid', d.uid);
+    if (currentSkill) params.set('skill', currentSkill);
+    if (currentCalendarTherapistId) params.set('therapist', currentCalendarTherapistId);
+    if (d.start) params.set('start', d.start);
+    const first = (name || '').split(/\s+/)[0];
+    if (first) params.set('name', first);
+    window.location.href = '/booking-confirmed/?' + params.toString();
   }
 
   function submitLeadForm(form) {
