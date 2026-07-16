@@ -726,17 +726,24 @@
       const cc = e.target.closest('[data-cal-country]');
       if (cc && calState) {
         calState.country = cc.value;
-        // Reformat the current number for the new country's rules.
-        const ph = cc.parentNode ? cc.parentNode.querySelector('[data-cal-phone]') : null;
-        if (ph) ph.value = calCountry(calState.country).nanp ? calFormatNANP(ph.value.replace(/\D/g, '')) : ph.value.replace(/[^\d\s()+-]/g, '');
+        if (calState.contact) calState.contact.country = cc.value;
+        const wrap = cc.closest('.cal-phone');
+        const flagEl = wrap ? wrap.querySelector('[data-cal-flag]') : null;
+        if (flagEl) flagEl.innerHTML = calFlag(cc.value);
+        const ph = wrap ? wrap.querySelector('[data-cal-phone]') : null;
+        if (ph) ph.value = calCountry(cc.value).nanp ? calFormatNANP(ph.value.replace(/\D/g, '')) : ph.value.replace(/[^\d\s()+-]/g, '');
       }
     });
 
     overlay.addEventListener('input', (e) => {
+      if (!calState) return;
       const ph = e.target.closest('[data-cal-phone]');
-      if (ph && calState && calCountry(calState.country || 'CA').nanp) {
+      if (ph && calCountry(calState.country || 'CA').nanp) {
         ph.value = calFormatNANP(ph.value.replace(/\D/g, ''));
       }
+      // Preserve what they have typed so a trip back to change the time does not wipe it.
+      const form = e.target.closest('[data-cal-form]');
+      if (form) calCaptureContact(form);
     });
 
     document.addEventListener('keydown', (e) => {
@@ -1183,20 +1190,34 @@
 
   // Phone country picker (Cal.com-style flag + dial code). Defaults to Canada.
   // NANP numbers (+1) auto-format to (XXX) XXX-XXXX as the visitor types.
+  // Inline SVG flags (emoji flags don't render on Windows; SVG renders everywhere).
+  const CAL_FLAGS = {
+    CA: '<svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#fff"/><rect width="5" height="14" fill="#D52B1E"/><rect x="15" width="5" height="14" fill="#D52B1E"/><path fill="#D52B1E" d="M10 3l.55 1.6 1.55-.45-.75 1.5 1.6.7-1.5.55.35 1.7-1.35-.85-.05.9h-.7l-.05-.9-1.35.85.35-1.7-1.5-.55 1.6-.7-.75-1.5 1.55.45z"/></svg>',
+    US: '<svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#fff"/><g fill="#B22234"><rect width="20" height="1.08"/><rect y="2.15" width="20" height="1.08"/><rect y="4.3" width="20" height="1.08"/><rect y="6.46" width="20" height="1.08"/><rect y="8.6" width="20" height="1.08"/><rect y="10.77" width="20" height="1.08"/><rect y="12.9" width="20" height="1.08"/></g><rect width="9" height="7.54" fill="#3C3B6E"/><g fill="#fff"><circle cx="1.8" cy="1.5" r=".5"/><circle cx="4.5" cy="1.5" r=".5"/><circle cx="7.2" cy="1.5" r=".5"/><circle cx="3.1" cy="3" r=".5"/><circle cx="5.8" cy="3" r=".5"/><circle cx="1.8" cy="4.5" r=".5"/><circle cx="4.5" cy="4.5" r=".5"/><circle cx="7.2" cy="4.5" r=".5"/><circle cx="3.1" cy="6" r=".5"/><circle cx="5.8" cy="6" r=".5"/></g></svg>',
+    GB: '<svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#012169"/><path d="M0 0l20 14M20 0L0 14" stroke="#fff" stroke-width="2.8"/><path d="M0 0l20 14M20 0L0 14" stroke="#C8102E" stroke-width="1.2"/><path d="M10 0v14M0 7h20" stroke="#fff" stroke-width="4"/><path d="M10 0v14M0 7h20" stroke="#C8102E" stroke-width="2.2"/></svg>',
+    AU: '<svg viewBox="0 0 20 14"><rect width="20" height="14" fill="#012169"/><g transform="scale(.5)"><path d="M0 0l20 14M20 0L0 14" stroke="#fff" stroke-width="2.8"/><path d="M10 0v14M0 7h20" stroke="#fff" stroke-width="4"/><path d="M10 0v14M0 7h20" stroke="#C8102E" stroke-width="2.2"/></g><g fill="#fff"><path d="M5 8.5l.9 2.7-2.3-1.7h2.8L4.1 11.2z"/><circle cx="15" cy="4" r=".7"/><circle cx="17.5" cy="7" r=".6"/><circle cx="15.5" cy="10.5" r=".6"/><circle cx="12.5" cy="8.5" r=".6"/><circle cx="15" cy="7" r=".5"/></g></svg>',
+    IN: '<svg viewBox="0 0 20 14"><rect width="20" height="4.67" fill="#FF9933"/><rect y="4.67" width="20" height="4.66" fill="#fff"/><rect y="9.33" width="20" height="4.67" fill="#138808"/><circle cx="10" cy="7" r="1.5" fill="none" stroke="#000080" stroke-width=".35"/></svg>',
+    DE: '<svg viewBox="0 0 20 14"><rect width="20" height="4.67" fill="#000"/><rect y="4.67" width="20" height="4.66" fill="#D00"/><rect y="9.33" width="20" height="4.67" fill="#FFCE00"/></svg>',
+    FR: '<svg viewBox="0 0 20 14"><rect width="6.67" height="14" fill="#0055A4"/><rect x="6.67" width="6.66" height="14" fill="#fff"/><rect x="13.33" width="6.67" height="14" fill="#EF4135"/></svg>',
+    MX: '<svg viewBox="0 0 20 14"><rect width="6.67" height="14" fill="#006847"/><rect x="6.67" width="6.66" height="14" fill="#fff"/><rect x="13.33" width="6.67" height="14" fill="#CE1126"/><circle cx="10" cy="7" r="1.2" fill="#9B6b3b"/></svg>'
+  };
   const CAL_PHONE_COUNTRIES = [
-    { code: 'CA', flag: '🇨🇦', dial: '+1',  nanp: true },
-    { code: 'US', flag: '🇺🇸', dial: '+1',  nanp: true },
-    { code: 'GB', flag: '🇬🇧', dial: '+44' },
-    { code: 'AU', flag: '🇦🇺', dial: '+61' },
-    { code: 'IN', flag: '🇮🇳', dial: '+91' },
-    { code: 'DE', flag: '🇩🇪', dial: '+49' },
-    { code: 'FR', flag: '🇫🇷', dial: '+33' },
-    { code: 'MX', flag: '🇲🇽', dial: '+52' }
+    { code: 'CA', name: 'Canada',         dial: '+1',  nanp: true },
+    { code: 'US', name: 'United States',  dial: '+1',  nanp: true },
+    { code: 'GB', name: 'United Kingdom', dial: '+44' },
+    { code: 'AU', name: 'Australia',      dial: '+61' },
+    { code: 'IN', name: 'India',          dial: '+91' },
+    { code: 'DE', name: 'Germany',        dial: '+49' },
+    { code: 'FR', name: 'France',         dial: '+33' },
+    { code: 'MX', name: 'Mexico',         dial: '+52' }
   ];
   function calCountry(code) {
     for (let i = 0; i < CAL_PHONE_COUNTRIES.length; i++) { if (CAL_PHONE_COUNTRIES[i].code === code) return CAL_PHONE_COUNTRIES[i]; }
     return CAL_PHONE_COUNTRIES[0];
   }
+  function calFlag(code) { return CAL_FLAGS[code] || CAL_FLAGS.CA; }
+  // Bold back arrow (leadgenjay-style), larger + clearer than the thin glyph.
+  function calBackArrow() { return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>'; }
   function calFormatNANP(digits) {
     digits = digits.slice(0, 10);
     if (digits.length > 6) return '(' + digits.slice(0, 3) + ') ' + digits.slice(3, 6) + '-' + digits.slice(6);
@@ -1213,7 +1234,7 @@
     if (!t) return;
     currentCalendarTherapistId = t.id;
     const now = new Date();
-    calState = { t: t, year: now.getFullYear(), month: now.getMonth(), slots: {}, view: 'month', loading: true, error: false, notConfigured: false, date: null, slot: null, submitting: false, tz: CAL_LOCAL_TZ, country: 'CA' };
+    calState = { t: t, year: now.getFullYear(), month: now.getMonth(), slots: {}, view: 'month', loading: true, error: false, notConfigured: false, date: null, slot: null, submitting: false, tz: CAL_LOCAL_TZ, country: 'CA', contact: {} };
     const stage = calStage();
     stage.innerHTML = '<div class="cal" data-cal-root></div>';
     setView('calendar');
@@ -1299,7 +1320,7 @@
     }).join('');
     const tzOptions = CAL_TZ_ZONES.map(function (z) { return '<option value="' + z + '"' + (z === calCurrentTz() ? ' selected' : '') + '>' + escapeHtml(calTzLabel(z)) + '</option>'; }).join('');
     return '<div class="cal-day"><div class="cal-day__head">'
-      + '<button type="button" class="cal-circ-back" data-cal-tomonth aria-label="Back to calendar"><span aria-hidden="true">&larr;</span></button>'
+      + '<button type="button" class="cal-circ-back" data-cal-tomonth aria-label="Back to calendar">' + calBackArrow() + '</button>'
       + '<div class="cal-day__title"><strong>' + escapeHtml(weekday) + '</strong><span>' + escapeHtml(nice) + '</span></div></div>'
       + '<div class="cal-tz"><span class="cal-tz__label">Time zone</span><div class="cal-tz__field"><select class="cal-tz__select" data-cal-tz aria-label="Time zone">' + tzOptions + '</select></div></div>'
       + '<p class="cal-day__prompt">Choose a time</p>'
@@ -1310,21 +1331,24 @@
     const s = calState.slot;
     let when = '';
     if (s) { try { when = new Date(s.start).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: calCurrentTz() }) + ' at ' + calFmtTime(s.start); } catch (_) {} }
-    const sel = calState.country || 'CA';
-    const countryOpts = CAL_PHONE_COUNTRIES.map(function (c) { return '<option value="' + c.code + '"' + (c.code === sel ? ' selected' : '') + '>' + c.flag + ' ' + c.dial + '</option>'; }).join('');
+    const c = calState.contact || {};
+    const sel = c.country || calState.country || 'CA';
+    const countryOpts = CAL_PHONE_COUNTRIES.map(function (co) { return '<option value="' + co.code + '"' + (co.code === sel ? ' selected' : '') + '>' + co.code + ' ' + co.dial + '</option>'; }).join('');
+    const av = function (v) { return v ? ' value="' + escapeHtml(v) + '"' : ''; };
     return '<div class="cal-contact">'
-      + '<button type="button" class="cal-circ-back" data-cal-today aria-label="Back to times"><span aria-hidden="true">&larr;</span></button>'
+      + '<button type="button" class="cal-circ-back" data-cal-today aria-label="Back to times">' + calBackArrow() + '</button>'
       + '<h3 class="cal-contact__title">Almost done</h3>'
       + '<p class="cal-contact__when">' + escapeHtml(when) + ' with ' + escapeHtml(calState.t.name.split(' ')[0]) + '</p>'
       + '<form class="cal-contact__form" data-cal-form novalidate>'
       + '<div class="cal-contact__row">'
-      +   '<input class="cal-contact__input" name="first_name" type="text" autocomplete="given-name" placeholder="First name" required>'
-      +   '<input class="cal-contact__input" name="last_name" type="text" autocomplete="family-name" placeholder="Last name" required>'
+      +   '<input class="cal-contact__input" name="first_name" type="text" autocomplete="given-name" placeholder="First name" required' + av(c.first) + '>'
+      +   '<input class="cal-contact__input" name="last_name" type="text" autocomplete="family-name" placeholder="Last name" required' + av(c.last) + '>'
       + '</div>'
-      + '<input class="cal-contact__input" name="email" type="email" autocomplete="email" placeholder="Email address" required>'
+      + '<input class="cal-contact__input" name="email" type="email" autocomplete="email" placeholder="Email address" required' + av(c.email) + '>'
       + '<div class="cal-phone">'
-      +   '<select class="cal-phone__country" name="country" data-cal-country aria-label="Country code">' + countryOpts + '</select>'
-      +   '<input class="cal-phone__num" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="Phone number" data-cal-phone required>'
+      +   '<div class="cal-phone__cc"><span class="cal-phone__flag" data-cal-flag aria-hidden="true">' + calFlag(sel) + '</span>'
+      +     '<select class="cal-phone__country" name="country" data-cal-country aria-label="Country">' + countryOpts + '</select></div>'
+      +   '<input class="cal-phone__num" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="Phone number" data-cal-phone required' + av(c.phone) + '>'
       + '</div>'
       + '<p class="cal-contact__err" data-cal-err hidden></p>'
       + '<button type="submit" class="btn btn--primary btn--block cal-contact__submit" data-cal-submit>Confirm booking</button>'
@@ -1332,6 +1356,19 @@
   }
 
   function calShowErr(el, msg) { if (!el) return; el.textContent = msg; el.hidden = false; }
+
+  // Keep the contact fields in state so navigating back to change the time and
+  // returning does not lose what the visitor already typed.
+  function calCaptureContact(form) {
+    if (!calState) return;
+    calState.contact = {
+      first: (form.first_name && form.first_name.value) || '',
+      last: (form.last_name && form.last_name.value) || '',
+      email: (form.email && form.email.value) || '',
+      phone: (form.phone && form.phone.value) || '',
+      country: (form.country && form.country.value) || calState.country || 'CA'
+    };
+  }
 
   function submitCalBooking(form) {
     if (!calState || calState.submitting) return;
