@@ -944,8 +944,14 @@
 .cal-contact__title { font-family: 'Mulish', 'Manrope', system-ui, sans-serif; font-size: 20px; font-weight: 800; color: var(--text-dark); text-align: center; margin: 14px 0 4px; }
 .cal-contact__when { text-align: center; color: var(--brand-primary-dark); font-weight: 600; font-size: 14px; margin: 0 0 18px; }
 .cal-contact__form { display: flex; flex-direction: column; gap: 12px; }
+.cal-contact__row { display: flex; gap: 12px; }
+.cal-contact__row .cal-contact__input { flex: 1 1 0; min-width: 0; }
 .cal-contact__input { width: 100%; font: inherit; font-size: 16px; padding: 14px 16px; border: 1.5px solid var(--brand-primary-border); border-radius: 12px; background: #fff; color: var(--text-dark); -webkit-appearance: none; }
 .cal-contact__input:focus { outline: 2px solid var(--brand-primary); outline-offset: 1px; border-color: var(--brand-primary); }
+.cal-phone { display: flex; gap: 10px; }
+.cal-phone__country { flex: 0 0 auto; width: 98px; font: inherit; font-size: 15px; padding: 14px 8px 14px 12px; border: 1.5px solid var(--brand-primary-border); border-radius: 12px; background: #fff; color: var(--text-dark); -webkit-appearance: none; appearance: none; cursor: pointer; }
+.cal-phone__num { flex: 1 1 auto; min-width: 0; font: inherit; font-size: 16px; padding: 14px 16px; border: 1.5px solid var(--brand-primary-border); border-radius: 12px; background: #fff; color: var(--text-dark); -webkit-appearance: none; }
+.cal-phone__country:focus, .cal-phone__num:focus { outline: 2px solid var(--brand-primary); outline-offset: 1px; border-color: var(--brand-primary); }
 .cal-contact__err { color: #b74a4a; font-size: 13px; margin: 2px 0 0; text-align: center; }
 .cal-contact__submit { margin-top: 4px; }
 

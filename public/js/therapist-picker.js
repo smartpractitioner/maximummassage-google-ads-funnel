@@ -722,7 +722,21 @@
 
     overlay.addEventListener('change', (e) => {
       const tz = e.target.closest('[data-cal-tz]');
-      if (tz && calState) { calState.tz = tz.value; calRender(); }
+      if (tz && calState) { calState.tz = tz.value; calRender(); return; }
+      const cc = e.target.closest('[data-cal-country]');
+      if (cc && calState) {
+        calState.country = cc.value;
+        // Reformat the current number for the new country's rules.
+        const ph = cc.parentNode ? cc.parentNode.querySelector('[data-cal-phone]') : null;
+        if (ph) ph.value = calCountry(calState.country).nanp ? calFormatNANP(ph.value.replace(/\D/g, '')) : ph.value.replace(/[^\d\s()+-]/g, '');
+      }
+    });
+
+    overlay.addEventListener('input', (e) => {
+      const ph = e.target.closest('[data-cal-phone]');
+      if (ph && calState && calCountry(calState.country || 'CA').nanp) {
+        ph.value = calFormatNANP(ph.value.replace(/\D/g, ''));
+      }
     });
 
     document.addEventListener('keydown', (e) => {
@@ -1166,6 +1180,30 @@
       return off + ' ' + zone.replace('America/', '') + ' (' + abbr + ')';
     } catch (_) { return zone; }
   }
+
+  // Phone country picker (Cal.com-style flag + dial code). Defaults to Canada.
+  // NANP numbers (+1) auto-format to (XXX) XXX-XXXX as the visitor types.
+  const CAL_PHONE_COUNTRIES = [
+    { code: 'CA', flag: '🇨🇦', dial: '+1',  nanp: true },
+    { code: 'US', flag: '🇺🇸', dial: '+1',  nanp: true },
+    { code: 'GB', flag: '🇬🇧', dial: '+44' },
+    { code: 'AU', flag: '🇦🇺', dial: '+61' },
+    { code: 'IN', flag: '🇮🇳', dial: '+91' },
+    { code: 'DE', flag: '🇩🇪', dial: '+49' },
+    { code: 'FR', flag: '🇫🇷', dial: '+33' },
+    { code: 'MX', flag: '🇲🇽', dial: '+52' }
+  ];
+  function calCountry(code) {
+    for (let i = 0; i < CAL_PHONE_COUNTRIES.length; i++) { if (CAL_PHONE_COUNTRIES[i].code === code) return CAL_PHONE_COUNTRIES[i]; }
+    return CAL_PHONE_COUNTRIES[0];
+  }
+  function calFormatNANP(digits) {
+    digits = digits.slice(0, 10);
+    if (digits.length > 6) return '(' + digits.slice(0, 3) + ') ' + digits.slice(3, 6) + '-' + digits.slice(6);
+    if (digits.length > 3) return '(' + digits.slice(0, 3) + ') ' + digits.slice(3);
+    if (digits.length > 0) return '(' + digits;
+    return '';
+  }
   function calMonthLabel(year, month) {
     return new Date(year, month, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
   }
@@ -1175,7 +1213,7 @@
     if (!t) return;
     currentCalendarTherapistId = t.id;
     const now = new Date();
-    calState = { t: t, year: now.getFullYear(), month: now.getMonth(), slots: {}, view: 'month', loading: true, error: false, notConfigured: false, date: null, slot: null, submitting: false, tz: CAL_LOCAL_TZ };
+    calState = { t: t, year: now.getFullYear(), month: now.getMonth(), slots: {}, view: 'month', loading: true, error: false, notConfigured: false, date: null, slot: null, submitting: false, tz: CAL_LOCAL_TZ, country: 'CA' };
     const stage = calStage();
     stage.innerHTML = '<div class="cal" data-cal-root></div>';
     setView('calendar');
@@ -1272,14 +1310,22 @@
     const s = calState.slot;
     let when = '';
     if (s) { try { when = new Date(s.start).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: calCurrentTz() }) + ' at ' + calFmtTime(s.start); } catch (_) {} }
+    const sel = calState.country || 'CA';
+    const countryOpts = CAL_PHONE_COUNTRIES.map(function (c) { return '<option value="' + c.code + '"' + (c.code === sel ? ' selected' : '') + '>' + c.flag + ' ' + c.dial + '</option>'; }).join('');
     return '<div class="cal-contact">'
       + '<button type="button" class="cal-circ-back" data-cal-today aria-label="Back to times"><span aria-hidden="true">&larr;</span></button>'
       + '<h3 class="cal-contact__title">Almost done</h3>'
       + '<p class="cal-contact__when">' + escapeHtml(when) + ' with ' + escapeHtml(calState.t.name.split(' ')[0]) + '</p>'
       + '<form class="cal-contact__form" data-cal-form novalidate>'
-      + '<input class="cal-contact__input" name="name" type="text" autocomplete="name" placeholder="Your name" required>'
-      + '<input class="cal-contact__input" name="email" type="email" autocomplete="email" placeholder="Email" required>'
-      + '<input class="cal-contact__input" name="phone" type="tel" autocomplete="tel" placeholder="Phone" required>'
+      + '<div class="cal-contact__row">'
+      +   '<input class="cal-contact__input" name="first_name" type="text" autocomplete="given-name" placeholder="First name" required>'
+      +   '<input class="cal-contact__input" name="last_name" type="text" autocomplete="family-name" placeholder="Last name" required>'
+      + '</div>'
+      + '<input class="cal-contact__input" name="email" type="email" autocomplete="email" placeholder="Email address" required>'
+      + '<div class="cal-phone">'
+      +   '<select class="cal-phone__country" name="country" data-cal-country aria-label="Country code">' + countryOpts + '</select>'
+      +   '<input class="cal-phone__num" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="Phone number" data-cal-phone required>'
+      + '</div>'
       + '<p class="cal-contact__err" data-cal-err hidden></p>'
       + '<button type="submit" class="btn btn--primary btn--block cal-contact__submit" data-cal-submit>Confirm booking</button>'
       + '</form></div>';
@@ -1289,13 +1335,17 @@
 
   function submitCalBooking(form) {
     if (!calState || calState.submitting) return;
-    const name = (form.name.value || '').trim();
+    const first = (form.first_name.value || '').trim();
+    const last = (form.last_name.value || '').trim();
     const email = (form.email.value || '').trim();
-    const phone = (form.phone.value || '').trim();
+    const country = calCountry(form.country ? form.country.value : (calState.country || 'CA'));
+    const digits = (form.phone.value || '').replace(/\D/g, '');
     const err = form.querySelector('[data-cal-err]');
-    if (!name || !email || !phone) { calShowErr(err, 'Please add your name, email, and phone so we can confirm.'); return; }
+    if (!first || !last || !email || !digits) { calShowErr(err, 'Please add your first and last name, email, and phone so we can confirm.'); return; }
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { calShowErr(err, 'That email does not look right, please check it.'); return; }
     if (!calState.slot) { calShowErr(err, 'Please pick a time first.'); return; }
+    const name = (first + ' ' + last).trim();
+    const phone = country.dial + digits;   // full international number; the proxy normalizes to E.164
     calState.submitting = true;
     const btn = form.querySelector('[data-cal-submit]');
     if (btn) { btn.disabled = true; btn.textContent = 'Booking your session'; }
@@ -1308,7 +1358,7 @@
     fetch('/cal/book', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       .then(function (r) { return r.json(); })
       .then(function (d) {
-        if (d && d.ok && d.uid) { calRedirectBooked(d, name); return; }
+        if (d && d.ok && d.uid) { calRedirectBooked(d, first); return; }
         calState.submitting = false;
         if (btn) { btn.disabled = false; btn.textContent = 'Confirm booking'; }
         calShowErr(err, (d && d.configured === false)
