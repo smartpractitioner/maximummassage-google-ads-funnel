@@ -91,6 +91,8 @@ Every unreviewed tag is invisible weight, so **enumerate what the tag manager is
 5. **Re-measure** (≥3 runs). Confirm the gain exceeds the noise band.
 6. **Regression-test the funnel.** ⚠️ **This is not optional.** Deferring or lazy-loading a script can silently break conversion firing — and the conversion tags *are* the third-party scripts you're most tempted to defer. Walk quiz → grid → detail → booking embed → booking, and confirm the conversion still fires. **No LCP gain justifies a broken conversion.** This is why the optimization pass runs *before* E2E, not after.
 
+> **⚠️ Definition of done (gate) — added 2026-07-16.** The pass is **NOT complete when the fixes are *applied*** — only when they're **measured on the LIVE page** and the target is confirmed. "Applied per the SOP" ≠ "done." Run PSI (pagespeed.web.dev) or **DevTools → Lighthouse** from a real browser session (bypasses the Cloudflare crawler block that can stop PSI's fetcher), confirm the **"eliminate render-blocking resources" audit is clean**, and record LCP/CLS/TBT. If you can't measure it, the step stays 🔄 and you say so — do not mark it ✅. *(Why this exists: a pass once shipped the correct render-blocking fixes but was marked done without a measured confirm.)*
+
 ---
 
 ## Failure modes to avoid
