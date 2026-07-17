@@ -1,0 +1,22 @@
+# mh-cache-warmer — Cloudflare Worker with a Cron Trigger.
+# Deploy:  cd cache-warmer && npx wrangler deploy
+# (one-time first:  npx wrangler login)
+#
+# This is a SEPARATE Worker from the Pages site. It does not touch the Pages
+# deploy; it just runs on a schedule and fetches the funnel's LCP-critical URLs
+# to keep them warm in Cloudflare's edge/tiered cache. See src/warmer.js.
+
+name = "mh-cache-warmer"
+main = "src/warmer.js"
+compatibility_date = "2026-07-01"
+
+# Every 5 minutes. ~8,640 runs/month — well inside the free tier (100k req/day).
+# Bump to "*/10 * * * *" or "*/15 * * * *" if you want it gentler; 5 min keeps it
+# maximally warm for the "loads instantly" goal.
+[triggers]
+crons = ["*/5 * * * *"]
+
+# Keep observability on so you can confirm the cron is firing (Workers & Pages ->
+# mh-cache-warmer -> Observability / Logs).
+[observability]
+enabled = true

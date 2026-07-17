@@ -6,3 +6,10 @@
 /fonts/*.woff2
   Cache-Control: public, max-age=31536000, immutable
   Access-Control-Allow-Origin: *
+
+# Images use fixed (non-hashed) filenames, so we can't mark them immutable — an
+# image swap must still propagate. A 1-day TTL is the balance: long enough to hold
+# the edge/browser cache warm (repeat visits + the cache-warmer's job holds), short
+# enough that a replaced image (e.g. a re-sized hero) rolls out within 24h.
+/images/*
+  Cache-Control: public, max-age=86400
