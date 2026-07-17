@@ -1060,9 +1060,7 @@
     pushView('lead-form', { tid: t.id });
   }
 
-  // ---------- Cal.com calendar step (bookingMode: 'calcom') ----------
-  const CAL_NS = 'mhbooking';
-  let calInited = false;
+  // ---------- Booking calendar step (bookingMode: 'calcom') ----------
   let currentCalendarTherapistId = null;
 
   function getBooking(id) {
@@ -1094,55 +1092,6 @@
     const uid = userId();
     if (uid) params.user_id = uid;  // rides Cal's hidden field → BOOKING_CREATED webhook → bookings row
     return params;
-  }
-
-  // Cal's bookingSuccessfulV2 title is "<event> between <Therapist> and <Attendee>".
-  function parseAttendeeFirstName(title) {
-    if (typeof title !== 'string') return '';
-    const idx = title.lastIndexOf(' and ');
-    if (idx === -1) return '';
-    const attendee = title.slice(idx + 5).trim();
-    return (attendee.split(/\s+/)[0] || '');
-  }
-
-  // Channel A: the lean browser event fires here. We do NOT post the record
-  // (that arrives server-side via the BOOKING_CREATED webhook, Channel B). We
-  // only redirect to /booking-confirmed/ with enough context to personalize
-  // the page and fire the guarded conversion there.
-  function onCalBookingSuccess(e) {
-    const d = (e && e.detail && e.detail.data) || {};
-    const params = new URLSearchParams();
-    if (d.uid) params.set('bid', d.uid);
-    if (currentSkill) params.set('skill', currentSkill);
-    if (currentCalendarTherapistId) params.set('therapist', currentCalendarTherapistId);
-    if (d.startTime) params.set('start', d.startTime);
-    if (d.endTime) params.set('end', d.endTime);
-    const name = parseAttendeeFirstName(d.title);
-    if (name) params.set('name', name);
-    window.location.href = '/booking-confirmed/?' + params.toString();
-  }
-
-  function ensureCalInit() {
-    if (calInited) return;
-    calInited = true;
-    // Cal.com embed loader stub (standard snippet), loaded lazily on first
-    // calendar open so pages don't pull Cal until the visitor clicks Book.
-    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-    try {
-      window.Cal("init", CAL_NS, { origin: "https://app.cal.com" });
-      window.Cal.ns[CAL_NS]("ui", { hideEventTypeDetails: false, layout: "month_view" });
-      window.Cal.ns[CAL_NS]("on", { action: "bookingSuccessfulV2", callback: onCalBookingSuccess });
-    } catch (_) { /* Cal unavailable; leave the embed empty */ }
-  }
-
-  function mountCalEmbed(booking, el) {
-    if (!booking || !booking.handle || !el) return;
-    ensureCalInit();
-    el.innerHTML = '';
-    const calLink = booking.handle + '?' + new URLSearchParams(calPrefillParams()).toString();
-    try {
-      window.Cal.ns[CAL_NS]('inline', { elementOrSelector: el, config: { layout: 'month_view' }, calLink: calLink });
-    } catch (_) { /* swallow */ }
   }
 
   // ===== Custom calendar UI (our own, driven by the Cal.com API via /cal proxy) =====
@@ -1481,12 +1430,10 @@
     overlay.setAttribute('data-open', 'true');
     document.body.style.overflow = 'hidden';
     showQuiz();
-    // Pre-warm Cal.com on calcom pages: load embed.js + open the connection
-    // while the visitor works through the quiz, so the calendar step feels
-    // fast when they reach it (Cal's iframe is the heavy part). Fetch live
-    // availability in parallel so the grid can dim inactive/capped therapists.
+    // On calcom pages, fetch live availability in parallel while the visitor
+    // works through the quiz, so the grid can dim inactive/capped therapists by
+    // the time they reach it. (The custom calendar fetches its own slots on open.)
     if (currentPageConfig && currentPageConfig.bookingMode === 'calcom') {
-      try { ensureCalInit(); } catch (_) {}
       try { loadAvailability(); } catch (_) {}
     }
   }
@@ -1554,7 +1501,7 @@
           }
         } else if (s.mhView === 'calendar' && s.tid) {
           const t = findTherapist(s.tid);
-          if (t) renderCalendar(t);
+          if (t) showCalendar(t.id);
         } else if (s.mhView === 'lead-form' && s.tid) {
           const t = findTherapist(s.tid);
           if (t) {
