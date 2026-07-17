@@ -60,6 +60,12 @@ export async function onRequestPost(context) {
   }
   applyEventType(payload, r.therapist);
 
+  // Diagnostic logging (2026-07-16): prove how many times /cal/book is actually
+  // invoked per booking. Each request has a unique cf-ray; count distinct rays.
+  // View in Cloudflare → Pages → (project) → Functions → Real-time Logs.
+  const ray = request.headers.get('cf-ray') || '';
+  console.log('[cal/book] REQ ' + JSON.stringify({ ray: ray, therapist: body.therapist, start: body.start, email: a.email, ts: Date.now() }));
+
   let res, text;
   try {
     const ctrl = new AbortController();
@@ -86,5 +92,6 @@ export async function onRequestPost(context) {
   if (!res.ok) return json({ ok: false, error: 'cal_error', status: res.status, detail: data }, 502);
 
   const d = (data && data.data) ? data.data : {};
+  console.log('[cal/book] CREATED ' + JSON.stringify({ ray: ray, uid: d.uid, id: d.id, start: d.start, ts: Date.now() }));
   return json({ ok: true, uid: d.uid, id: d.id, start: d.start });
 }
