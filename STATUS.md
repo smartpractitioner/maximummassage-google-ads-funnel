@@ -44,12 +44,12 @@
 
 | Requirement | Status |
 |---|---|
-| Prenatal Phase 3 complete (3.1–3.6) | 🔄 only 3.4 + 3.6 left |
-| Prenatal Phase 4 E2E | ⬜ |
+| Prenatal Phase 3 complete (3.1–3.6) | ✅ |
+| Prenatal Phase 4 E2E | 🔄 booking/attribution/GA4/Ads-tag/sheet/Jane all verified; gated on double-booking fix + Ads-conversion confirms day-1 |
 | Lymphatic — full treatment + E2E | ⬜ |
 | Deep tissue — full treatment + E2E | ⬜ |
 | Therapeutic — new build + splitter cutover + E2E | ⬜ |
 | Legal sign-off (client) | ✅ |
-| No external dependency blocking | ✅ lawyer cut · Jane sync confirmed live |
+| No external dependency blocking | 🔄 lawyer cut · Jane sync live, but **double-booking dedup pending Justin** (ClinicSync at-least-once webhook) |
 
 **Not gating** (can trail launch): Phase 6 BI · Phase 7 factory/PractiCal · Phase 8 polish.
