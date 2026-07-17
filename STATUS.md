@@ -35,7 +35,7 @@
 | 3.2 | Social proof alignment | ✅ |
 | 3.3 | User review + iteration | ✅ |
 | 3.5 | Booking + quiz experience upgrade | ✅ Part A ✅ · Part B ✅ live + Jane sync + attribution confirmed |
-| 3.4 | Page-speed pass | 🔄 render-blocking CSS eliminated (picker.css + fonts async, core inlined — fixes applied per SOP). **NOT done until measured**: awaiting a PSI/Lighthouse confirm on the LIVE prenatal page (render-blocking audit clean + LCP/FCP/CLS/TBT recorded). |
+| 3.4 | Page-speed pass | ✅ **measured** (live Lighthouse, Slow-4G/Moto-G): render-blocking clean, **FCP/LCP 1.7s, TBT 140ms**. Removed now-dead app.cal.com preconnect. Follow-up polish (not blocking): CLS 0.107 (fonts + guarantee), hero webp ~48KB oversized. GTM/gtag unused-JS is the accepted GTM-config-only item. |
 | 3.6 | Lessons capture → SKILL.md | ✅ Part B gotchas recorded (E.164, dual cal-api-version, webhook uid-dedupe, SVG flags, Ads-conversion timing, 502-debug, page-speed) |
 
 *(3.5 was done ahead of 3.4 on purpose — speed is best measured after the new calendar JS landed.)*
@@ -44,7 +44,7 @@
 
 | Requirement | Status |
 |---|---|
-| Prenatal Phase 3 complete (3.1–3.6) | 🔄 3.5/3.6 done; **3.4 fixes applied but not yet measured** (PSI/Lighthouse confirm on live pending) |
+| Prenatal Phase 3 complete (3.1–3.6) | ✅ (3.4 measured on live: FCP/LCP 1.7s, render-blocking clean) |
 | Prenatal Phase 4 E2E | 🔄 booking/attribution/GA4/Ads-tag/sheet/Jane all verified; gated on double-booking fix + Ads-conversion confirms day-1 |
 | Lymphatic — full treatment + E2E | ⬜ |
 | Deep tissue — full treatment + E2E | ⬜ |
