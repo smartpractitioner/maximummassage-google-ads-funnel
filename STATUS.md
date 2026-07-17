@@ -35,7 +35,7 @@
 | 3.2 | Social proof alignment | ✅ |
 | 3.3 | User review + iteration | ✅ |
 | 3.5 | Booking + quiz experience upgrade | ✅ Part A ✅ · Part B ✅ live + Jane sync + attribution confirmed |
-| 3.4 | Page-speed pass | ⬜ **← next** (run now the custom calendar's in) |
+| 3.4 | Page-speed pass | 🔄 picker.css (32KB) made async/non-blocking; fonts-async + inline-core-CSS pending Victor's call |
 | 3.6 | Lessons capture → SKILL.md | ⬜ |
 
 *(3.5 was done ahead of 3.4 on purpose — speed is best measured after the new calendar JS landed.)*
