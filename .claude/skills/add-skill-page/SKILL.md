@@ -546,6 +546,20 @@ The per-therapist monthly cap counts a therapist's bookings **made this calendar
 - **Event identity:** built with `username`+`eventTypeSlug` derived from the existing handle map (e.g. `lstauffer/60min`), so numeric `eventTypeId`s are NOT required; if Victor supplies them, add `eventTypeId` in `_cal.js` and callers prefer it. Timezone fixed to `America/Edmonton` (selector hidden for cleanliness).
 - **Verified with mocked `/cal/slots`** at 390px (month → day → slot → contact → redirect). **The required real end-to-end verification (real test booking → webhook → `bookings_<skill>` → Jane → conversion once → cancel) still runs once the keys are live** — see the brief's Part B verification checklist. This supersedes the earlier iframe-config tweaks (`hideEventTypeDetails`/`column_view`), now moot.
 
+### Part B build lessons — gotchas for the next Cal.com integration / client (captured 2026-07-16, Phase 3.6)
+
+Hard-won during the Maximum Health build; carry them into every future Cal-API booking flow so nobody re-discovers them:
+
+1. **Phone MUST be E.164.** `POST /v2/bookings` rejects a bare 10-digit number with a **platform 502** (Cloudflare-level, not a clean Cal 400 — so the real error is hidden). Normalize server-side: strip non-digits, prepend `+1` for a 10-digit NANP number, else `+`. The proxy does this in `functions/cal/book.js`.
+2. **The two `cal-api-version` headers differ — do not assume they match.** Slots read = **`2024-09-04`**; bookings create = **`2026-02-25`**. A wrong version fails opaquely.
+3. **Cal webhooks are at-least-once.** `BOOKING_CREATED` can be delivered/retried more than once, so the receiver (PatientSync → ClinicSync → Jane) **must dedupe by booking `uid`**, or one booking becomes duplicate EHR records. Our front-end fires exactly one create (synchronous `submitting` guard + the Confirm button disabled on tap), so any duplication downstream is a receiver dedupe gap, not our code. **When debugging a double, check Cal first: one `uid` = downstream double-processing; two `uid`s = a real double-create.**
+4. **Emoji flags don't render on Windows.** Regional-indicator emoji (🇨🇦) show as letters on Windows (desktop **and** DevTools mobile emulation) — they only render on real iOS/Android. Use **inline SVG flags** for a cross-platform country picker.
+5. **Contact step is LAST (Calendly-style)** and its fields are **preserved in state** — a visitor who goes back to change the time must not lose their name/email/phone (kills completion). See `calCaptureContact`.
+6. **Google Ads conversions won't COUNT until real ad clicks exist.** A fired conversion tag only records in the Ads account when tied to a real `gclid` from an ad click. Pre-launch tests validate the tag **fires** (GTM Preview / GA4 DebugView) but show **nothing in the Ads account** until live traffic converts. Don't chase "missing" conversions before launch.
+7. **Debug a bare 502 by making the proxy surface the real error** — read the upstream response as **text** (not `.json()`, which throws on Cal's non-JSON error pages), add an `AbortController` timeout, and a `?dryrun=1` mode that returns the payload without calling Cal. A raw CF 502 otherwise hides everything.
+8. **Page-speed:** the picker/quiz/calendar CSS (`picker.css`) grew to ~32KB and is only needed on lightbox-open — **async-load it** (`preload as=style + onload` + `<noscript>`), don't leave it render-blocking. Same for fonts; inline the core CSS. (Phase 3.4.)
+9. **Quiz question transition = pure opacity fade** (`opacity 0→1`, ~0.35s ease-out, **no transform**). A positional slide reads as "clipped" when it decelerates and stops; leadgenjay uses a straight fade. *(Still being fine-tuned.)*
+
 ## Per-therapist QA pass (required per skill page)
 
 After wiring a skill page to `bookingMode: 'calcom'`, QA **each active therapist** on that page before calling it done:
