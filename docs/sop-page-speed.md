@@ -73,6 +73,23 @@ No amount of image optimization fixes this — the asset is already tiny. The tw
 
 **Diagnose before you optimize:** if a page measures slow *and highly variable*, suspect cold-edge cache, not the page. Chasing it with more image compression is wasted effort.
 
+### Lab vs. field, and what actually moves the PSI score (MH prenatal, 2026-07-17)
+
+Three things learned the hard way on the prenatal 3.4 pass — all factory-general:
+
+1. **The PSI score is computed ONLY from the metrics (FCP, LCP, TBT, Speed Index, CLS).** Everything under **Diagnostics** — "Reduce unused JavaScript", "Minify CSS/JS", "Use efficient cache lifetimes" — is labelled by PSI itself *"these numbers don't directly affect the Performance score."* Clearing them *feels* like progress and the error count drops, but the number won't move. **Don't spend the optimization budget on diagnostics; spend it on the metrics.** (On MH, GTM+gtag = 285KB of "unused JS" that is pure GTM config — undeletable, and irrelevant to the score anyway.)
+
+2. **The variance signature tells you lab-throttle vs. cold-edge — read it before you act.**
+   - **Consistent** slow LCP across runs (e.g. 8.0 / 8.2 / 7.8) = the **Slow-4G lab throttle** grinding through the page's bytes. Real users on real networks are far faster; this is a pessimistic lab number. The only lever is *fewer/smaller bytes on the critical path* (hero size is #1).
+   - **Wide spread** across runs (MH prenatal scored **60 / 80 / 65** minutes apart) = **TTFB / cold-edge variance** on the first-byte. That's the "first load has to warm the cache" effect — a real, addressable field-data problem.
+   - Both were present on MH: LCP magnitude was throttle-bound; the score spread was TTFB-bound.
+
+3. **Do NOT pay Cloudflare Argo Smart Routing or Cache Reserve for a static Pages site.** Verified (2026-07-17): Argo ($5/mo/domain + $0.10/GB) optimizes the path to *your origin*; a Pages site's "origin" is Cloudflare's own storage — there is no slow origin hop to accelerate. Cache Reserve prevents *eviction*, which only matters if eviction is your bottleneck (it wasn't — see the variance test). **The $5 isn't the risk; buying the wrong lever is.** Exhaust the free structural fixes first.
+
+### The free field-data lever: a cron cache-warmer (built for MH, `cache-warmer/`)
+
+The cold-edge/TTFB variance is a **real-user (CrUX / page-experience) problem**, and it matters most **at launch**: CrUX is empty until ads drive traffic, so Google's first field impression is whatever the first visitors get, and re-sampling is infrequent — a cold launch can stick. The fix is a **Cloudflare Worker with a Cron Trigger** that re-fetches the page's LCP-critical URLs every few minutes to keep them warm in the edge/tiered cache (*"a resource warmed at the upper tier propagates to lower tiers on first regional request"*). Free (Workers free tier), stays in-network, factory-general (config-driven target list). It warms the **real edge/field path**; it does **not** touch the PSI lab throttle — set that expectation explicitly. See [`cache-warmer/`](../cache-warmer/) for the worked MH example. This is now an **engine default candidate** — a client's page should ship with warming configured, not add it after a cold launch.
+
 ## Third-party tags: audit, but respect the client's decisions
 
 Every unreviewed tag is invisible weight, so **enumerate what the tag manager is actually firing** at each audit. But an audited tag is not automatically a tag to remove — the client may value the data more than the milliseconds.
