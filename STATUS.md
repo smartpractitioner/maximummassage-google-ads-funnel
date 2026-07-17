@@ -35,7 +35,7 @@
 | 3.2 | Social proof alignment | ✅ |
 | 3.3 | User review + iteration | ✅ |
 | 3.5 | Booking + quiz experience upgrade | ✅ Part A ✅ · Part B ✅ live + Jane sync + attribution confirmed |
-| 3.4 | Page-speed pass | 🔄 **iterative QA loop with Victor** (not done until he approves). Render-blocking eliminated + measured (FCP/LCP 1.7s, TBT 140ms); app.cal.com preconnect removed. **Still working through the full PSI list:** CLS 0.107 (fonts + guarantee), hero webp oversized, forced reflow, minify CSS/JS. GTM/gtag unused-JS = accepted (GTM-config-only). Loop: Claude fixes → Victor re-runs PSI → repeat until nothing left to fix. |
+| 3.4 | Page-speed pass | 🔄 **iterative QA loop with Victor** (not done until he approves). Render-blocking eliminated + measured (FCP/LCP 1.7s, TBT 140ms); app.cal.com preconnect removed. **PSI-list progress:** hero webp → responsive srcset ✅; forced reflow (carousel) → cached positions ✅; H1-font CLS → Mulish-800 preload added ✅ (was self-hosted but never preloaded). **Awaiting re-measure:** CLS ≤0.1 confirm; minify CSS/JS = low-value (Brotli already compresses inline on the wire; no build step → skip hand-minify). GTM/gtag unused-JS = accepted (GTM-config-only). Loop: Claude fixes → Victor re-runs PSI → repeat. |
 | 3.6 | Lessons capture → SKILL.md | ✅ Part B gotchas recorded (E.164, dual cal-api-version, webhook uid-dedupe, SVG flags, Ads-conversion timing, 502-debug, page-speed) |
 
 *(3.5 was done ahead of 3.4 on purpose — speed is best measured after the new calendar JS landed.)*

@@ -14,6 +14,13 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:ital,opsz,wght@0,12..96,500;0,12..96,600;0,12..96,700;1,12..96,400;1,12..96,500;1,12..96,700&family=Manrope:wght@400;500;600;700&family=Mulish:wght@500;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:ital,opsz,wght@0,12..96,500;0,12..96,600;0,12..96,700;1,12..96,400;1,12..96,500;1,12..96,700&family=Manrope:wght@400;500;600;700&family=Mulish:wght@500;700;800&display=swap"></noscript>
 
+<!-- Preload the self-hosted Mulish 800 woff2 that renders the hero H1 (the LCP
+     element). The @font-face for it is inlined in the flow-b core CSS below;
+     without this preload the browser doesn't discover the font until it parses
+     that CSS, so the H1 swaps late -> LCP render-delay + CLS. Preloading it
+     starts the font fetch in parallel with the HTML. crossorigin is required
+     (fonts are always CORS-fetched, even same-origin). -->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/mulish-800-latin.woff2">
 <link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/logo.webp">
 <link rel="preload" as="image" fetchpriority="high" imagesrcset="/images/prenatal/prenatal-hero-sm.webp 780w, /images/prenatal/prenatal-hero.webp 1019w" imagesizes="(min-width: 1024px) 46vw, 100vw">
 
@@ -1508,14 +1515,19 @@ button { font-family: inherit; }
     var cards = [].slice.call(tList.querySelectorAll('.testimonial-card'));
     var dots = [].slice.call(tDots.querySelectorAll('button'));
     var base = cards.length ? cards[0].offsetLeft : 0;
+    // Cache card positions once (recomputed on resize) so the scroll handler
+    // never reads offsetLeft in a loop — avoids per-scroll layout thrash / forced reflow.
+    var positions = cards.map(function (c) { return c.offsetLeft - base; });
+    var measure = function () { base = cards.length ? cards[0].offsetLeft : 0; positions = cards.map(function (c) { return c.offsetLeft - base; }); };
     var sync = function () {
-      var best = Infinity, at = 0;
-      cards.forEach(function (c, i) {
-        var d = Math.abs((c.offsetLeft - base) - tList.scrollLeft);
+      var sl = tList.scrollLeft, best = Infinity, at = 0;
+      for (var i = 0; i < positions.length; i++) {
+        var d = Math.abs(positions[i] - sl);
         if (d < best) { best = d; at = i; }
-      });
+      }
       dots.forEach(function (b, i) { b.setAttribute('aria-current', i === at ? 'true' : 'false'); });
     };
+    window.addEventListener('resize', measure, { passive: true });
     var t;
     tList.addEventListener('scroll', function () {
       window.clearTimeout(t);
@@ -1524,7 +1536,7 @@ button { font-family: inherit; }
     dots.forEach(function (b, i) {
       b.addEventListener('click', function () {
         if (!cards[i]) return;
-        tList.scrollTo({ left: cards[i].offsetLeft - base, behavior: 'smooth' });
+        tList.scrollTo({ left: positions[i], behavior: 'smooth' });
       });
     });
     sync();
