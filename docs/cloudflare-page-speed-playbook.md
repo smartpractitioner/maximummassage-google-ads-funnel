@@ -56,6 +56,17 @@ an origin, and proceed accordingly.
 4. **Record the metrics that move:** LCP, CLS, INP/TBT, Speed Index, total transfer.
 5. **A "gain" inside the noise band is not a gain.** Re-measure before claiming a win.
 
+### Which tool? PSI as the scorecard, Page Gym as the workbench [UNIVERSAL]
+
+Use **both**, for different jobs — don't replace PSI as primary:
+
+- **PageSpeed Insights** is *Google's own* scoreboard and the **only source of CrUX field data** (real-user metrics). If the goal is "will Google judge this page well," PSI is authoritative by definition. It also carries the **accessibility / best-practices / SEO** audits — which matter a lot for a normal business site that wants organic search.
+- **[Page Gym](https://pagegym.com)** is a better *lab diagnostic*: real waterfall, per-host transfer sizes, request chaining, **per-file "unused bytes"**, and it can test a hypothetical optimization without deploying. Crucially it applies **real network throttling**, whereas Lighthouse/PSI does a full-speed load and then *simulates* the slow connection over the recorded data — so some PSI run-to-run variance is a modeling artifact, not your page. It is **lab-only (no CrUX)** and has **no accessibility/SEO audit**.
+
+⚠️ **Scores across tools are NOT comparable** — a page measured **90 on Page Gym (Fast 4G)** and **59–73 on PSI (Slow 4G)** on the identical build. That's the network profile, not accuracy. Use PSI's pessimistic number as the bar; **where two independent tools agree, trust the finding** (both caught the same CLS, which proved it was real).
+
+⚠️ Page Gym's probes can be blocked by aggressive bot/CDN rules — allowlist via <https://pagegym.com/bots> if a test won't fetch.
+
 ### The two insights that save the most wasted effort
 
 **(a) The PSI score is computed ONLY from the metrics** — FCP, LCP, TBT, Speed Index,

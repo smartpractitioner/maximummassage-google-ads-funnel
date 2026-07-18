@@ -18,6 +18,28 @@
 
 ---
 
+## Tooling decision: PSI is the scorecard, Page Gym is the workbench (2026-07-18)
+
+**Decision: use BOTH, for different jobs. Do not replace PSI as the primary.**
+
+| | PageSpeed Insights | [Page Gym](https://pagegym.com) |
+|---|---|---|
+| Whose opinion | **Google's own** | Independent third party |
+| Field data (CrUX / real users) | ✅ **only source** | ❌ lab-only *(author confirmed: "on the fence" about adding CrUX)* |
+| Throttling | **Simulated** — full-speed load, then models a slow connection over the collected data | **Real** — throttling actually applied; metrics are what the browser observed |
+| Accessibility / Best-Practices / SEO audits | ✅ | ❌ none |
+| Diagnosis | checklist-ish | real waterfall, per-host transfer, request chaining, **per-file "unused" bytes**, hypothesis testing without code changes |
+
+**Why PSI stays primary:** it is the *scorekeeper's own scoreboard*, and the only place CrUX field data appears. Since our launch concern is precisely how Google assesses the page from day one (§"Target: get the PSI metrics into the GREEN"), optimizing against a third-party score Google never reads would be optimizing the wrong number.
+
+**Why Page Gym earns a permanent place:** the real-vs-simulated throttling difference is genuine (the tool's author explained it publicly and an initially-skeptical commenter conceded the point). It means **some of the run-to-run variance we chased is a Lighthouse *modeling artifact*, not our page.** Its waterfall + "unused bytes per file" is materially better for *finding causes*, and it can A/B a hypothetical optimization without a deploy — which fits our iterate-and-remeasure loop. On MH it immediately surfaced a 145.91 kB font payload that PSI had never made legible.
+
+**Read scores across tools carefully — they are not comparable.** MH prenatal scored **90 on Page Gym (Fast 4G)** and **59–73 on PSI (Slow 4G)** *on the same build*. That gap is mostly the network profile, not accuracy. Use PSI's pessimistic number as the bar; use Page Gym's realistic profile to understand real-user feel. **Where they agree, trust it** — both independently measured CLS ≈ 0.147/0.15, which is what retired our doubt that the CLS was a measurement artifact.
+
+**Two risks to carry:**
+1. **Bot/CDN blocking.** Page Gym's probes can be blocked by aggressive bot rules — relevant for us since our zone blocks crawlers, and more so for future clients. Allowlist per <https://pagegym.com/bots> if a test fails to fetch.
+2. **Single-developer project**, no accessibility/SEO audits. Fine as a diagnostic; **don't make it a factory dependency**, and for any client who cares about organic search, Lighthouse's SEO/accessibility audits are still required.
+
 ## Measurement discipline (get this right or every conclusion is noise)
 
 **Lighthouse run-to-run variance is severe. A single run is not evidence.** On MH, the *same page* scored **92, then 64, then 61** on three consecutive runs — a 31-point spread with zero code change between them. The cause was Cloudflare edge cache state, not the page.
