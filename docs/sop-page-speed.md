@@ -28,6 +28,10 @@
 | **GTmetrix** | *"What do real customers actually feel?"* | **Audience-matched:** nearest test server, real connection (4G ~9/5 Mbps), true device viewport | The **realism check** + it has a CrUX tab. Same Lighthouse engine as PSI, so it's directly comparable. |
 | **Page Gym** | *"WHY is it slow, and what if I changed X?"* | Match the audience profile | The **diagnostic bench.** Real throttling, per-file *unused bytes*, and hypothesis-testing without a deploy. |
 
+**The fourth leg — [Cloudflare Web Analytics](https://dash.cloudflare.com) (free RUM):** the other three are all *lab* tools. This is **Real User Monitoring** — actual visitors, live, with **no 28-day CrUX lag**. Turn it on for every client at build time so field data is already accumulating before the ads switch on. It reports LCP/INP/CLS distributions and percentiles, and its **Debug View names the actual LCP element per URL** — on MH it identified `section.final-cta` / `prenatal-cta.webp` as the P99 LCP element, which directly justified compressing that image. **Read P75** (the percentile Google grades); ignore P99 until the sample is large. It rides the `beacon.min.js` we already load, so it costs nothing extra.
+
+> **Where each fits:** PSI = *Google's grade* · GTmetrix = *realistic lab* · Page Gym = *diagnosis* · Cloudflare Web Analytics = *live field truth*.
+
 **Dropped: Pingdom.** Its ruleset is YSlow-era and it produced two false signals on MH in one run: graded compression **F(0)** when Brotli was verifiably working (HTML 78,979 → 20,242 bytes on the wire), and reported a 734KB page including 167KB of Google Maps that is `loading="lazy"` in the footer and never loads for a real visitor. Obsolete advice ("put JavaScript at bottom", "make fewer HTTP requests") is actively misleading under HTTP/2.
 
 ### How to actually run the tests (for whoever is doing the measuring)
@@ -206,6 +210,27 @@ Why this over the alternatives:
 `local('Arial')` is safe on Linux/PSI infra too — fontconfig aliases Arial to the
 metric-compatible Liberation Sans. **Verify the fix by re-rendering pre/post and diffing
 the images** (ours were pixel-identical, proving no regression once fonts load).
+
+### Cache the HTML at the edge — the biggest TTFB/FCP lever on Pages (engine default)
+
+**Cloudflare does NOT edge-cache HTML by default.** It decides cache *eligibility* by **file extension**, so an extensionless URL like `/prenatal-massage-calgary/` is passed to origin on **every single request** (`cf-cache-status: DYNAMIC`). Since TTFB gates both FCP and LCP, this is usually the largest remaining lever once the page itself is optimized.
+
+**⚠️ A `Cache-Control` header in `_headers` does NOT fix this — we tested it and it stayed `DYNAMIC`.** Eligibility is judged *before* Cache-Control is consulted. The header is still worth setting (it governs the TTL once eligible) but is inert alone.
+
+**It requires a zone-level Cache Rule** — and note it is **NOT** under Workers & Pages (that section's "Build cache" is unrelated — it caches build artifacts). Go to the **domain/zone** → **Caching → Cache Rules → Create rule**:
+
+- Expression: `Hostname` equals the site host **AND** `URI Path` **wildcard** `/your-path*`
+- **Cache eligibility** → *Eligible for cache*
+- **Edge TTL** → *Use cache-control header if present…* (lets your `s-maxage` govern)
+- **Browser TTL** → leave unset / respect origin
+
+Pair it with, in `_headers`: `Cache-Control: public, max-age=0, s-maxage=600, stale-while-revalidate=86400` — browsers always revalidate (visitors never see stale) while the **edge** answers for 10 minutes without an origin trip. Keep the edge TTL short on a live ad funnel so a bad deploy can't stick; purge manually for anything urgent.
+
+> **🪤 Gotcha that will silently no-op your rule:** the `wildcard` operator needs an **explicit `*`**. A value of `/prenatal-massage-calgary` matches that string *exactly* and will **not** match `/prenatal-massage-calgary/` (with the trailing slash) — i.e. your actual page. Use `/prenatal-massage-calgary*`.
+
+**Always verify, and verify against a control.** Request the page repeatedly and watch `cf-cache-status`; also request a path the rule does *not* cover. MH after deploying: rule path = **HIT ×8** (`Age: 28`), control path = **DYNAMIC ×3**. Expect `MISS`→`DYNAMIC` flapping for the first minute while the rule propagates across colos — that is not failure, re-test.
+
+*(Bonus: this also makes the cron cache-warmer meaningfully better — before the rule, warming the HTML document did nothing because it was never cacheable.)*
 
 ### The free field-data lever: a cron cache-warmer (built for MH, `cache-warmer/`)
 
