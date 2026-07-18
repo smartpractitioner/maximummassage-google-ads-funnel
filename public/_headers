@@ -17,3 +17,26 @@
 # do NOT rely on the TTL expiring.
 /images/*
   Cache-Control: public, max-age=2592000
+
+# HTML edge-caching (2026-07-18). The page HTML was measuring cf-cache-status:
+# DYNAMIC — Cloudflare decides cache eligibility by FILE EXTENSION, not MIME type, so
+# an extensionless URL like /prenatal-massage-calgary/ is passed to origin on EVERY
+# request. That origin round-trip is a large part of TTFB (638ms measured), and TTFB
+# directly gates FCP and LCP — the two metrics still red on PSI.
+#
+# Safe to cache here: this page is fully static (no server-side personalization; the
+# splitter in functions/_lib/split.js only touches /massage-therapy-calgary, and
+# UTM/gclid are read client-side by utm-capture.js).
+#
+#   max-age=0             -> browsers always revalidate, so a visitor never sees stale
+#   s-maxage=600          -> the EDGE serves it for 10 min without touching origin
+#   stale-while-revalidate-> edge can serve instantly while refreshing in background
+#
+# Deliberately a SHORT edge TTL: this is the live ad funnel, so a bad deploy must not
+# stick. If a deploy needs to go out instantly, purge the Cloudflare cache.
+# NOTE: if this doesn't flip cf-cache-status off DYNAMIC, Cloudflare Pages is ignoring
+# it and it needs a dashboard Cache Rule (Cache eligibility: eligible) instead.
+/prenatal-massage-calgary/
+  Cache-Control: public, max-age=0, s-maxage=600, stale-while-revalidate=86400
+/prenatal-massage-calgary/*
+  Cache-Control: public, max-age=0, s-maxage=600, stale-while-revalidate=86400
