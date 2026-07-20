@@ -721,3 +721,47 @@ Because $49 is publicly visible and can't be hidden without breaking ClinicSync 
 - **Phase 7.2 is the backstop** (was 7.1 before the 2026-07-02 backlog reorder) — if leakage runs >10/month post-launch, it auto-cancels the unmatched booking + emails the patient to rebook at the standard rate. Gated on Justin confirming PatientSync ↔ Jane bidirectional capture.
 
 **30-day watch:** once live, compare **`bookings_<skill>` count vs. Jane "Starter Session - By Invite Only" count**. The gap = leakage volume, which sizes whether 7.1 is worth building or the deflection copy already suffices.
+
+---
+
+## Decision 11 — Quiz questions are classified single- vs multi-select deliberately (decided 2026-07-20)
+
+**Trigger:** Kayla, walking the **live** prenatal page, flagged that Q2 *"What's bothering you most right now?"* only allowed one answer — but pregnancy routinely brings several of those at once (back pain **and** swelling **and** poor sleep). A single pick was silently discarding matching signal. Engine had no multi-select at all.
+
+**The classification rule — apply to every question on every new skill page:**
+
+| Question is about… | Type | Why |
+|---|---|---|
+| **Symptoms / concerns / body areas** ("what's bothering you", "where's the focus") | **MULTI** | People genuinely have several at once; each one carries real weighting signal |
+| **State / stage / duration** ("which trimester", "how long has this been going on") | **SINGLE** | Mutually exclusive by definition — you cannot be in two trimesters |
+| **Session style / pressure** ("what kind of work suits you") | **SINGLE** | They're booking *one* session; multiple styles are contradictory and dilute the weights |
+| **Therapist preference** ("anything matter about who you're matched with") | **MULTI** *(with an exclusive "no preference")* | Wanting a mom **and** calm energy is coherent |
+
+**Ask of every question you write: "could a real person honestly answer two of these at once?"** If yes → multi. If the options are states, stages, or a single choice being made → single.
+
+**Two implementation rules that fall out of it:**
+
+1. **A catch-all option must be marked `exclusive: true`.** Options like *"no specific complaint"*, *"no preference"*, *"open to whatever works"* cannot coherently combine with a specific answer, and would double-count weights. Selecting a catch-all clears the specifics and vice versa.
+2. **Copy must match the interaction.** Q2 said *"bothering you **most**"* — "most" implies one pick. Reworded to *"What's bothering you right now?"* with a **"Select all that apply"** hint. A multi question that reads as singular will be answered as singular.
+
+**Engine notes (`therapist-picker.js`):**
+- Opt in with `multi: true` on the question. Options render a **square** checkbox instead of the round radio — the control shape is the fastest signal that the rule changed.
+- **Multi cannot auto-advance** (nothing tells you the visitor is finished), so it shows an explicit **Continue**, disabled until ≥1 selection. Single-select keeps the auto-advance from Decision 10.
+- ⚠️ **A multi question still pushes exactly ONE answer entry, with the selected options' weights summed.** `goToQuestion()` rewinds via `answers.slice(0, questionIndex)` and `postQuizSubmission()` expects one row per question — pushing one entry per selected option desyncs back-navigation *and* the submitted record. Summing matches the documented scoring rule while preserving the one-answer-per-question invariant.
+
+**Still to classify (deferred, product call):** the remaining questions on deep-tissue / lymphatic / TMJ / sports were reviewed and flagged as multi-candidates (`location`, `symptom`, `where`, `reason`, and every `preference`), but were **not** changed — those pages get their decision at their Phase 5 treatment, so the copy and weighting are revisited together.
+
+---
+
+## Decision 12 — Pre-launch QA is TWO passes: the builder AND an outside walker (decided 2026-07-20)
+
+**Why:** the multi-select gap above shipped through a full 3.4 QA loop and repeated automated checks. It was caught by **Kayla simply using the live page as a visitor would**. Builders and automated checks verify *what was built*; they are structurally bad at noticing *what should have been built differently*, because both are anchored to the same intent.
+
+**The rule — before ads go live on any page, run both:**
+
+1. **Builder pass** — the person who built it walks the full funnel on the **live** URL (not localhost): every quiz path, back-navigation, the calendar, a real booking, and confirms the conversion/attribution lands.
+2. **Outside walker pass** — someone who did **not** build it and is not briefed on intended behaviour simply *uses* the page and reports whatever they notice: confusing copy, interactions that feel wrong, anything that doesn't match how they'd actually answer. **Their feedback is reviewed and incorporated where it holds up** — it is not automatically actioned, but it is never dismissed without a reason.
+
+**This is a launch gate, not a nicety.** Both passes are prerequisites for a page joining the Ads Launch Gate, alongside its E2E. Record who did each pass.
+
+> The instinct to skip step 2 ("we already tested it") is exactly the failure mode — step 1 had already passed when Kayla found this.
