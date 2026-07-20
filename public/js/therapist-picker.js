@@ -687,6 +687,13 @@
         return;
       }
 
+      // Multi-select "Continue" (multi questions can't auto-advance)
+      const quizCont = target.closest('[data-action="quiz-continue"]');
+      if (quizCont) {
+        submitMultiQuestion(quizCont.getAttribute('data-quiz-q'));
+        return;
+      }
+
       // ---- Custom calendar interactions ----
       if (calState) {
         if (target.closest('[data-cal-prev]')) { calState.month--; if (calState.month < 0) { calState.month = 11; calState.year--; } calLoadMonth(); return; }
@@ -832,12 +839,25 @@
     const q = questions[qIdx];
     const total = questions.length;
     const pct = quizPct(qIdx, total);
+    // Single- vs multi-select. A question opts in with `multi: true` in its config.
+    // Multi CANNOT auto-advance (there's no way to know the visitor is finished
+    // choosing), so it swaps the radio affordance for a checkbox, states the rule
+    // up front, and gates on an explicit Continue.
+    const isMulti = !!q.multi;
     const optionsHtml = q.options.map((opt) =>
       `<button type="button" class="native-quiz__option" data-quiz-option="${escapeHtml(opt.id)}" data-quiz-q="${escapeHtml(q.id)}" aria-pressed="false">`
       + `<span class="native-quiz__option-label">${escapeHtml(opt.label)}</span>`
-      + `<span class="native-quiz__radio" aria-hidden="true"></span>`
+      + `<span class="${isMulti ? 'native-quiz__check' : 'native-quiz__radio'}" aria-hidden="true"></span>`
       + `</button>`
     ).join('');
+    const multiHint = isMulti
+      ? `<p class="native-quiz__hint">Select all that apply</p>`
+      : '';
+    // Disabled until at least one option is chosen, so Continue can't produce an
+    // empty answer (which would contribute no weights and silently skew the match).
+    const multiContinue = isMulti
+      ? `<button type="button" class="native-quiz__continue" data-action="quiz-continue" data-quiz-q="${escapeHtml(q.id)}" disabled>Continue</button>`
+      : '';
     // Q1-only informed-consent notice (Alberta implied consent). Answering Q1
     // is the affirmative act; consent_version + timestamp are recorded on submit.
     let notice = '';
@@ -863,7 +883,9 @@
         </div>
         <div class="native-quiz__bar"><span class="native-quiz__bar-fill" data-quiz-bar></span></div>
         <h3 class="native-quiz__heading">${escapeHtml(q.text)}</h3>
+        ${multiHint}
         <div class="native-quiz__options">${optionsHtml}</div>
+        ${multiContinue}
         ${back}
       </div>
     `;
@@ -912,6 +934,35 @@
     if (!Array.isArray(questions)) return;
     const q = questions[nativeQuizState.qIdx];
     if (!q || q.id !== qId) return;
+    // Multi-select: toggle this option and wait for Continue. No auto-advance, and
+    // deliberately no mhQuizAnimating lock — the visitor must be able to tap several
+    // options in quick succession without taps being swallowed.
+    if (q.multi) {
+      const on = optEl.getAttribute('aria-pressed') === 'true';
+      const root = optEl.closest('.native-quiz');
+      const opt = q.options.find((o) => o.id === optId);
+      const setOpt = function (el, sel) {
+        el.classList.toggle('is-selected', sel);
+        el.setAttribute('aria-pressed', sel ? 'true' : 'false');
+      };
+      // Catch-all options ("no specific complaint", "no preference") are mutually
+      // exclusive with the specific ones — otherwise a visitor can answer
+      // "back pain" AND "no specific complaint", which is incoherent and would
+      // double-count weights. Selecting an exclusive option clears the rest;
+      // selecting a specific option clears any exclusive one.
+      if (root && !on && opt) {
+        const all = [].slice.call(root.querySelectorAll('.native-quiz__option'));
+        all.forEach(function (el) {
+          if (el === optEl) return;
+          const other = q.options.find((o) => o.id === el.getAttribute('data-quiz-option'));
+          if (opt.exclusive || (other && other.exclusive)) setOpt(el, false);
+        });
+      }
+      setOpt(optEl, !on);
+      const cont = root && root.querySelector('.native-quiz__continue');
+      if (cont) cont.disabled = !root.querySelector('.native-quiz__option[aria-pressed="true"]');
+      return;
+    }
     mhQuizAnimating = true;
     const siblings = optEl.parentNode ? optEl.parentNode.querySelectorAll('.native-quiz__option') : [];
     for (let i = 0; i < siblings.length; i++) {
@@ -927,6 +978,49 @@
       mhQuizAnimating = false;
       handleNativeQuizAnswer(qId, optId);
     }, wait);
+  }
+
+  // Commit a multi-select question (the Continue button).
+  //
+  // ⚠️ This pushes exactly ONE answer entry for the question, with the selected
+  // options' weights SUMMED, rather than one entry per selected option. That is
+  // load-bearing: goToQuestion() rewinds with answers.slice(0, questionIndex) and
+  // postQuizSubmission() expects one row per question, so pushing N entries would
+  // desync back-navigation and the submitted record. Summing here keeps the scoring
+  // identical to the documented rule ("sum weights across all selected options")
+  // while preserving the one-answer-per-question invariant everything else relies on.
+  function submitMultiQuestion(qId) {
+    const questions = currentPageConfig && currentPageConfig.quizQuestions;
+    if (!Array.isArray(questions)) return;
+    const q = questions[nativeQuizState.qIdx];
+    if (!q || q.id !== qId || !q.multi) return;
+    const stage = overlay.querySelector('[data-view="quiz"]');
+    if (!stage) return;
+    const chosen = [].slice.call(stage.querySelectorAll('.native-quiz__option[aria-pressed="true"]'));
+    const opts = chosen
+      .map((el) => q.options.find((o) => o.id === el.getAttribute('data-quiz-option')))
+      .filter(Boolean);
+    if (!opts.length) return;                 // Continue is disabled, but belt-and-braces
+    const merged = {};
+    opts.forEach((o) => {
+      Object.keys(o.weights || {}).forEach((tid) => {
+        merged[tid] = (merged[tid] || 0) + o.weights[tid];
+      });
+    });
+    nativeQuizState.answers.push({
+      qId: q.id,
+      qText: q.text,
+      optId: opts.map((o) => o.id).join('|'),
+      optLabel: opts.map((o) => o.label).join(', '),
+      weights: merged
+    });
+    nativeQuizState.qIdx += 1;
+    if (nativeQuizState.qIdx < questions.length) {
+      mountQuestion(stage, questions, nativeQuizState.qIdx, 'fwd');
+      pushView('quiz', { qIdx: nativeQuizState.qIdx });
+    } else {
+      finishNativeQuiz();
+    }
   }
 
   // Rewind the quiz to a given question, discarding any answers made after it, so

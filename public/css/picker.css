@@ -415,6 +415,72 @@
 }
 .native-quiz__option:active { transform: scale(0.99); }
 
+/* ---- Multi-select questions (`multi: true` in the quiz config) ----
+   Same card, but a SQUARE affordance instead of the round radio, so the control
+   itself signals "you may pick more than one" before the visitor reads the hint.
+   Kayla caught prenatal Q2 offering only one choice on the live page (2026-07-20);
+   the shape is the fastest tell that the rule changed. */
+.native-quiz__check {
+  flex: 0 0 auto;
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;               /* square-ish = multi; circle = single */
+  border: 2px solid #C4D3D6;
+  background: transparent;
+  transition: background var(--mh-anim-fill) var(--mh-ease),
+              border-color var(--mh-anim-fill) var(--mh-ease);
+}
+.native-quiz__check::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 3.5px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0.5);
+  opacity: 0;
+  transition: opacity 150ms ease 110ms, transform 160ms var(--mh-ease) 110ms;
+}
+.native-quiz__option.is-selected .native-quiz__check {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+.native-quiz__option.is-selected .native-quiz__check::after {
+  opacity: 1;
+  transform: rotate(45deg) scale(1);
+}
+
+.native-quiz__hint {
+  margin: -4px 0 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ink-soft-2, #5A6B70);
+}
+
+/* Multi questions can't auto-advance, so they need an explicit commit. Disabled
+   until at least one option is chosen (an empty answer would contribute no weights
+   and silently skew the recommendation). */
+.native-quiz__continue {
+  margin-top: 16px;
+  width: 100%;
+  border: none;
+  border-radius: var(--mh-radius-control, 16px);
+  background: var(--brand-primary);
+  color: #fff;
+  padding: 16px 18px;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease, opacity 150ms ease;
+}
+.native-quiz__continue:hover:not(:disabled) { background: var(--brand-primary-dark, #14596B); }
+.native-quiz__continue:active:not(:disabled) { transform: scale(0.99); }
+.native-quiz__continue:disabled { opacity: 0.42; cursor: default; }
+
 /* Back control now sits at the BOTTOM, below the options. */
 .native-quiz__back {
   align-self: flex-start;

@@ -63,7 +63,12 @@
     },
     {
       id: 'concern',
-      text: 'What’s bothering you most right now?',
+      // MULTI (2026-07-20, Kayla caught this on the live page): pregnancy commonly
+      // brings several of these at once (back pain AND swelling AND poor sleep), so
+      // forcing one answer threw away real matching signal. Wording changed too --
+      // "most" implied a single pick and contradicted the new interaction.
+      multi: true,
+      text: 'What’s bothering you right now?',
       options: [
         { id: 'pain', label: 'Back, hip, or pelvic pain',
           weights: { brookelyn: 2, charlotte: 2 } },
@@ -75,7 +80,7 @@
           weights: { tif: 3, charlotte: 1 } },
         { id: 'recovery', label: 'Recovering from delivery (c-section, abdominal, pelvic)',
           weights: { charlotte: 3, brookelyn: 1 } },
-        { id: 'cared', label: 'Just want to feel cared for, no specific complaint',
+        { id: 'cared', label: 'Just want to feel cared for, no specific complaint', exclusive: true,
           weights: { lindsey: 2, tif: 2 } }
       ]
     },
