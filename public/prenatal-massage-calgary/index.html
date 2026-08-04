@@ -1055,13 +1055,14 @@ button { font-family: inherit; }
   .guarantee-band__badge { flex: 0 0 auto; display: block; line-height: 0; }
   .guarantee-band__text { max-width: 700px; }
   .guarantee-band__text h2 { margin: 0; font-size: 40px; line-height: 1.08; letter-spacing: -0.01em; color: var(--ink); }
-  .guarantee-band__text h2 span { display: block; }
-  .guarantee-band__text h2 span { color: var(--brand-teal); }
+  .guarantee-band__text h2 .g-lead { color: var(--ink); }
+  .guarantee-band__text h2 .g-accent { color: var(--brand-teal); }
   .guarantee-band__text p { margin: 14px 0 0; font-size: 20px; line-height: 1.5; color: var(--ink-soft-2); max-width: none; }
 
-  /* ---- Stats: 4 across ---- */
-  .stats { background: var(--alt-bg-cool); padding-block: 0 44px; }
+  /* ---- Stats: its own white band, de-boxed (separate from the mint guarantee band above) ---- */
+  .stats { background: #fff; padding-block: 56px; }
   .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .stats .stat-card { background: transparent; border: 0; padding: 0; min-height: 0; }
   .stat-big { font-size: 42px; }
 
   /* ---- Benefits: numbered 2-col ---- */
@@ -1254,11 +1255,11 @@ button { font-family: inherit; }
 <section class="guarantee-band" aria-label="Our guarantee">
   <div class="guarantee-band__inner">
     <div class="guarantee-band__badge" aria-hidden="true">
-      <svg width="70" height="70" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="badgeGradD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F8FA6"/><stop offset="1" stop-color="#0E3A47"/></linearGradient></defs><g fill="url(#badgeGradD)"><circle cx="46" cy="24" r="3.2"/><circle cx="44.32" cy="32.42" r="3.2"/><circle cx="39.56" cy="39.56" r="3.2"/><circle cx="32.42" cy="44.32" r="3.2"/><circle cx="24" cy="46" r="3.2"/><circle cx="15.58" cy="44.32" r="3.2"/><circle cx="8.44" cy="39.56" r="3.2"/><circle cx="3.68" cy="32.42" r="3.2"/><circle cx="2" cy="24" r="3.2"/><circle cx="3.68" cy="15.58" r="3.2"/><circle cx="8.44" cy="8.44" r="3.2"/><circle cx="15.58" cy="3.68" r="3.2"/><circle cx="24" cy="2" r="3.2"/><circle cx="32.42" cy="3.68" r="3.2"/><circle cx="39.56" cy="8.44" r="3.2"/><circle cx="44.32" cy="15.58" r="3.2"/></g><circle cx="24" cy="24" r="19" fill="url(#badgeGradD)" stroke="#FAEAC9" stroke-width="1.5"/><path d="M15 24.5 L21.5 31 L33.5 17.5" fill="none" stroke="#FAEAC9" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="70" height="70" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="badgeGradD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F8FA6"/><stop offset="1" stop-color="#0E3A47"/></linearGradient></defs><circle cx="24" cy="24" r="19" fill="url(#badgeGradD)" stroke="#FAEAC9" stroke-width="1.5"/><path d="M15 24.5 L21.5 31 L33.5 17.5" fill="none" stroke="#FAEAC9" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="guarantee-band__text">
-      <h2><span>Love it or you don’t pay*</span></h2>
-      <p>Paying for someone that doesn’t meet expectations is a bummer. That’s why we invite you to <em>“try us before you buy us.”</em> We’re so confident we’ll be the last therapist you’ll work with — <strong>we guarantee it.</strong></p>
+      <h2><span class="g-lead">100% Guarantee —</span> <span class="g-accent">love it or you don’t pay*</span></h2>
+      <p>Paying for someone that doesn’t meet expectations is a bummer. “Try us before you buy us” — we’re so confident we’ll be the last therapist you’ll work with, <strong>we guarantee it.</strong></p>
     </div>
   </div>
 </section>
