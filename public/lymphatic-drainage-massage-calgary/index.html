@@ -20,11 +20,12 @@
      crossorigin is required (fonts are always CORS-fetched, even same-origin). -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/mulish-800-latin.woff2">
 <link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/logo.webp">
-<link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/lymphatic-hero.webp">
+<link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/lymphatic-hero-mobile.webp" media="(max-width: 1023px)">
+<link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/lymphatic-hero-desktop.webp" media="(min-width: 1024px)">
 
 <meta property="og:title" content="Lymphatic Drainage Massage Calgary for Swelling, Recovery & Inflammation">
 <meta property="og:description" content="Specialized lymphatic drainage by RMTs trained for it. Post-surgical, pregnancy edema, chronic inflammation. $49 starter session.">
-<meta property="og:image" content="/images/flow-b-v3/lymphatic-hero.webp">
+<meta property="og:image" content="/images/flow-b-v3/lymphatic-hero-mobile.webp">
 
 <style data-inlined-from="/css/flow-b-v3.css">
 /* Flow B v3 — mobile-first landing page (cream theme).
@@ -861,7 +862,7 @@ button { font-family: inherit; }
 .benefits-list li { background: #FFFFFF; border: 1px solid var(--brand-cream-border); border-radius: 16px; padding: 16px 18px; }
 .benefit-title { font-family: 'Mulish', 'Manrope', system-ui, sans-serif; font-size: 15.5px; font-weight: 800; letter-spacing: -0.2px; color: var(--ink); margin: 0 0 4px; }
 .benefit-body { font-size: 14px; line-height: 1.5; color: var(--ink-soft); margin: 0; }
-.session-steps { background: var(--alt-bg-warm); padding: 40px 22px 36px; }
+.session-steps { background: #E4F1F2; padding: 40px 22px 36px; }
 .session-steps h2 { font-size: 28px; letter-spacing: -0.6px; line-height: 1.12; margin: 0 0 28px; }
 .session-steps-list { list-style: none; margin: 0 auto; padding: 0; display: flex; flex-direction: column; gap: 18px; max-width: 480px; counter-reset: step; }
 .session-steps-list li { position: relative; padding-left: 48px; counter-increment: step; }
@@ -878,7 +879,7 @@ button { font-family: inherit; }
 
 /* Lymphatic CTA background (per-page override; engine default is woman-massage.
    Image change stays in this page's own block, never the shared CSS - image SOP). */
-.final-cta { background-image: linear-gradient(180deg, rgba(11, 49, 60, 0.78) 0%, rgba(11, 49, 60, 0.86) 100%), url("/images/flow-b-v3/lymphatic-cta.webp"); }
+.final-cta { background-image: linear-gradient(180deg, rgba(11, 49, 60, 0.78) 0%, rgba(11, 49, 60, 0.86) 100%), url("/images/flow-b-v3/lymphatic-cta-shoulder.webp"); }
 
 /* Hide the desktop-only guarantee band on mobile (guarantee lives in the offer card). */
 .guarantee-band { display: none; }
@@ -959,7 +960,7 @@ button { font-family: inherit; }
   .benefits-list li .benefit-body { grid-column: 2; grid-row: 2; }
 
   /* ---- Session steps: 3 across (number moves to top of each column) ---- */
-  .session-steps { background: var(--alt-bg-warm); padding-block: 84px; }
+  .session-steps { background: #E4F1F2; padding-block: 84px; }
   .session-steps h2 { text-align: center; font-size: 40px; margin: 0 0 48px; }
   .session-steps-list { max-width: none; flex-direction: row; gap: 32px; align-items: flex-start; }
   .session-steps-list li { flex: 1 1 0; min-width: 0; padding-left: 0; padding-top: 56px; }
@@ -1083,7 +1084,10 @@ button { font-family: inherit; }
       </div>
     </div>
   </div>
-  <div class="hero-image"><img src="/images/flow-b-v3/lymphatic-hero.webp" alt="Calm lymphatic drainage session, gentle neck and décolleté work" width="1200" height="1410" fetchpriority="high"></div>
+  <div class="hero-image"><picture>
+    <source media="(min-width: 1024px)" srcset="/images/flow-b-v3/lymphatic-hero-desktop.webp">
+    <img src="/images/flow-b-v3/lymphatic-hero-mobile.webp" alt="Calm lymphatic drainage session, gentle neck and décolleté work" width="1200" height="1410" fetchpriority="high">
+  </picture></div>
 </section>
 
 <!-- Guarantee band (desktop-only; on mobile the guarantee lives inside the offer card) -->
