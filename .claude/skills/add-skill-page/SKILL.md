@@ -765,3 +765,13 @@ Because $49 is publicly visible and can't be hidden without breaking ClinicSync 
 **This is a launch gate, not a nicety.** Both passes are prerequisites for a page joining the Ads Launch Gate, alongside its E2E. Record who did each pass.
 
 > The instinct to skip step 2 ("we already tested it") is exactly the failure mode — step 1 had already passed when Kayla found this.
+
+## Decision 13 — FAQ and editorial body copy never name an individual therapist (decided 2026-08-04)
+
+**Why (Victor):** therapists come and go at a clinic. The **picker is the single place a therapist's identity lives** — it's config, and a roster change is one edit there. The moment a therapist's name is baked into FAQ answers or body copy, a departure means hunting through prose on every page to scrub or swap them, and it *will* be missed. Keeping names out of editorial copy means a roster change requires **only** a picker-config update — nothing in the page copy has to change. This also makes the factory portable: a new client's pages carry no other client's staff names.
+
+**The rule:** FAQ answers, benefits, intros, and any editorial body copy refer to **skills, trainings, CEUs, and specialties** — never to a named individual ("*we have RMTs who specialize in c-section scar work*," not "*Charlotte specializes in…*"). Keep every credibility signal (the specific training/CEU); drop only the name.
+
+**Where names ARE allowed:** the therapist picker (config-driven, the whole point), a therapist's own dedicated result page (e.g. `/charlotte/`), and **verbatim** client testimonials (a real review that names a therapist is authentic social proof — do not edit a quote).
+
+**Applies factory-wide.** Applied to prenatal + lymphatic on 2026-08-04. **Still to sweep: deep-tissue, sports** (both name therapists in their FAQ; to be de-named in their Phase 5 builds). Also lives in the JSON-LD FAQ schema — de-name **both** the visible answer and the structured-data copy.
