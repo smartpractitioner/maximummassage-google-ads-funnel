@@ -139,7 +139,7 @@
         prenatal: {
           title: 'Pre/post-partum + recovery specialist',
           specialty: 'C-section + chronic back pain',
-          bio: 'Hi, I’m Charlotte. I bring specialized pre/post-partum training together with myofascial, trigger-point, and lymphatic drainage work, especially for c-section recovery, scar sensitivity, and the chronic back, hip, and shoulder pain that often lingers after pregnancy. I also have a PhD in Nutritional Biochemistry and have spent over a decade teaching massage therapy, so the science behind what I’m doing matters to me.\n\nI also know what long recovery looks like personally, after fracturing two vertebrae in 2006. That experience taught me to work gently and patiently and to never push through pain to chase a quick result. If your body is in a season of change, I’d love to help.',
+          bio: 'Hi, I’m Charlotte. I bring specialized pre/post-partum training together with myofascial, trigger-point, and lymphatic drainage work, especially for c-section recovery, scar sensitivity, and the chronic back, hip, and shoulder pain that often lingers after pregnancy. I also have a PhD in Nutritional Biochemistry and have spent over a decade teaching massage therapy, so the science behind what I’m doing matters to me.\n\nI also know what long recovery looks like personally, after fracturing two vertebrae in 2006. That experience taught me to work gently and patiently and to never push through pain to chase a quick result. If your body is in a season of change, I think we could be a good fit.',
           tags: ['Pre/post-partum CEU', 'C-section recovery', 'Lymphatic drainage', 'Trigger point', 'Myofascial release', 'Chronic back pain', 'Side-lying massage', 'Reiki Master']
         },
         deep_tissue: {
@@ -151,7 +151,7 @@
         sports: {
           title: 'Injury recovery + myofascial specialist',
           specialty: 'Sports injury + chronic rehab',
-          bio: 'Hi, I’m Charlotte. I work with people whose injuries didn’t quite resolve the way they were supposed to. Old strains, areas of chronic tightness that limit your movement, post-surgical bodies that need patient, science-backed rehab. I bring myofascial release, trigger point therapy, and lymphatic drainage when there’s lingering inflammation.\n\nI also know what real rehab looks like personally, after fracturing two vertebrae in 2006, I went through a long recovery. That experience taught me to work patiently, to never push through pain for show, and to find what actually moves the needle for each body. If your body needs more than a flush massage to get back, I’d love to help.',
+          bio: 'Hi, I’m Charlotte. I work with people whose injuries didn’t quite resolve the way they were supposed to. Old strains, areas of chronic tightness that limit your movement, post-surgical bodies that need patient, science-backed rehab. I bring myofascial release, trigger point therapy, and lymphatic drainage when there’s lingering inflammation.\n\nI also know what real rehab looks like personally, after fracturing two vertebrae in 2006, I went through a long recovery. That experience taught me to work patiently, to never push through pain for show, and to find what actually moves the needle for each body. If your body needs more than a flush massage to get back, you could likely benefit from working with me.',
           tags: ['Myofascial release', 'Trigger point', 'Sports injury recovery', 'Chronic strain', 'Post-surgical', 'Lymphatic drainage', 'Client education', 'PhD biochemistry']
         },
         tmj: {
@@ -163,7 +163,7 @@
         lymphatic: {
           title: 'Lymphatic drainage + post-surgical specialist',
           specialty: 'Post-op + chronic inflammation',
-          bio: 'Hi, I’m Charlotte. Lymphatic drainage is one of my favourite areas to work in, because it’s both technically interesting and deeply helpful. For post-surgical bodies, chronic inflammation, autoimmune conditions, and lymphedema, the right kind of gentle, rhythmic work can make a real difference. I have a CEU specifically in lymphatic drainage and a decade of experience applying it.\n\nMy background also includes a PhD in Nutritional Biochemistry, which means I think about your tissue and what’s happening in it at a fairly granular level. If your body is dealing with persistent swelling or recovering from something significant, I’d love to help.',
+          bio: 'Hi, I’m Charlotte. Lymphatic drainage is one of my favourite areas to work in, because it’s both technically interesting and deeply helpful. For post-surgical bodies, chronic inflammation, autoimmune conditions, and lymphedema, the right kind of gentle, rhythmic work can make a real difference. I have a CEU specifically in lymphatic drainage and a decade of experience applying it.\n\nMy background also includes a PhD in Nutritional Biochemistry, which means I think about your tissue and what’s happening in it at a fairly granular level. If your body is dealing with persistent swelling or recovering from something significant, this is exactly the kind of work I do best.',
           tags: ['Lymphatic drainage (CEU)', 'Post-surgical', 'Chronic inflammation', 'Autoimmune support', 'Lymphedema', 'Myofascial release', 'PhD biochemistry', 'Patient + adaptive']
         }
       }
@@ -198,7 +198,7 @@
         prenatal: {
           title: 'Prenatal & postpartum specialist',
           specialty: 'Prenatal yoga + doula',
-          bio: 'Hi, I’m Lindsey. My whole practice has grown around supporting bodies through pregnancy and into postpartum. I work in side-lying with lots of cushions, blending fascial release with nervous-system-aware care so the session feels calming rather than jarring. I move at a pace your body can actually integrate, no matter what trimester you’re in.\n\nI’ve been teaching prenatal yoga since 2014, I’m a certified doula (birth and postpartum), a breathwork facilitator, and a mom of three. So I get it from the inside, the exhaustion, the tenderness, all of it. If you want someone who’s calm, patient, and fully present for whatever season you’re in, I’d love to take care of you.',
+          bio: 'Hi, I’m Lindsey. My whole practice has grown around supporting bodies through pregnancy and into postpartum. I work in side-lying with lots of cushions, blending fascial release with nervous-system-aware care so the session feels calming rather than jarring. I move at a pace your body can actually integrate, no matter what trimester you’re in.\n\nI’ve been teaching prenatal yoga since 2014, I’m a certified doula (birth and postpartum), a breathwork facilitator, and a mom of three. So I get it from the inside, the exhaustion, the tenderness, all of it. If you want someone who’s calm, patient, and fully present for whatever season you’re in, you’d be in good hands with me.',
           tags: ['Prenatal yoga (since 2014)', 'Doula (birth + postpartum)', 'Side-lying massage', 'Nervous system regulation', 'Breathwork', 'Mom of three', 'Postpartum recovery', 'Pregnancy anxiety + sleep']
         }
       }
@@ -229,7 +229,7 @@
         prenatal: {
           title: 'Pre & post-natal + lymphatic specialist',
           specialty: 'Pregnancy edema + lymphatic',
-          bio: 'Hi, I’m Tif. I tailor every session to whatever you’re navigating that day, swelling, headaches, jaw tension, or just needing some calm. My training spans Swedish, deep tissue, lymphatic drainage, and pre/post-natal massage, so I can shift from gentle relaxation into focused lymphatic work in the same session if that’s what you need.\n\nOutside the clinic, I’m a musician and an artist who spends as much time outside as the weather allows, hiking, biking, and skiing with my husband and our dog. I’d love to bring that same care for what makes life feel good into your sessions.',
+          bio: 'Hi, I’m Tif. I tailor every session to whatever you’re navigating that day, swelling, headaches, jaw tension, or just needing some calm. My training spans Swedish, deep tissue, lymphatic drainage, and pre/post-natal massage, so I can shift from gentle relaxation into focused lymphatic work in the same session if that’s what you need.\n\nOutside the clinic, I’m a musician and an artist who spends as much time outside as the weather allows, hiking, biking, and skiing with my husband and our dog. I bring that same care for what makes life feel good into your sessions.',
           tags: ['Pre & post-natal trained', 'Lymphatic drainage (edema)', 'Side-lying Swedish', 'TMJ + jaw tension', 'Pregnancy headaches', 'Personalized approach', 'Stress reduction', 'Pain management']
         },
         deep_tissue: {

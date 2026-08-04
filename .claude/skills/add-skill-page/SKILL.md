@@ -775,3 +775,13 @@ Because $49 is publicly visible and can't be hidden without breaking ClinicSync 
 **Where names ARE allowed:** the therapist picker (config-driven, the whole point), a therapist's own dedicated result page (e.g. `/charlotte/`), and **verbatim** client testimonials (a real review that names a therapist is authentic social proof — do not edit a quote).
 
 **Applies factory-wide.** Applied to prenatal + lymphatic on 2026-08-04. **Still to sweep: deep-tissue, sports** (both name therapists in their FAQ; to be de-named in their Phase 5 builds). Also lives in the JSON-LD FAQ schema — de-name **both** the visible answer and the structured-data copy.
+
+## Decision 14 — Voice: calm confidence, never neediness ("needy is greedy", decided 2026-08-04)
+
+**Why (Victor):** copy that leans in — "I'd love to help", "I'd love to take care of you", "we can't wait" — reads as *needy*, and **needy is greedy**. It signals we want the sale more than the reader wants the outcome, which lowers perceived status and is simply weaker copy. The confident practitioner assumes value and lets the reader opt in.
+
+**The rule:** never close a therapist bio, CTA, or any persuasive line with an eager wish to help. State fit or benefit from a position of calm confidence and let the reader decide:
+- ✅ "I think we could be a good fit." · "You could likely benefit from working with me." · "This is exactly the kind of work I do best." · "You'd be in good hands with me."
+- ❌ "I'd love to help." · "I'd love to take care of you." · "We can't wait to…" · "Happy to help!"
+
+**Scope:** all client-facing copy — bios (picker), CTAs, page body, and warmth on confirmation pages (a warm confirmation is fine, but keep it confident, not fawning). Applied to all 5 therapist bios (Charlotte ×3, Lindsey, Tif) on 2026-08-04. This is a voice principle for every client, not just Maximum Health.
