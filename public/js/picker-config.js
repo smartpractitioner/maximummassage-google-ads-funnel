@@ -336,16 +336,16 @@
     },
     {
       id: 'style',
-      text: 'What sounds best for your session?',
+      text: 'When you picture leaving your session, what matters most?',
       options: [
-        { id: 'post_op', label: 'Slow and methodical, post-surgical focus',
-          weights: { charlotte: 3 } },
-        { id: 'calming', label: 'Gentle and calming, more like a relaxation session with intent',
+        { id: 'calming', label: 'Feeling calm and lighter — a real chance to unwind',
           weights: { tif: 3 } },
-        { id: 'combined', label: 'Lymphatic combined with some other targeted work',
-          weights: { charlotte: 1, tif: 1 } },
-        { id: 'exploring', label: 'I’m just exploring',
-          weights: {} }
+        { id: 'targeted', label: 'Progress on something chronic or stubborn my body won’t let go of',
+          weights: { charlotte: 3 } },
+        { id: 'post_op', label: 'Careful, methodical support through post-surgical recovery',
+          weights: { charlotte: 3, tif: 1 } },
+        { id: 'both', label: 'A bit of both — deeply relaxing, but doing real work too',
+          weights: { charlotte: 1, tif: 1 } }
       ]
     },
     {
