@@ -20,11 +20,11 @@
      crossorigin is required (fonts are always CORS-fetched, even same-origin). -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/mulish-800-latin.woff2">
 <link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/logo.webp">
-<link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/woman-massage.webp">
+<link rel="preload" as="image" fetchpriority="high" href="/images/flow-b-v3/lymphatic-hero.webp">
 
 <meta property="og:title" content="Lymphatic Drainage Massage Calgary for Swelling, Recovery & Inflammation">
 <meta property="og:description" content="Specialized lymphatic drainage by RMTs trained for it. Post-surgical, pregnancy edema, chronic inflammation. $49 starter session.">
-<meta property="og:image" content="/images/flow-b-v3/woman-massage.webp">
+<meta property="og:image" content="/images/flow-b-v3/lymphatic-hero.webp">
 
 <style data-inlined-from="/css/flow-b-v3.css">
 /* Flow B v3 — mobile-first landing page (cream theme).
@@ -876,6 +876,10 @@ button { font-family: inherit; }
 .offer-scarcity-i { font-size: 26px; line-height: 1; flex: 0 0 auto; }
 .offer-scarcity-t { text-align: left; font-size: 15px; line-height: 1.2; font-weight: 700; letter-spacing: .01em; color: #C15A20; max-width: 120px; }
 
+/* Lymphatic CTA background (per-page override; engine default is woman-massage.
+   Image change stays in this page's own block, never the shared CSS - image SOP). */
+.final-cta { background-image: linear-gradient(180deg, rgba(11, 49, 60, 0.78) 0%, rgba(11, 49, 60, 0.86) 100%), url("/images/flow-b-v3/lymphatic-cta.webp"); }
+
 /* Hide the desktop-only guarantee band on mobile (guarantee lives in the offer card). */
 .guarantee-band { display: none; }
 
@@ -1079,7 +1083,7 @@ button { font-family: inherit; }
       </div>
     </div>
   </div>
-  <div class="hero-image"><img src="/images/flow-b-v3/woman-massage.webp" alt="Calm lymphatic drainage session" width="800" height="940" fetchpriority="high"></div>
+  <div class="hero-image"><img src="/images/flow-b-v3/lymphatic-hero.webp" alt="Calm lymphatic drainage session, gentle neck and décolleté work" width="1200" height="1410" fetchpriority="high"></div>
 </section>
 
 <!-- Guarantee band (desktop-only; on mobile the guarantee lives inside the offer card) -->

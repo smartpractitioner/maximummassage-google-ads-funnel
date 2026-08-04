@@ -855,6 +855,10 @@ button { font-family: inherit; }
 /* Skill-page additions for the deep-tissue page. Hosted inline until we
    abstract these into the shared design system. */
 
+/* Deep-tissue CTA background (per-page override; engine default is woman-massage.
+   Image change stays in this page's own block, never the shared CSS - image SOP). */
+.final-cta { background-image: linear-gradient(180deg, rgba(11, 49, 60, 0.78) 0%, rgba(11, 49, 60, 0.86) 100%), url("/images/flow-b-v3/deep-tissue-cta.webp"); }
+
 /* "What is [modality]" intro block, slotted after stats. */
 .modality-intro {
   background: var(--page-bg);
