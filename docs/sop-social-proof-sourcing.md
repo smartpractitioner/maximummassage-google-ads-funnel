@@ -151,7 +151,7 @@ r-003     | LUMINO | "Tracy is amazing..."        | therapeutic-page-testimonial
 
 Then Step 4 of the process checks the lookup before placing a review — if the target review is already used ON THE SAME PAGE, pick a different one.
 
-**Cross-page duplication is fine.** A review from Tracy can appear as the page testimonial on prenatal AND as Charlotte's detail-panel review on lymphatic — those are two different placements the visitor won't see side by side.
+**Cross-page duplication is fine.** A review from Tracy can appear as the page testimonial on prenatal AND as Charlotte's detail-panel review on lymphatic — those are two different placements the visitor won't see side by side. **Even the *same* placement (page testimonial) on two skill pages is acceptable when it's genuinely the best fit** — different skill pages have different audiences who never see both. **Never skip a better-fitting review just to force distinctness; best fit wins.** (Victor, 2026-08-04.)
 
 **Within-page duplication is the failure mode.** Same review appearing twice on ONE skill page = detection risk.
 
