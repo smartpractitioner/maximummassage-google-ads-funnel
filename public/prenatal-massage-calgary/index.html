@@ -1049,18 +1049,22 @@ button { font-family: inherit; }
   .fudx-grid { justify-content: flex-start; }
   .offer-card .guarantee { display: none; }
 
-  /* ---- Guarantee band ---- */
-  .guarantee-band { display: block; background: var(--alt-bg-cool); border-top: 1px solid #CFE6E9; padding-block: 60px 44px; }
-  .guarantee-band__inner { display: flex; align-items: center; gap: 30px; width: fit-content; max-width: 100%; margin: 0 auto; padding-inline: 40px; box-sizing: border-box; }
-  .guarantee-band__badge { flex: 0 0 auto; display: block; line-height: 0; }
-  .guarantee-band__text { max-width: 700px; }
-  .guarantee-band__text h2 { margin: 0; font-size: 40px; line-height: 1.08; letter-spacing: -0.01em; color: var(--ink); }
+  /* ---- Guarantee band ----
+     Layout / spacing / badge follow docs/design-spec-guarantee-stats-band.md.
+     Two deliberate deviations from that spec (see its Implementation notes):
+     fonts stay on the page families (NOT the spec's Newsreader — we don't re-add
+     a serif payload after the 3.4 font trim), and colours stay on page tokens. */
+  .guarantee-band { display: block; background: var(--alt-bg-cool); border-top: 1px solid #CFE6E9; padding-block: 72px; }
+  .guarantee-band__inner { display: flex; align-items: center; justify-content: center; gap: 36px; width: min(100%, 1180px); margin: 0 auto; padding-inline: 40px; box-sizing: border-box; text-align: left; }
+  .guarantee-band__badge { flex: 0 0 auto; display: block; line-height: 0; filter: drop-shadow(0 8px 14px rgba(20, 90, 100, 0.30)); }
+  .guarantee-band__text { max-width: 860px; }
+  .guarantee-band__text h2 { margin: 0; font-size: 44px; line-height: 1.05; letter-spacing: -0.01em; color: var(--ink); }
   .guarantee-band__text h2 .g-lead { color: var(--ink); }
   .guarantee-band__text h2 .g-accent { color: var(--brand-teal); }
-  .guarantee-band__text p { margin: 14px 0 0; font-size: 20px; line-height: 1.5; color: var(--ink-soft-2); max-width: none; }
+  .guarantee-band__text p { margin: 12px 0 0; font-size: 20px; line-height: 1.5; color: var(--ink-soft-2); max-width: 720px; }
 
-  /* ---- Stats: its own white band, de-boxed (separate from the mint guarantee band above) ---- */
-  .stats { background: #fff; padding-block: 56px; }
+  /* ---- Stats: own white band, de-boxed, subtle hairline top/bottom (spec) ---- */
+  .stats { background: #fff; border-top: 1px solid #EBE2DA; border-bottom: 1px solid #EBE2DA; padding-block: 44px; }
   .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; }
   .stats .stat-card { background: transparent; border: 0; padding: 0; min-height: 0; }
   .stat-big { font-size: 42px; }
@@ -1255,11 +1259,11 @@ button { font-family: inherit; }
 <section class="guarantee-band" aria-label="Our guarantee">
   <div class="guarantee-band__inner">
     <div class="guarantee-band__badge" aria-hidden="true">
-      <svg width="70" height="70" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="badgeGradD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F8FA6"/><stop offset="1" stop-color="#0E3A47"/></linearGradient></defs><circle cx="24" cy="24" r="19" fill="url(#badgeGradD)" stroke="#FAEAC9" stroke-width="1.5"/><path d="M15 24.5 L21.5 31 L33.5 17.5" fill="none" stroke="#FAEAC9" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="68" height="68" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="badgeGradD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F8FA6"/><stop offset="1" stop-color="#155F70"/></linearGradient></defs><circle cx="24" cy="24" r="24" fill="url(#badgeGradD)"/><circle cx="24" cy="24" r="21.5" fill="#fff"/><circle cx="24" cy="24" r="18.5" fill="url(#badgeGradD)"/><path d="M15 24.5 L21.5 31 L33.5 17.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="guarantee-band__text">
       <h2><span class="g-lead">100% Guarantee —</span> <span class="g-accent">love it or you don’t pay*</span></h2>
-      <p>Paying for someone that doesn’t meet expectations is a bummer. “Try us before you buy us” — we’re so confident we’ll be the last therapist you’ll work with, <strong>we guarantee it.</strong></p>
+      <p>Paying for someone that doesn’t meet expectations is a bummer. That’s why we invite you to “try us before you buy us.” We’re so confident we’ll be the last therapist you’ll work with, we guarantee it.</p>
     </div>
   </div>
 </section>
