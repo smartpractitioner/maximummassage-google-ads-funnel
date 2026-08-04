@@ -113,6 +113,8 @@ Parameters:
 
 Claude places the output in the correct project location, updates the page to reference it (**carrying over the `background-position` / crop tuned during the mockup step**), commits, pushes, and confirms it rendered on the live page.
 
+**Name the output descriptively — never ship the stock filename.** Rename off `pexels-xxx` / `Depositphotos_xxx` (meaningless) to `{page}-{slot}[-{descriptor}].webp` — the name should say *where it's used* and, when helpful, *what it shows*: e.g. `lymphatic-hero-desktop.webp`, `lymphatic-cta-shoulder.webp`, `deep-tissue-cta.webp`. Self-documenting for the next person, and it prevents mystery assets in `/images`. Applies to every image on every client. When one slot has per-breakpoint or candidate variants, suffix them (`-desktop`/`-mobile`, or a content word like `-shoulder`/`-back`).
+
 **Per-page overrides, not shared-CSS edits.** Skill pages share one stylesheet, so a page-specific image change (a different hero aspect-ratio, a different CTA background) goes in **that page's own inline `<style>` block** — never by editing the shared CSS, which would silently change every other page.
 
 ---
