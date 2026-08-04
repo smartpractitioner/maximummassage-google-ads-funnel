@@ -1057,17 +1057,28 @@ button { font-family: inherit; }
   .guarantee-band { display: block; background: var(--alt-bg-cool); border-top: 1px solid #CFE6E9; padding-block: 72px; }
   .guarantee-band__inner { display: flex; align-items: center; justify-content: center; gap: 36px; width: min(100%, 1180px); margin: 0 auto; padding-inline: 40px; box-sizing: border-box; text-align: left; }
   .guarantee-band__badge { flex: 0 0 auto; display: block; line-height: 0; filter: drop-shadow(0 8px 14px rgba(20, 90, 100, 0.30)); }
-  .guarantee-band__text { max-width: 860px; }
-  .guarantee-band__text h2 { margin: 0; font-size: 44px; line-height: 1.05; letter-spacing: -0.01em; color: var(--ink); }
+  .guarantee-band__text { max-width: none; }
+  /* Headline forced to one line (per screenshot). clamp() scales it with the
+     viewport so it stays on one line from the 1024px breakpoint up to wide
+     screens without wrapping or overflowing; nowrap guarantees the single line. */
+  .guarantee-band__text h2 { margin: 0; font-size: clamp(28px, 2.9vw, 42px); line-height: 1.05; letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
   .guarantee-band__text h2 .g-lead { color: var(--ink); }
   .guarantee-band__text h2 .g-accent { color: var(--brand-teal); }
-  .guarantee-band__text p { margin: 12px 0 0; font-size: 20px; line-height: 1.5; color: var(--ink-soft-2); max-width: 720px; }
+  /* Body font is Manrope (page stack), NOT the spec's Mulish; weight 500 gives it
+     the heft the screenshot's Mulish had without adding a font-weight to the payload. */
+  .guarantee-band__text p { margin: 12px 0 0; font-size: 22px; font-weight: 500; line-height: 1.5; color: var(--ink-soft-2); max-width: 720px; }
+  .guarantee-band__text p .g-underline { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+  /* "Highlighter" in the CTA/hero checkmark pink (#D77BAE); clone so it wraps cleanly. */
+  .guarantee-band__text p .g-hl { background: #D77BAE; color: var(--ink); padding: 0 .2em; border-radius: 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
   /* ---- Stats: own white band, de-boxed, subtle hairline top/bottom (spec) ---- */
   .stats { background: #fff; border-top: 1px solid #EBE2DA; border-bottom: 1px solid #EBE2DA; padding-block: 44px; }
   .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; }
   .stats .stat-card { background: transparent; border: 0; padding: 0; min-height: 0; }
   .stat-big { font-size: 42px; }
+  /* Cap label width so the long labels wrap/stack under the number instead of
+     running edge-to-edge (looked crowded); short labels still fit on one line. */
+  .stats .stat-label { max-width: 150px; margin-inline: auto; }
 
   /* ---- Benefits: numbered 2-col ---- */
   .benefits { padding-block: 84px; }
@@ -1263,7 +1274,7 @@ button { font-family: inherit; }
     </div>
     <div class="guarantee-band__text">
       <h2><span class="g-lead">100% Guarantee —</span> <span class="g-accent">love it or you don’t pay*</span></h2>
-      <p>Paying for someone that doesn’t meet expectations is a bummer. That’s why we invite you to “try us before you buy us.” We’re so confident we’ll be the last therapist you’ll work with, we guarantee it.</p>
+      <p>Paying for someone that doesn’t meet expectations is a bummer. That’s why we invite you to “<span class="g-underline">try us before you buy us</span>.” We’re so confident we’ll be the last therapist you’ll work with, <span class="g-hl">we guarantee it</span>.</p>
     </div>
   </div>
 </section>
