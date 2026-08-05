@@ -785,3 +785,11 @@ Because $49 is publicly visible and can't be hidden without breaking ClinicSync 
 - ❌ "I'd love to help." · "I'd love to take care of you." · "We can't wait to…" · "Happy to help!"
 
 **Scope:** all client-facing copy — bios (picker), CTAs, page body, and warmth on confirmation pages (a warm confirmation is fine, but keep it confident, not fawning). Applied to all 5 therapist bios (Charlotte ×3, Lindsey, Tif) on 2026-08-04. This is a voice principle for every client, not just Maximum Health.
+
+## Decision 15 — The testimonial carousel is the canonical reviews pattern for every skill page (decided 2026-08-04)
+
+**Why (Victor):** prenatal is canonical, and its mobile reviews are a horizontal **snap-scroll carousel with dots**, not a stacked column. The engine (`flow-b-v3.css`) only ships a stacked `.testimonial-list`; the carousel (CSS + the dots JS) was **prenatal-only** — the code literally carried a `// promote to shared CSS in Phase 5` note, gated on a page having **≥3 reviews** (a carousel of one card + one dot is worse than a single card). Lymphatic hit that bar and needed it ported.
+
+**The rule:** every skill page with **≥3 testimonials** uses the carousel — mobile snap-scroll + dot nav; the desktop layer shows a static 3-up row. A page with **<3** reviews keeps the stacked/single treatment until it has enough (see [`../../../docs/sop-social-proof-sourcing.md`](../../../docs/sop-social-proof-sourcing.md): target 3–5).
+
+**Implementation:** the carousel CSS (`.testimonial-list` row/scroll-snap, `.testimonial-card` flex-basis, `.testimonial-dots` + active-dot) and the inline dots JS live per-page for now (prenatal + lymphatic). **Engine-extraction TODO (page 3 / deep-tissue):** promote the CSS to `flow-b-v3.css` and the JS to a shared script so deep-tissue/sports/tmj inherit it automatically — this is the second confirmed engine-extraction candidate alongside the desktop layer.
