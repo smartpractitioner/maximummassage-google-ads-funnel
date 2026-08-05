@@ -350,15 +350,14 @@
     },
     {
       id: 'preference',
+      multi: true,
       text: 'Anything matter about who you’re matched with?',
       options: [
         { id: 'clinical', label: 'Someone with deep clinical background',
           weights: { charlotte: 3 } },
         { id: 'warm', label: 'Someone gentle and warm, not clinical-feeling',
           weights: { tif: 2 } },
-        { id: 'either', label: 'Either works for me',
-          weights: {} },
-        { id: 'none', label: 'No preference',
+        { id: 'none', label: 'No strong preference', exclusive: true,
           weights: {} }
       ]
     }
