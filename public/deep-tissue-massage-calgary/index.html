@@ -404,6 +404,8 @@ button { font-family: inherit; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Mirror the hero so she faces into the page (right) on mobile. Reset on desktop. */
+  transform: scaleX(-1);
 }
 
 /* ---------- Key Stats ---------- */
@@ -919,7 +921,12 @@ button { font-family: inherit; }
   border: 1px solid var(--brand-cream-border);
   border-radius: 16px;
   padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
 }
+.benefit-icon { flex: 0 0 auto; width: 25px; height: 25px; margin-top: 1px; }
+.benefit-text { min-width: 0; }
 .benefit-title {
   font-family: 'Mulish', 'Manrope', system-ui, sans-serif;
   font-size: 15.5px;
@@ -1057,7 +1064,7 @@ button { font-family: inherit; }
   .hero-image { aspect-ratio: auto; min-width: 0; height: 100%; min-height: 480px; align-self: stretch; margin-top: 0; }
   /* Portrait hero (single image, no landscape desktop variant): frame lower so the
      face + therapist's hands stay in the crop, not the blinds. QA-nudge this one value. */
-  .hero-image img { width: 100%; height: 100%; object-fit: cover; object-position: center 45%; }
+  .hero-image img { width: 100%; height: 100%; object-fit: cover; object-position: center 45%; transform: none; }
 
   .offer-card { background: transparent; border: 0; box-shadow: none; padding: 0; max-width: 540px; margin: 0; }
   .offer-eyebrow { margin-bottom: 18px; }
@@ -1316,28 +1323,46 @@ button { font-family: inherit; }
   <h2>Benefits of deep tissue massage</h2>
   <ul class="benefits-list">
     <li>
-      <p class="benefit-title">Real release of chronic muscle knots.</p>
-      <p class="benefit-body">Targeted pressure and slow strokes work the deeper layers where stretching alone usually can’t reach.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8" fill="#D77BAE" stroke="none"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">Real release of chronic muscle knots.</p>
+        <p class="benefit-body">Targeted pressure and slow strokes work the deeper layers where stretching alone usually can’t reach.</p>
+      </div>
     </li>
     <li>
-      <p class="benefit-title">Relief from persistent back, neck, and shoulder tension.</p>
-      <p class="benefit-body">These are the spots most clients come in for, and they respond well when the work is specific.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v17"/><path d="M9.5 6.5h5M9 10.2h6M9 13.8h6M9.5 17.5h5"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">Relief from persistent back, neck, and shoulder tension.</p>
+        <p class="benefit-body">These are the spots most clients come in for, and they respond well when the work is specific.</p>
+      </div>
     </li>
     <li>
-      <p class="benefit-title">Better posture and less "office body" pain.</p>
-      <p class="benefit-body">Long hours sitting, driving, or hunching over a screen leave their mark. Deep work helps the tissue let go.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="10.5" rx="1.6"/><path d="M9 19.5h6M12 15.5v4"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">Better posture and less "office body" pain.</p>
+        <p class="benefit-body">Long hours sitting, driving, or hunching over a screen leave their mark. Deep work helps the tissue let go.</p>
+      </div>
     </li>
     <li>
-      <p class="benefit-title">Improved range of motion in spots that have felt stuck.</p>
-      <p class="benefit-body">When muscles and fascia release, joints move more freely. That’s often the moment people realize how restricted they were.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.8 4.2v3.6h-3.6"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">Improved range of motion in spots that have felt stuck.</p>
+        <p class="benefit-body">When muscles and fascia release, joints move more freely. That’s often the moment people realize how restricted they were.</p>
+      </div>
     </li>
     <li>
-      <p class="benefit-title">Reduced stress and nervous-system tension.</p>
-      <p class="benefit-body">Even though the work is firm, it still activates the body’s rest response, especially when the therapist works at a pace your nervous system can settle into.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12.5h4l2-5.5 3.2 10 2.3-6 1.7 3h3.8"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">Reduced stress and nervous-system tension.</p>
+        <p class="benefit-body">Even though the work is firm, it still activates the body’s rest response, especially when the therapist works at a pace your nervous system can settle into.</p>
+      </div>
     </li>
     <li>
-      <p class="benefit-title">A plan to make the relief last.</p>
-      <p class="benefit-body">You leave with a couple of simple things to do between sessions so the work doesn’t fully reset before you’re back.</p>
+      <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="4.5" width="13" height="16" rx="2"/><path d="M9.5 4.5h5v2.6h-5z"/><path d="M8.6 11.2l1.3 1.3 2.3-2.5M8.6 16.2l1.3 1.3 2.3-2.5"/></svg>
+      <div class="benefit-text">
+        <p class="benefit-title">A plan to make the relief last.</p>
+        <p class="benefit-body">You leave with a couple of simple things to do between sessions so the work doesn’t fully reset before you’re back.</p>
+      </div>
     </li>
   </ul>
 </section>
