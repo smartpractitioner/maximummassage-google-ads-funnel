@@ -859,6 +859,11 @@ button { font-family: inherit; }
    Image change stays in this page's own block, never the shared CSS - image SOP). */
 .final-cta { background-image: linear-gradient(180deg, rgba(11, 49, 60, 0.78) 0%, rgba(11, 49, 60, 0.86) 100%), url("/images/flow-b-v3/deep-tissue-cta.webp"); }
 
+/* Limited-availability note in the price row (mirrors prenatal/lymphatic). */
+.offer-scarcity { display: flex; align-items: center; align-self: center; gap: 8px; margin: 0; }
+.offer-scarcity-i { font-size: 26px; line-height: 1; flex: 0 0 auto; }
+.offer-scarcity-t { text-align: left; font-size: 15px; line-height: 1.2; font-weight: 700; letter-spacing: .01em; color: #C15A20; max-width: 120px; }
+
 /* "What is [modality]" intro block, slotted after stats. */
 .modality-intro {
   background: var(--page-bg);
@@ -1059,10 +1064,10 @@ button { font-family: inherit; }
       <div class="offer-eyebrow">New Client Starter Session · 60 min</div>
       <div class="offer-price-row">
         <div class="offer-price">$49</div>
-        <div class="offer-price-old">$124</div>
+        <p class="offer-scarcity"><span class="offer-scarcity-i" aria-hidden="true">&#9203;</span><span class="offer-scarcity-t">Limited weekly availability</span></p>
       </div>
 
-      <button type="button" class="btn-cta" data-open-picker>Book Your $49 Starter Session</button>
+      <button type="button" class="btn-cta" data-open-picker>See Therapists - Book Your Session</button>
 
       <div class="fudx-grid">
         <div class="fudx-item">
@@ -1234,7 +1239,7 @@ button { font-family: inherit; }
       <p>Lasting comfort isn't created by pushing harder. We work at a depth that feels effective yet manageable, giving your body room to shift instead of resist.</p>
     </div>
   </div>
-  <button type="button" class="btn-cta" data-open-picker>Book Your $49 Starter Session</button>
+  <button type="button" class="btn-cta" data-open-picker>See Therapists - Book Your Session</button>
 </section>
 
 <!-- ============ 7. HEALING ============ -->
@@ -1249,7 +1254,7 @@ button { font-family: inherit; }
     <li><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="none" stroke="#D77BAE" stroke-width="1.6"/><path d="M7.5 12.5 L10.5 15.5 L16.5 9.5" fill="none" stroke="#D77BAE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Empowerment through clarity, education, and simple daily actions</span></li>
     <li><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="none" stroke="#D77BAE" stroke-width="1.6"/><path d="M7.5 12.5 L10.5 15.5 L16.5 9.5" fill="none" stroke="#D77BAE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>A long-term focus on understanding what your body is telling you</span></li>
   </ul>
-  <button type="button" class="btn-cta" data-open-picker>Book Your $49 Starter Session</button>
+  <button type="button" class="btn-cta" data-open-picker>See Therapists - Book Your Session</button>
 </section>
 
 <!-- ============ 8. TESTIMONIALS ============ -->
@@ -1304,7 +1309,7 @@ button { font-family: inherit; }
   <div class="final-cta-eyebrow">Your next step</div>
   <h2>Ready to feel un-knotted again?</h2>
   <p>Targeted deep tissue work, a $49 starter session, and a 100% love-it-or-don’t-pay guarantee. Care that meets your knots head-on, starting with the right match for what your body is actually asking for.</p>
-  <button type="button" class="btn-cta btn-cta-cream" data-open-picker>Book Your $49 Starter Session</button>
+  <button type="button" class="btn-cta btn-cta-cream" data-open-picker>See Therapists - Book Your Session</button>
 </section>
 
 <!-- ============ 11. FOOTER ============ -->
