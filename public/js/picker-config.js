@@ -119,7 +119,7 @@
   const DEEP_TISSUE_QUIZ = [
     {
       id: 'location',
-      text: 'Where is it bothering you most?',
+      text: 'What’s bothering you most?',
       options: [
         { id: 'back_shoulder_neck', label: 'Back, shoulder, or neck',
           weights: { charlotte: 2, brookelyn: 2 } },
