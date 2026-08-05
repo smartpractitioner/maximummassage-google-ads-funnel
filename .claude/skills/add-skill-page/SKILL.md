@@ -760,6 +760,12 @@ Because $49 is publicly visible and can't be hidden without breaking ClinicSync 
 **The rule — before ads go live on any page, run both:**
 
 1. **Builder pass** — the person who built it walks the full funnel on the **live** URL (not localhost): every quiz path, back-navigation, the calendar, a real booking, and confirms the conversion/attribution lands.
+
+   **Standard attribution test URL (factory-standard — build one for every client/page at this stage).** Hit the live page with **all tracked ad params** set to distinctive TEST values, do a test booking, then confirm every value flows to the **leads-sheet row + Jane note + GA4 DebugView**:
+   ```
+   https://<domain>/<page-slug>/?utm_source=e2e-test&utm_medium=cpc&utm_campaign=<page>-e2e&utm_term=<test+keyword>&utm_content=test-ad-a&gclid=TEST-gclid-<page>-001
+   ```
+   Tracked keys: `utm_source · utm_medium · utm_campaign · utm_term · utm_content · gclid` (from the URL) + `page_variant` · `flow` (the page **auto-stamps** these to the skill slug — so leave them *off* the URL; their presence in the captured row proves the stamp works). Distinctive `e2e-test` / `TEST-gclid-…` values make them trivial to spot downstream. Cancel the test Cal.com booking afterward.
 2. **Outside walker pass** — someone who did **not** build it and is not briefed on intended behaviour simply *uses* the page and reports whatever they notice: confusing copy, interactions that feel wrong, anything that doesn't match how they'd actually answer. **Their feedback is reviewed and incorporated where it holds up** — it is not automatically actioned, but it is never dismissed without a reason.
 
 **This is a launch gate, not a nicety.** Both passes are prerequisites for a page joining the Ads Launch Gate, alongside its E2E. Record who did each pass.
