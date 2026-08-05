@@ -27,6 +27,19 @@ https://go.maximummassage.ca/lymphatic-drainage-massage-calgary/?utm_source=e2e-
 
 **Hard-refresh (Ctrl+Shift+R) after any deploy** so you're not testing stale JS.
 
+**⚠️ Caching will fight you — use a Chrome Guest profile, not Incognito.** We deliberately **edge-cache the HTML on Cloudflare** for speed (the Phase 3.4 Cache Rule), and the browser caches JS/CSS/images on top of that — so a normal reload can serve you an **old version** and make a working page look broken (or a fix look un-shipped). A hard-refresh clears the *browser* cache for that page, but for a **truly clean slate** — no cache, no cookies, no `sessionStorage` (i.e. testing as a genuine brand-new visitor, which also resets `mh_user_id`) — open a **Chrome Guest profile**. Guest is the only mode that fully clears everything; **Incognito is not enough** (it starts a fresh session but doesn't fully drop cache the way Guest does, and shares your extensions). Do the "brand-new visitor" runs in Guest.
+
+### Test identity — use this exact data (real phone required)
+
+Fill the booking/contact form with a **distinctive, incrementing** test identity so rows are easy to find and delete. MH values:
+
+- First name: `SamTEST1` · Last name: `Smith TEST1`
+- Email: `victor+TEST1@smartpractitioner.ca` — plus-addressing means every `+TESTn` is a *distinct* address that still lands in one inbox.
+- Phone: **`403-452-5702` — a REAL, team-controlled number.** Never a fake/random number: the EHR (Jane) flags bogus numbers as spam, and a real booking will text/call it.
+- **Increment** `TEST1 → TEST2 → …` each run (or per therapist) so every test is its own distinct row.
+
+**⚠️ EHR profile cleanup is mandatory between test runs — this is the #1 gotcha.** Jane ties a patient profile to the **phone + email**. If you re-test with the same identity while the prior profile still exists, the booking **matches that existing profile and the new-patient setup never runs** — so the test doesn't reflect a real first-time booking and can look "broken" for the wrong reason. After **every** live-booking test: **log into Jane → delete the test patient profile**, then cancel the Cal.com booking. The next run re-creates the profile from scratch — which is exactly what you're testing. (For a non-Jane client, same rule against whatever EHR the booking syncs to.)
+
 ---
 
 ## 1. Derive the quiz combo for EACH therapist (do this once per page)
@@ -107,6 +120,7 @@ Run the whole loop on **mobile** (the ~70% majority) **and** desktop. On mobile 
 ## 8. Cleanup + sign-off
 
 - **Cancel every test Cal.com booking** you made (Cal.com dashboard).
+- **Delete the Jane (EHR) test patient profile** for each identity used — mandatory (see *Test identity*), so the next test run creates the profile fresh.
 - Optionally delete the `e2e-test` rows from the sheets.
 - **Record the pass** (Decision 12): who ran the builder pass + date, and that the outside-walker pass is scheduled/done. The page can't join the Ads Launch Gate until both are recorded.
 
@@ -115,7 +129,9 @@ Run the whole loop on **mobile** (the ~70% majority) **and** desktop. On mobile 
 ### Quick checklist (copy into the ticket)
 
 - [ ] 3 panes open (GTM Preview · GA4 DebugView · GA4 Realtime) + DevTools
+- [ ] "Brand-new visitor" runs done in a **Chrome Guest profile** (not Incognito)
 - [ ] Per-therapist combo table filled for this page
+- [ ] Test identity used (real phone, incrementing `TESTn`)
 - [ ] Each therapist: correct "We recommend" badge → book (live or notify) ✅
 - [ ] Multi-select Q behaves (exclusive clears, Continue gating)
 - [ ] Back-nav in quiz keeps answers · Back from calendar keeps info/time
@@ -124,4 +140,4 @@ Run the whole loop on **mobile** (the ~70% majority) **and** desktop. On mobile 
 - [ ] UTMs + gclid + page_variant/flow in sheet row + Jane note + GA4
 - [ ] Firewall: quiz ⟂ named booking
 - [ ] Mobile + desktop
-- [ ] Test bookings cancelled · pass recorded
+- [ ] Test Cal bookings cancelled · **Jane test profiles deleted** · pass recorded
