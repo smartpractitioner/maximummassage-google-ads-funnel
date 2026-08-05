@@ -759,7 +759,7 @@ Because $49 is publicly visible and can't be hidden without breaking ClinicSync 
 
 **The rule — before ads go live on any page, run both:**
 
-1. **Builder pass** — the person who built it walks the full funnel on the **live** URL (not localhost): every quiz path, back-navigation, the calendar, a real booking, and confirms the conversion/attribution lands.
+1. **Builder pass** — the person who built it walks the full funnel on the **live** URL (not localhost): every quiz path, back-navigation, the calendar, a real booking, and confirms the conversion/attribution lands. **Full step-by-step (per-therapist quiz combos, debug-pane setup, state/caching + `user_id` tests, event + attribution verification): [`docs/sop-e2e-launch-testing.md`](../../../docs/sop-e2e-launch-testing.md).**
 
    **Standard attribution test URL (factory-standard — build one for every client/page at this stage).** Hit the live page with **all tracked ad params** set to distinctive TEST values, do a test booking, then confirm every value flows to the **leads-sheet row + Jane note + GA4 DebugView**:
    ```
