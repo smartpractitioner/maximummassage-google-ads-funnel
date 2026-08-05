@@ -404,7 +404,7 @@
       sheetTab: 'leads_lymphatic',
       flowNoun: 'lymphatic drainage therapist',
       quizQuestions: LYMPHATIC_QUIZ,
-      bookingMode: 'demand_test'  // flips to 'calcom' at Phase 5 rollout
+      bookingMode: 'calcom'  // live: Charlotte books via Cal.com (ctooth/90min); Tif (active:false) falls back to demand-test "notify me"
     }
   };
 
