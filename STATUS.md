@@ -46,7 +46,7 @@
 |---|---|
 | Prenatal Phase 3 complete (3.1–3.6) | ✅ **all complete** — 3.4 signed off 2026-07-18 |
 | Prenatal Phase 4 E2E | 🔄 booking/attribution/GA4/Ads-tag/sheet/Jane all verified; double-booking RESOLVED (see below); only remaining gate = Ads-conversion confirms on day-1 real traffic |
-| Lymphatic — full treatment + E2E | 🔄 full treatment ~done (2026-08-04); **E2E + two-pass QA (Decision 12) remain** |
+| Lymphatic — full treatment + E2E | 🔄 build + **builder-pass E2E ✅ PASSED (2026-08-04)**: leads + quiz write to both sheets, events fire, back-nav/hard-refresh(`mh_user_id`)/attribution/firewall all verified, Cal+Jane cleanup done. `calcom` flip live (Charlotte books live, Tif notify-me). **Remaining: outside-walker QA pass** (Decision 12) before ads flip on. |
 | Deep tissue — full treatment + E2E | 🔄 real hero + CTA imagery in, FAQ de-named; full treatment (desktop layer, content pass) + E2E still ahead |
 | Therapeutic — new build + splitter cutover + E2E | ⬜ |
 | Legal sign-off (client) | ✅ |
