@@ -774,7 +774,7 @@ Because $49 is publicly visible and can't be hidden without breaking ClinicSync 
 
 **Where names ARE allowed:** the therapist picker (config-driven, the whole point), a therapist's own dedicated result page (e.g. `/charlotte/`), and **verbatim** client testimonials (a real review that names a therapist is authentic social proof — do not edit a quote).
 
-**Applies factory-wide.** Applied to prenatal + lymphatic on 2026-08-04. **Still to sweep: deep-tissue, sports** (both name therapists in their FAQ; to be de-named in their Phase 5 builds). Also lives in the JSON-LD FAQ schema — de-name **both** the visible answer and the structured-data copy.
+**Applies factory-wide.** Applied to prenatal + lymphatic + **deep-tissue + sports** on 2026-08-04 (all skill-page FAQs now clean of therapist names). Also lives in the JSON-LD FAQ schema — de-name **both** the visible answer and the structured-data copy.
 
 ## Decision 14 — Voice: calm confidence, never neediness ("needy is greedy", decided 2026-08-04)
 
