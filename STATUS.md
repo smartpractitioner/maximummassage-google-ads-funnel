@@ -19,7 +19,7 @@
 | 2 | Copy + keyword theming (prenatal) | ✅ |
 | **3** | **Prenatal iteration (canonical template)** | ✅ (3.0–3.6 all complete) |
 | 4 | End-to-end test on prenatal | ⬜ |
-| **5** | **Rollout: lymphatic, deep tissue, therapeutic** | 🔄 started — 3.4 perf/CLS promoted into the engine + swept across all 5 pages; per-page content + E2E still ahead |
+| **5** | **Rollout: lymphatic, deep tissue, therapeutic** | 🔄 **lymphatic ~content/design-complete** (2026-08-04: desktop layer + guarantee band, per-breakpoint real hero + CTA imagery, 3 re-sourced reviews + mobile carousel, benefits icons + white-card desktop matching prenatal, FAQ incl. "are men…", session-steps band, quiz weights + therapist profiles verified) — **remaining: E2E + two-pass QA**. Deep-tissue: partial (real hero + CTA images in, FAQ de-named; no desktop layer yet). Therapeutic: not started. |
 | 6.5 | Legal + consent (client sign-off model) | ✅ satisfied (MH) |
 | 🚦 | **Google Ads Launch Gate** | ⬜ pending full page coverage |
 | 6 | BI + reporting | ⬜ post-launch |
@@ -46,8 +46,8 @@
 |---|---|
 | Prenatal Phase 3 complete (3.1–3.6) | ✅ **all complete** — 3.4 signed off 2026-07-18 |
 | Prenatal Phase 4 E2E | 🔄 booking/attribution/GA4/Ads-tag/sheet/Jane all verified; double-booking RESOLVED (see below); only remaining gate = Ads-conversion confirms on day-1 real traffic |
-| Lymphatic — full treatment + E2E | ⬜ |
-| Deep tissue — full treatment + E2E | ⬜ |
+| Lymphatic — full treatment + E2E | 🔄 full treatment ~done (2026-08-04); **E2E + two-pass QA (Decision 12) remain** |
+| Deep tissue — full treatment + E2E | 🔄 real hero + CTA imagery in, FAQ de-named; full treatment (desktop layer, content pass) + E2E still ahead |
 | Therapeutic — new build + splitter cutover + E2E | ⬜ |
 | Legal sign-off (client) | ✅ |
 | No external dependency blocking | ✅ lawyer cut · Jane sync live · **double-booking RESOLVED.** Mechanism confirmed: ClinicSync Pro times out → never 2xx → **Cal.com retries the webhook (at-least-once)** → PatientSync processed each retry (the 2026-07-20 billing reset did NOT fix it — theory was wrong). **Fix (shipped, Justin's side):** PatientSync now dedupes duplicate deliveries + alerts on >1 record or any error. Our side was always clean (Apps Script dedupes by `uid`). **Mitigation, not root-cause** — ClinicSync still times out, so the alert is the launch safety net (watch it: a total-timeout can also drop a booking to 0 Jane records, a *missed* booking). |
