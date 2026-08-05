@@ -799,3 +799,16 @@ Because $49 is publicly visible and can't be hidden without breaking ClinicSync 
 **The rule:** every skill page with **≥3 testimonials** uses the carousel — mobile snap-scroll + dot nav; the desktop layer shows a static 3-up row. A page with **<3** reviews keeps the stacked/single treatment until it has enough (see [`../../../docs/sop-social-proof-sourcing.md`](../../../docs/sop-social-proof-sourcing.md): target 3–5).
 
 **Implementation:** the carousel CSS (`.testimonial-list` row/scroll-snap, `.testimonial-card` flex-basis, `.testimonial-dots` + active-dot) and the inline dots JS live per-page for now (prenatal + lymphatic). **Engine-extraction TODO (page 3 / deep-tissue):** promote the CSS to `flow-b-v3.css` and the JS to a shared script so deep-tissue/sports/tmj inherit it automatically — this is the second confirmed engine-extraction candidate alongside the desktop layer.
+
+## Decision 16 — Q1 is always a single-select auto-advance primer; multi questions go later (completion bias, decided 2026-08-05)
+
+**Why (Victor):** the quiz is a completion-bias funnel. The **first** question must be the *easiest possible commitment* — one tap that **auto-advances** — because the probability a visitor finishes the quiz climbs the further in they get. Every additional tap they've already made raises their sunk-cost momentum, so the job of Q1 is purely to get the first easy tap, not to gather the richest signal. A multi-select Q1 breaks this: it shows a "Select all that apply" hint + a **Continue** button (multi can't auto-advance, per Decision 11), which is *more* decision load at the exact moment friction hurts most.
+
+**The rule (applies to every skill page, and it overrides Decision 11's placement):**
+- **Q1 is ALWAYS single-select + auto-advance.** Never `multi: true` on the first question — regardless of topic.
+- A symptom/body-area question that Decision 11 says should be **multi** is still multi — it just **cannot be Q1**. Place it at Q2+ and convert it there.
+- **This is a placement rule, not a licence to downgrade signal.** You don't make a symptom question single to keep it at Q1; you *move* it and open with a different, genuinely-easy question.
+
+**What makes a good Q1** (besides single/auto-advance): it should still be *engaging for this page's audience* — an **intent/goal** question ("what's bringing you in?") works well because it's naturally single (one primary reason), it's about the visitor's own story, and it warms them into the rest. An engaging symptom question that happens to sit at Q1 today (e.g. deep-tissue's `location`) gets **relocated**, not kept-and-downgraded.
+
+**Worked example (deep-tissue, this page's Phase 5 treatment):** the engaging `location` "what's bothering you" question was moved off Q1 and made multi; a new easy single-select intent question opens the quiz. See the deep-tissue restructure in `picker-config.js`. Interaction with Decision 10 (auto-advance) and Decision 11 (single-vs-multi): Decision 10 governs *how* single-select advances, Decision 11 governs *which* questions are multi, and Decision 16 governs *where* a multi question may appear (never first).

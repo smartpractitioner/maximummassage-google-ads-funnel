@@ -118,21 +118,24 @@
 
   const DEEP_TISSUE_QUIZ = [
     {
-      id: 'location',
-      text: 'What’s bothering you most?',
+      // Q1 = single-select auto-advance PRIMER (Decision 16 — completion bias:
+      // the easy first tap builds momentum; a multi Q1 would add a Continue
+      // button + "select all" load at the worst moment). This intent question
+      // is naturally single (one primary reason) and engaging.
+      // DRAFT copy + weights — pending Victor's product sign-off.
+      id: 'intent',
+      text: 'What’s bringing you in today?',
       options: [
-        { id: 'back_shoulder_neck', label: 'Back, shoulder, or neck',
+        { id: 'chronic', label: 'Chronic tension that won’t let up',
+          weights: { charlotte: 2, brookelyn: 1 } },
+        { id: 'specific_spot', label: 'A specific knot or problem spot',
           weights: { charlotte: 2, brookelyn: 2 } },
-        { id: 'hip_low_back', label: 'Hip, low back, or SI joint',
-          weights: { brookelyn: 3 } },
-        { id: 'all_over', label: 'Knots and tension all over',
-          weights: { charlotte: 1, brookelyn: 1, tif: 1 } },
-        { id: 'specific_injury', label: 'A specific spot from an old injury',
-          weights: { charlotte: 2, brookelyn: 2 } },
-        { id: 'jaw_headaches', label: 'Headaches, jaw, or face tension',
-          weights: { tif: 2, charlotte: 1 } },
-        { id: 'swelling', label: 'Swelling or inflammation alongside the tension',
-          weights: { tif: 3, charlotte: 2 } }
+        { id: 'active', label: 'Tightness from training or an active lifestyle',
+          weights: { brookelyn: 2 } },
+        { id: 'stress', label: 'Everyday stress I carry in my body',
+          weights: { tif: 2, brookelyn: 1 } },
+        { id: 'daily_pain', label: 'Pain that’s affecting daily life',
+          weights: { charlotte: 2, brookelyn: 1 } }
       ]
     },
     {
@@ -150,6 +153,31 @@
       ]
     },
     {
+      // Moved off Q1 → Q3 and converted to MULTI (Decisions 11 + 16): body-area
+      // symptoms genuinely co-occur (back+neck AND headaches AND swelling), so a
+      // single pick discards matching signal — but a multi question can never be
+      // Q1, so it lives here. Reworded off "most" (which implies one pick) to
+      // match the auto-rendered "Select all that apply" hint. Weights unchanged;
+      // note multi SUMS the selected options' weights.
+      id: 'location',
+      multi: true,
+      text: 'What’s bothering you?',
+      options: [
+        { id: 'back_shoulder_neck', label: 'Back, shoulder, or neck',
+          weights: { charlotte: 2, brookelyn: 2 } },
+        { id: 'hip_low_back', label: 'Hip, low back, or SI joint',
+          weights: { brookelyn: 3 } },
+        { id: 'all_over', label: 'Knots and tension all over',
+          weights: { charlotte: 1, brookelyn: 1, tif: 1 } },
+        { id: 'specific_injury', label: 'A specific spot from an old injury',
+          weights: { charlotte: 2, brookelyn: 2 } },
+        { id: 'jaw_headaches', label: 'Headaches, jaw, or face tension',
+          weights: { tif: 2, charlotte: 1 } },
+        { id: 'swelling', label: 'Swelling or inflammation alongside the tension',
+          weights: { tif: 3, charlotte: 2 } }
+      ]
+    },
+    {
       id: 'pressure',
       text: 'What kind of pressure do you usually prefer?',
       options: [
@@ -164,7 +192,11 @@
       ]
     },
     {
+      // Therapist preference = MULTI with an exclusive catch-all (Decision 11):
+      // wanting clinical depth AND careful pressure is coherent; "no preference"
+      // can't combine, so it's exclusive:true (selecting it clears the rest).
       id: 'preference',
+      multi: true,
       text: 'Anything that matters about who you’re matched with?',
       options: [
         { id: 'clinical', label: 'Someone with deep clinical background and a clear plan',
@@ -173,7 +205,7 @@
           weights: { tif: 2, brookelyn: 1 } },
         { id: 'recovery', label: 'Someone with their own injury or recovery experience',
           weights: { charlotte: 2, brookelyn: 1 } },
-        { id: 'none', label: 'No strong preference, match me by skill',
+        { id: 'none', label: 'No strong preference, match me by skill', exclusive: true,
           weights: {} }
       ]
     }
