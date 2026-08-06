@@ -438,7 +438,7 @@
     meagan:    { handle: 'meaganb/60min',    active: true },
     charlotte: { handle: 'ctooth/90min',     active: true },
     lindsey:   { handle: 'lstauffer/60min',  active: true },
-    tif:       { handle: 'thenderson/60min', active: true }  // flipped live per Victor 2026-08-06 — VERIFY 'thenderson/60min' resolves to Tif's real Cal.com in E2E before ad traffic
+    tif:       { handle: 'thenderson/60min', active: false }  // E2E 2026-08-06: 'thenderson' 404s on Cal.com (no account yet) — kept on demand-test "notify me". Set her REAL handle + flip active:true once her Cal.com is provisioned.
   };
 
   // Helper that resolves the active config for the current pathname.
