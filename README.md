@@ -20,7 +20,8 @@ Skill-specific landing pages exist to match paid-ad intent, not to rank.
 | `/deep-tissue-massage-calgary/` | Deep tissue skill page *(in progress)* |
 | `/sports-massage-calgary/` | Sports rehab skill page *(in progress)* |
 | `/tmj-massage-calgary/` | TMJ + jaw + tension headache skill page *(in progress)* |
-| `/lymphatic-drainage-massage-calgary/` | Lymphatic drainage skill page *(in progress)* |
+| `/lymphatic-drainage-massage-calgary/` | Lymphatic drainage skill page *(live, E2E-passed)* |
+| `/therapeutic-massage-calgary/` | Therapeutic massage — **core-anchor page** (all 5 therapists); will replace the general catch-all via a splitter cutover *(live, pre-E2E)* |
 | `/massage-therapy-calgary-flow-b/confirmation/` | Shared "Hold a spot for me" page after lead capture (used by every skill page) |
 | `/massage-therapy-calgary-flow-a/` | Flow A archived control (Landingi design) — no live traffic, kept for rollback |
 | `/massage-therapy-calgary-flow-b-v1/`, `…-v2/` | Earlier Flow B snapshots, preserved for rollback |

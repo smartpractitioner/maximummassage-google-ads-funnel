@@ -382,6 +382,81 @@
     }
   ];
 
+  const THERAPEUTIC_QUIZ = [
+    {
+      // Q1 = single-select auto-advance primer (Decision 16). Intent/goal opener —
+      // naturally single, engaging, and orients the broad core-anchor audience.
+      id: 'intent',
+      text: 'What’s bringing you in today?',
+      options: [
+        { id: 'chronic', label: 'Chronic tension or pain that won’t quit',
+          weights: { charlotte: 2, brookelyn: 1 } },
+        { id: 'injury', label: 'A specific injury or problem area',
+          weights: { brookelyn: 2, charlotte: 2 } },
+        { id: 'stress', label: 'Stress relief and a nervous-system reset',
+          weights: { lindsey: 2, meagan: 2 } },
+        { id: 'active', label: 'Recovery from training or an active lifestyle',
+          weights: { brookelyn: 2, meagan: 1 } },
+        { id: 'surgery', label: 'Recovering from surgery or a medical issue',
+          weights: { charlotte: 3 } }
+      ]
+    },
+    {
+      id: 'duration',
+      text: 'How long have you been dealing with this?',
+      options: [
+        { id: 'days_weeks', label: 'Just started (days to weeks)',
+          weights: { brookelyn: 1, tif: 1, meagan: 1 } },
+        { id: 'months', label: 'A few months',
+          weights: { charlotte: 1, brookelyn: 1 } },
+        { id: 'years', label: 'Years, it’s chronic',
+          weights: { charlotte: 3, lindsey: 1 } },
+        { id: 'comes_goes', label: 'It comes and goes',
+          weights: { tif: 2, meagan: 1, lindsey: 1 } }
+      ]
+    },
+    {
+      // Body-area / symptom question = MULTI (Decision 11): these genuinely co-occur.
+      // At Q3, not Q1 (Decision 16). Reads "Select all that apply" (engine-rendered).
+      id: 'focus',
+      multi: true,
+      text: 'Where’s it showing up?',
+      options: [
+        { id: 'back_neck_shoulder', label: 'Back, neck, or shoulders',
+          weights: { charlotte: 2, brookelyn: 2 } },
+        { id: 'hip_low_back', label: 'Hips, low back, or SI joint',
+          weights: { brookelyn: 3 } },
+        { id: 'whole_body', label: 'Whole-body tension, hard to pinpoint',
+          weights: { meagan: 3, lindsey: 1 } },
+        { id: 'head_jaw', label: 'Headaches, jaw, or face tension',
+          weights: { tif: 2, charlotte: 1 } },
+        { id: 'stress_sleep', label: 'Stress, sleep, or nervous system',
+          weights: { lindsey: 3, meagan: 1 } },
+        { id: 'swelling', label: 'Swelling or inflammation',
+          weights: { tif: 2, charlotte: 2 } }
+      ]
+    },
+    {
+      // Preference = SINGLE via the "what matters most" framing (Decision 11 allowed alternative).
+      id: 'preference',
+      text: 'What matters to you most?',
+      options: [
+        { id: 'clinical', label: 'Deep clinical expertise and a clear plan',
+          weights: { charlotte: 3 } },
+        { id: 'gentle', label: 'Someone gentle who reads my nervous system',
+          weights: { lindsey: 3, meagan: 1 } },
+        { id: 'whole_body', label: 'A whole-body approach, not just the sore spot',
+          weights: { meagan: 3 } },
+        { id: 'active', label: 'Someone who gets active, athletic bodies',
+          weights: { brookelyn: 3 } },
+        { id: 'tailored', label: 'Pressure tailored carefully to me',
+          weights: { tif: 2, lindsey: 1 } },
+        { id: 'none', label: 'No strong preference, match me by skill',
+          weights: {} }
+      ]
+    }
+  ];
+
   window.MaximumHealth.PAGE_CONFIGS = {
     '/massage-therapy-calgary-flow-b/': {
       skill: 'general',
@@ -424,6 +499,13 @@
       flowNoun: 'lymphatic drainage therapist',
       quizQuestions: LYMPHATIC_QUIZ,
       bookingMode: 'calcom'  // live: Charlotte books via Cal.com (ctooth/90min); Tif (active:false) falls back to demand-test "notify me"
+    },
+    '/therapeutic-massage-calgary/': {
+      skill: 'therapeutic',
+      sheetTab: 'leads_therapeutic',
+      flowNoun: 'therapeutic massage therapist',
+      quizQuestions: THERAPEUTIC_QUIZ,
+      bookingMode: 'demand_test'  // core-anchor page; flips to 'calcom' at E2E (Phase 5). Splitter cutover of /massage-therapy-calgary/ -> here is a SEPARATE later step (back up splitter + Flow B first).
     }
   };
 

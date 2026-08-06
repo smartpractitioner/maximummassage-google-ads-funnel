@@ -53,6 +53,12 @@
       regularPrice: 124,
       path: '/brookelyn/',
       skills: {
+        therapeutic: {
+          title: 'Structural + injury-recovery specialist',
+          specialty: 'Kinetic + targeted work',
+          bio: 'Hi, I’m Brookelyn. If your body’s holding tension that keeps coming back, I work to change the pattern, not just chase the ache. My specialty is Kinetic massage focused on the SI joint, low back, and cervical spine, the areas that take the most load from daily life, training, and old injuries.\n\nI’m a runner, strength trainer, and mom of two, so I get how movement and recovery actually fit into a real schedule. I work deep but not punishing, helping your body adapt so the relief lasts past the table. We’ll talk through what’s going on and build a plan from there.',
+          tags: ['Kinetic massage', 'SI joint + low back', 'Cervical spine', 'Sports + training tension', 'Injury recovery', 'Adapt not overpower', 'Plan-based', 'Nervous system aware']
+        },
         prenatal: {
           title: 'Postpartum + women’s health specialist',
           specialty: 'Postpartum recovery + pelvic',
@@ -100,6 +106,12 @@
       regularPrice: 124,
       path: '/meagan/',
       skills: {
+        therapeutic: {
+          title: 'Whole-body + craniosacral specialist',
+          specialty: 'Whole-body + nervous system',
+          bio: 'Hi, I’m Meagan. I see the body as one connected system, not a list of separate sore spots, so I look for what’s actually driving the tension before I chase the symptom. My training in craniosacral therapy, reflexology, and Thai massage gives me a wide toolkit to work with, and clients often describe the result as a "magic touch."\n\nI came up as a competitive athlete and still keep moving with yoga and fitness, so I know what it feels like to live in a working body. If you want therapeutic work that treats the whole picture and leaves your nervous system calmer, that’s my zone.',
+          tags: ['Craniosacral therapy', 'Reflexology', 'Thai massage', 'Whole-body approach', 'Nervous system', 'Athletic recovery', 'Stress relief', 'Therapeutic massage']
+        },
         sports: {
           title: 'Whole-body + athletic recovery specialist',
           specialty: 'Whole-body + sport recovery',
@@ -136,6 +148,12 @@
       regularPrice: 124,
       path: '/charlotte/',
       skills: {
+        therapeutic: {
+          title: 'Clinical + chronic-pain specialist',
+          specialty: 'Myofascial + trigger point',
+          bio: 'Hi, I’m Charlotte. Therapeutic massage, to me, means actually changing what’s going on in the tissue, not just an hour off. I work with myofascial release and trigger point therapy for chronic pain, old injuries, and the tension that hasn’t budged with anything else. My background is a PhD in Nutritional Biochemistry and over a decade teaching massage, so I think hard about why your body is doing what it’s doing.\n\nI also know long recovery personally, after fracturing two vertebrae in 2006. That taught me to work patiently and never push through pain for show. If you want someone who’ll find the root, not just the sore spot, this is exactly the kind of work I do.',
+          tags: ['Myofascial release', 'Trigger point', 'Chronic pain', 'Injury recovery', 'Client education', 'PhD biochemistry', 'Patient + adaptive', 'Reiki Master']
+        },
         prenatal: {
           title: 'Pre/post-partum + recovery specialist',
           specialty: 'C-section + chronic back pain',
@@ -195,6 +213,12 @@
       regularPrice: 124,
       path: '/lindsey/',
       skills: {
+        therapeutic: {
+          title: 'Fascial release + nervous-system specialist',
+          specialty: 'Fascial + nervous system',
+          bio: 'Hi, I’m Lindsey. I blend fascial-release work with nervous-system-aware care, because a regulated nervous system is where real healing starts. I work at a pace your body can actually integrate, whether you’re unwinding deep tension, recovering from injury, or just reclaiming some ease in a busy life.\n\nI’ve been a yoga teacher since 2014, I’m a doula and breathwork facilitator, and I’m a mom of three, so I get overstretched bodies and overstimulated minds. If you want therapeutic work that’s calm, detailed, and fully present, you’d be in good hands with me.',
+          tags: ['Fascial release', 'Nervous system regulation', 'Breathwork', 'Gentle + adaptive', 'Chronic tension', 'Injury recovery', 'Stress + sleep', 'Whole-person']
+        },
         prenatal: {
           title: 'Prenatal & postpartum specialist',
           specialty: 'Prenatal yoga + doula',
@@ -226,6 +250,12 @@
       regularPrice: 124,
       path: '/tif/',
       skills: {
+        therapeutic: {
+          title: 'Personalized + adaptable specialist',
+          specialty: 'Adaptable pressure + targeted',
+          bio: 'Hi, I’m Tif. I tailor every session to whatever your body is asking for that day, firm targeted work on a stubborn spot, lighter lymphatic work on swollen or inflamed tissue, or a mix of both in the same hour. My training spans Swedish, deep tissue, lymphatic drainage, and TMJ work, so I can shift techniques as we go.\n\nOutside the clinic I’m a musician and an artist who spends as much time outside as possible. I bring that same attention and care to your sessions, reading what’s tight, what’s compensating, and what will actually help you feel like yourself again.',
+          tags: ['Adaptable pressure', 'Swedish', 'Deep tissue', 'Lymphatic drainage', 'TMJ + jaw', 'Targeted relief', 'Personalized', 'Stress reduction']
+        },
         prenatal: {
           title: 'Pre & post-natal + lymphatic specialist',
           specialty: 'Pregnancy edema + lymphatic',
