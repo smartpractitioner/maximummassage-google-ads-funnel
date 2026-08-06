@@ -737,6 +737,8 @@ Because $49 is publicly visible and can't be hidden without breaking ClinicSync 
 | **Session style / pressure** ("what kind of work suits you") | **SINGLE** | They're booking *one* session; multiple styles are contradictory and dilute the weights |
 | **Therapist preference** ("anything matter about who you're matched with") | **MULTI** *(with an exclusive "no preference")* | Wanting a mom **and** calm energy is coherent |
 
+**Allowed alternative for the preference question (Victor, 2026-08-06):** it may instead be **single-select** when framed as the ONE thing that matters most — e.g. *"What matters to you most?"*. Choosing a single top priority is a coherent single pick, so it needs no multi/exclusive. Use **multi** when you're inviting "all that apply"; use the **single "what matters most"** framing when you want one prioritized signal. (Deep-tissue Q4 uses the single framing.)
+
 **Ask of every question you write: "could a real person honestly answer two of these at once?"** If yes → multi. If the options are states, stages, or a single choice being made → single.
 
 **Two implementation rules that fall out of it:**
