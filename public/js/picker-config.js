@@ -126,7 +126,7 @@
       // does NOT echo the Q3 symptom question (the earlier 'intent' draft did —
       // it was really "what's wrong" reworded, and could-be-all-of-them = multi).
       id: 'pressure',
-      text: 'What kind of pressure do you usually prefer?',
+      text: 'What level of pressure do you prefer?',
       options: [
         { id: 'firm', label: 'Firm and intensive, I want it worked on hard',
           weights: { charlotte: 2, brookelyn: 2 } },
@@ -178,12 +178,13 @@
       ]
     },
     {
-      // Therapist preference = MULTI with an exclusive catch-all (Decision 11):
-      // wanting clinical depth AND careful pressure is coherent; "no preference"
-      // can't combine, so it's exclusive:true (selecting it clears the rest).
+      // Therapist preference — SINGLE (Victor 2026-08-06): framed as the ONE
+      // thing that matters most, so it's a single-priority pick (not multi).
+      // Deliberately overrides Decision 11's default multi-classification for
+      // the preference question on this page — the "what matters most" framing
+      // makes it genuinely single, so no multi/exclusive needed.
       id: 'preference',
-      multi: true,
-      text: 'Anything that matters about who you’re matched with?',
+      text: 'What matters to you most?',
       options: [
         { id: 'clinical', label: 'Someone with deep clinical background and a clear plan',
           weights: { charlotte: 3 } },
@@ -191,7 +192,7 @@
           weights: { tif: 2, brookelyn: 1 } },
         { id: 'recovery', label: 'Someone with their own injury or recovery experience',
           weights: { charlotte: 2, brookelyn: 1 } },
-        { id: 'none', label: 'No strong preference, match me by skill', exclusive: true,
+        { id: 'none', label: 'No strong preference, match me by skill',
           weights: {} }
       ]
     }
