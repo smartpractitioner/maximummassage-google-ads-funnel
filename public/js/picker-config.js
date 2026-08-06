@@ -401,7 +401,7 @@
       sheetTab: 'leads_deep_tissue',
       flowNoun: 'deep tissue therapist',
       quizQuestions: DEEP_TISSUE_QUIZ,
-      bookingMode: 'demand_test'  // flips to 'calcom' at Phase 5 rollout
+      bookingMode: 'calcom'  // Phase 5 rollout (2026-08-06): Charlotte/Brookelyn book live; Tif (active:false) falls back to demand-test "notify me"
     },
     '/sports-massage-calgary/': {
       skill: 'sports',
