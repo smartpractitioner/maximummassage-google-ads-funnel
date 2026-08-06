@@ -119,22 +119,22 @@
   const DEEP_TISSUE_QUIZ = [
     {
       // Q1 = single-select auto-advance PRIMER (Decision 16 — completion bias:
-      // the easy first tap builds momentum; a multi Q1 would add a Continue
-      // button + "select all" load at the worst moment). This intent question
-      // is naturally single (one primary reason) and engaging.
-      // DRAFT copy + weights — pending Victor's product sign-off.
-      id: 'intent',
-      text: 'What’s bringing you in today?',
+      // the easy first tap builds momentum). Pressure preference is genuinely
+      // SINGLE (Decision 11 — you book one session; styles are mutually
+      // exclusive), so it can't/shouldn't be multi, which makes it a clean Q1.
+      // It's also a lighter, more inviting opener than leading with pain, and it
+      // does NOT echo the Q3 symptom question (the earlier 'intent' draft did —
+      // it was really "what's wrong" reworded, and could-be-all-of-them = multi).
+      id: 'pressure',
+      text: 'What kind of pressure do you usually prefer?',
       options: [
-        { id: 'chronic', label: 'Chronic tension that won’t let up',
-          weights: { charlotte: 2, brookelyn: 1 } },
-        { id: 'specific_spot', label: 'A specific knot or problem spot',
+        { id: 'firm', label: 'Firm and intensive, I want it worked on hard',
           weights: { charlotte: 2, brookelyn: 2 } },
-        { id: 'active', label: 'Tightness from training or an active lifestyle',
-          weights: { brookelyn: 2 } },
-        { id: 'stress', label: 'Everyday stress I carry in my body',
-          weights: { tif: 2, brookelyn: 1 } },
-        { id: 'daily_pain', label: 'Pain that’s affecting daily life',
+        { id: 'progressive', label: 'Medium, then progressively deeper over sessions',
+          weights: { brookelyn: 2, tif: 2 } },
+        { id: 'light_medium', label: 'Light to medium, I’m sensitive',
+          weights: { tif: 3 } },
+        { id: 'whatever', label: 'Whatever it takes to get the result',
           weights: { charlotte: 2, brookelyn: 1 } }
       ]
     },
@@ -175,20 +175,6 @@
           weights: { tif: 2, charlotte: 1 } },
         { id: 'swelling', label: 'Swelling or inflammation alongside the tension',
           weights: { tif: 3, charlotte: 2 } }
-      ]
-    },
-    {
-      id: 'pressure',
-      text: 'What kind of pressure do you usually prefer?',
-      options: [
-        { id: 'firm', label: 'Firm and intensive, I want it worked on hard',
-          weights: { charlotte: 2, brookelyn: 2 } },
-        { id: 'progressive', label: 'Medium, then progressively deeper over sessions',
-          weights: { brookelyn: 2, tif: 2 } },
-        { id: 'light_medium', label: 'Light to medium, I’m sensitive',
-          weights: { tif: 3 } },
-        { id: 'whatever', label: 'Whatever it takes to get the result',
-          weights: { charlotte: 2, brookelyn: 1 } }
       ]
     },
     {
@@ -452,7 +438,7 @@
     meagan:    { handle: 'meaganb/60min',    active: true },
     charlotte: { handle: 'ctooth/90min',     active: true },
     lindsey:   { handle: 'lstauffer/60min',  active: true },
-    tif:       { handle: 'thenderson/60min', active: false }  // placeholder handle; no Cal.com yet
+    tif:       { handle: 'thenderson/60min', active: true }  // flipped live per Victor 2026-08-06 — VERIFY 'thenderson/60min' resolves to Tif's real Cal.com in E2E before ad traffic
   };
 
   // Helper that resolves the active config for the current pathname.
