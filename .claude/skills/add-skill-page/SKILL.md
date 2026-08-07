@@ -34,6 +34,8 @@ The README has the full Live URLs table and the Adding a New Skill Page checklis
 
 ## Workflow
 
+> **Walk the operator through every step, out loud — never assume they know the factory (Victor, 2026-08-07).** The person setting up a page (Victor today, a different operator tomorrow) may have **no idea** what the internal steps and SOPs are — "the A–F editorial pass", "the image-sourcing SOP", "the QS lens" mean nothing to them by name. So as you run this: **lay each step out in plain language before you do it** — what the step is, why it exists, what you'll do, and (critically) **what you need from them** (e.g. "next is image sourcing: your call on the photos since it's taste + your paid-library access; here's exactly what I need you to hand me"). Don't reference an SOP by name and move on as if they'll follow. **Required steps get flagged as required at the moment you reach them, not deferred silently** — if you're going to stand in a placeholder or skip a pass, say so at that step and open the loop then, not in the wrap-up. Treat the operator as smart but new to this factory.
+
 ### Step 1 — Competitive research (15-min web sweep)
 
 Read `feedback_skill_page_structure_reference.md` if not already loaded — this is the Hayahay benchmark we mirror structurally.
