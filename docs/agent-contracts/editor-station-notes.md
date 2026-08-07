@@ -10,7 +10,7 @@
 
 ## The Phase 2 editorial-pass workflow (A–F) — MH-specific, captured 2026-07-03
 
-The editorial pass used to QS-tune an **already-written** MH page (not a from-scratch draft — that's SKILL.md Step 4's six-step copywriting process). Captured here as a reference artifact for Phase 7 editor-station design; **not a required factory step.** The universal copywriting *principles* it applies live in SKILL.md Step 4 ("Copy-theming through the Quality Score + voice lens"); this is the *process* wrapper around them.
+The editorial pass used to QS-tune an **already-written** MH page (not a from-scratch draft — that's SKILL.md Step 4's six-step copywriting process). Captured here as a reference artifact for Phase 7 editor-station design. **Update (Victor, 2026-08-07): this A–F pass is now a REQUIRED step in the add-skill-page workflow** (see SKILL.md Step 4) — run it on every new page. (This file previously called it "not a required factory step"; that was corrected after a page shipped without it.) The universal copywriting *principles* it applies live in SKILL.md Step 4 ("Copy-theming through the Quality Score + voice lens"); this is the *process* wrapper around them.
 
 - **Step A — Ground in voice.** Complete the prerequisite reading before touching a word: SKILL.md Step 4, `feedback_skill_page_structure_reference.md` (Hayahay voice benchmark), the QS briefing + transcripts, and the full Phase 2 section. You're here to make the page read better for a real person, not to run a keyword audit.
 - **Step B — Understand the ad-group vocabulary.** Read the ad group's tab in the keyword workbook. Identify the focal keyword (highest volume) and the natural vocabulary well. This is a *vocabulary source, not a checklist to match against.*

@@ -132,7 +132,7 @@ Run the drafted copy through the lens below. These are **copywriting principles 
 - **Hero gets premium effort.** ~70%+ of visitors never scroll below the fold, so the hero largely sets the conversion rate. Restate the ad's promise so the page feels like a continuation of the ad, not a fresh pitch.
 - **The aloud-read is the final voice failsafe.** Read the finished page top to bottom aloud. Any sentence that grates or reads like SEO copy gets rewritten back to natural voice, even at a keyword cost. Visitors are anxious, curious humans clicking from an ad, not bots. Voice wins ties.
 
-**Scope note.** These are principles for the copy itself. The separate *editorial-pass* process used to QS-tune an already-written MH page (the Phase 2 A–F workflow) is MH-project-specific and lives in [docs/agent-contracts/editor-station-notes.md](../../../docs/agent-contracts/editor-station-notes.md) — a reference artifact, not a required factory step.
+**REQUIRED — run the A–F editorial pass (Victor, 2026-08-07).** After drafting the six sections, run the Phase 2 **A–F editorial pass** ([docs/agent-contracts/editor-station-notes.md](../../../docs/agent-contracts/editor-station-notes.md)) on the written page as a **default on every new page** — it's the process wrapper that QS-tunes the copy through the voice + semantic-match lens (ground in voice → ad-group vocabulary → H1 semantic-match check → aloud-read per section → top-5 coverage flag → final aloud gate). ⚠️ **This corrects an earlier error:** this file previously called the A–F pass "a reference artifact, not a required factory step." That was wrong and led to a page being built without it — it is **required**, not optional. "No changes recommended" is a valid A–F outcome (don't edit to earn your keep), but the pass itself is not skippable.
 
 ### Step 5 — Add data + config (code changes)
 
@@ -150,6 +150,10 @@ Edit in order:
        quizQuestions: <SKILL>_QUIZ
      }
      ```
+
+### Step 5.5 — Source images (REQUIRED, default on every new page)
+
+**Every new page needs its own real imagery — sourcing it is not optional (Victor, 2026-08-07).** Run the image-sourcing SOP ([docs/sop-image-sourcing.md](../../../docs/sop-image-sourcing.md)) for **at least the hero** (and the CTA background). Per that SOP the split of labor is: **the human sources + shortlists candidates** (taste + client context + paid-library access) and **Claude checks the client's own assets first, mocks each candidate into the real slot at mobile width, then converts + wires the winner** — respect that split; Claude does not unilaterally pick the image. Do **not** ship a generic engine-default placeholder as the final hero: it's fine as a temporary stand-in *only if you explicitly flag it and open the sourcing loop*, and a placeholder must be resolved before the page goes ad-live (and, for a core-anchor page, before the splitter cutover). Also enforce the image performance budget in that SOP (hero 1200–1600px / <100KB, whole page <300KB). ⚠️ **This corrects the same earlier error as the A–F note above** — a page was built on a placeholder without opening the sourcing loop; don't repeat it.
 
 ### Step 6 — Build the page HTML
 
