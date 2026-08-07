@@ -387,7 +387,7 @@
       // Q1 = single-select auto-advance primer (Decision 16). Intent/goal opener —
       // naturally single, engaging, and orients the broad core-anchor audience.
       id: 'intent',
-      text: 'What’s the number one thing you want therapeutic massage to help with?',
+      text: 'What’s the one thing you’d like therapeutic massage to help with?',
       options: [
         { id: 'chronic', label: 'Chronic tension or pain that won’t quit',
           weights: { charlotte: 2, brookelyn: 1 } },
@@ -525,7 +525,7 @@
       sheetTab: 'leads_therapeutic',
       flowNoun: 'therapeutic massage therapist',
       quizQuestions: THERAPEUTIC_QUIZ,
-      bookingMode: 'demand_test'  // core-anchor page; flips to 'calcom' at E2E (Phase 5). Splitter cutover of /massage-therapy-calgary/ -> here is a SEPARATE later step (back up splitter + Flow B first).
+      bookingMode: 'calcom'  // Phase 5 E2E (2026-08-07): Charlotte/Brookelyn/Meagan/Lindsey book live (handles verified 200); Tif (active:false) notify-me. Splitter cutover of /massage-therapy-calgary/ -> here is a SEPARATE later step (back up splitter + Flow B first).
     }
   };
 
