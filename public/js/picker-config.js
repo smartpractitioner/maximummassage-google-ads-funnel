@@ -387,7 +387,7 @@
       // Q1 = single-select auto-advance primer (Decision 16). Intent/goal opener —
       // naturally single, engaging, and orients the broad core-anchor audience.
       id: 'intent',
-      text: 'What’s bringing you in today?',
+      text: 'What’s the number one thing you want therapeutic massage to help with?',
       options: [
         { id: 'chronic', label: 'Chronic tension or pain that won’t quit',
           weights: { charlotte: 2, brookelyn: 1 } },

@@ -107,7 +107,7 @@ Six sections need original copy per page. Draft all six before writing the HTML:
 3. **Benefits** — exactly 6 bullets. Each bullet: bold one-line title + one-sentence elaboration. Pull from the competitive research.
 4. **"What a session looks like" (optional)** — 3 steps if it reduces booking anxiety. Steps are: (1) Quick intake ~5 min, (2) Hands-on work ~45-50 min, (3) At-home plan ~5 min. Customize each step's body to the modality (e.g. TMJ explicitly mentions intra-oral consent at intake).
 5. **Final CTA** — eyebrow + H2 + body + button copy. Body should restate the offer ($49 starter + 100% guarantee), reference the modality intent, and end with "starting with the right match for you" or similar matching-focused close.
-6. **FAQ** — exactly 10 items. Lead with the most common visitor anxiety/question for this modality. Include "Will my insurance cover it?" as item 9 or 10 (always the same answer text). Each answer ~50-100 words, conversational. JSON-LD `FAQPage` schema generated from the same Q&A pairs.
+6. **FAQ** — 10-11 items. Lead with the most common visitor anxiety/question for this modality. **Two insurance staples on EVERY skill page** (Victor 2026-08-06 — near-universal concerns regardless of modality): "Will my insurance cover it?" (yes, RMTs, reimburse via receipt) **and** "Do you offer direct billing to insurance?" (no direct-bill; claim via extended benefits, we send a digital receipt). Keep the two answers distinct — don't fold direct-billing into the coverage answer. Each answer ~50-100 words, conversational. JSON-LD `FAQPage` schema generated from the same Q&A pairs.
 
 Reuse without edits (these don't change per page):
 - Site topbar (Book Now button with DORMANT Call-us comment block)
@@ -234,7 +234,7 @@ Edit [`README.md`](README.md) Live URLs table to add the new URL with status "li
 
 - Don't cross-link to other service pages in the footer. These are paid-ad funnels; each page is a single conversion path.
 - Don't remove the DORMANT Call-us HTML comment block above the Book Now button. Even if it looks redundant in markup, it's the snapshot we restore from when the client flips back to taking calls.
-- Don't use em dashes anywhere in user-facing copy. Comma, period, or `—` written as `,` per established voice convention (user removed all em dashes globally on 2026-05-09).
+- Don't use em dashes anywhere in user-facing copy. Comma, period, or `—` written as `,` per established voice convention (user removed all em dashes globally on 2026-05-09). **One sanctioned exception (Victor 2026-08-06): the desktop guarantee band heading** `100% Guarantee — love it or you don't pay*` keeps its em dash — it's a deliberate design choice that works there. That single instance is the rule, not a regression; leave it.
 - Don't write third-person bios. All therapist bios are first-person, mobile-text-message tone.
 - Don't write more than 6 benefits or fewer than 10 FAQ items.
 - Don't make the first quiz question hard. Order is easy → harder for completion bias, always.
