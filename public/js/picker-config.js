@@ -402,17 +402,21 @@
       ]
     },
     {
-      id: 'duration',
-      text: 'How long have you been dealing with this?',
+      // Q2 = impact/severity — makes them feel heard AND gives a severity segment
+      // for marketing (mirrors the general page's "pain level" question, worded
+      // around daily life rather than a 1-10 the card UI can't render cleanly).
+      // Single. Light weights (severe skews clinical); mostly this is data + heard.
+      id: 'impact',
+      text: 'How much is it affecting your daily life right now?',
       options: [
-        { id: 'days_weeks', label: 'Just started (days to weeks)',
-          weights: { brookelyn: 1, tif: 1, meagan: 1 } },
-        { id: 'months', label: 'A few months',
-          weights: { charlotte: 1, brookelyn: 1 } },
-        { id: 'years', label: 'Years, it’s chronic',
-          weights: { charlotte: 3, lindsey: 1 } },
-        { id: 'comes_goes', label: 'It comes and goes',
-          weights: { tif: 2, meagan: 1, lindsey: 1 } }
+        { id: 'constant', label: 'It’s constant, it affects almost everything',
+          weights: { charlotte: 2 } },
+        { id: 'slows', label: 'It flares up and really slows me down',
+          weights: { brookelyn: 1, charlotte: 1 } },
+        { id: 'nagging', label: 'It’s more of a nagging annoyance',
+          weights: { tif: 1, meagan: 1 } },
+        { id: 'ahead', label: 'I’m mostly here to stay ahead of it',
+          weights: { lindsey: 1, meagan: 1 } }
       ]
     },
     {
@@ -437,7 +441,23 @@
       ]
     },
     {
-      // Preference = SINGLE via the "what matters most" framing (Decision 11 allowed alternative).
+      // Q4 = "what have you tried" — pure marketing / competitive-insight data
+      // (straight from the general page's quiz). No therapist weights; "Nothing
+      // yet" is the exclusive catch-all. MULTI.
+      id: 'tried',
+      multi: true,
+      text: 'Have you tried anything else for this?',
+      options: [
+        { id: 'massage', label: 'Other massage therapy', weights: {} },
+        { id: 'physio', label: 'Physiotherapy', weights: {} },
+        { id: 'chiro', label: 'Chiropractic or osteopathy', weights: {} },
+        { id: 'meds', label: 'Medication or painkillers', weights: {} },
+        { id: 'selfcare', label: 'Stretching or self-care on my own', weights: {} },
+        { id: 'nothing', label: 'Nothing yet', exclusive: true, weights: {} }
+      ]
+    },
+    {
+      // Q5. Preference = SINGLE via the "what matters most" framing (Decision 11 allowed alternative).
       id: 'preference',
       text: 'What matters to you most?',
       options: [
