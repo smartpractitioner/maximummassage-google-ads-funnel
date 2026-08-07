@@ -83,8 +83,10 @@ export async function onRequestPost(context) {
     clearTimeout(timer);
     text = await res.text();
   } catch (e) {
-    console.error('[cal/book] FAIL upstream_unreachable ' + JSON.stringify({ ray: ray, therapist: body.therapist, detail: String((e && e.message) || e), ts: Date.now() }));
-    return json({ ok: false, error: 'upstream_unreachable', detail: String((e && e.message) || e) }, 502);
+    const emsg = String((e && e.message) || e);
+    console.error('[cal/book] FAIL upstream_unreachable ' + JSON.stringify({ ray: ray, therapist: body.therapist, detail: emsg, ts: Date.now() }));
+    context.waitUntil(postBookingErrorSlack(env, { type: 'timeout — Cal.com unreachable', therapist: body.therapist, reason: emsg }));
+    return json({ ok: false, error: 'upstream_unreachable', detail: emsg }, 502);
   }
 
   let data;
@@ -92,10 +94,31 @@ export async function onRequestPost(context) {
 
   if (!res.ok) {
     console.error('[cal/book] FAIL cal_error ' + JSON.stringify({ ray: ray, therapist: body.therapist, status: res.status, detail: data, ts: Date.now() }));
+    context.waitUntil(postBookingErrorSlack(env, { type: 'cal_error', therapist: body.therapist, status: res.status, reason: (typeof data === 'object' ? JSON.stringify(data) : String(data)).slice(0, 300) }));
     return json({ ok: false, error: 'cal_error', status: res.status, detail: data }, 502);
   }
 
   const d = (data && data.data) ? data.data : {};
   console.log('[cal/book] CREATED ' + JSON.stringify({ ray: ray, uid: d.uid, id: d.id, start: d.start, ts: Date.now() }));
   return json({ ok: true, uid: d.uid, id: d.id, start: d.start });
+}
+
+// Booking-error Slack alert (telemetry Layer 3). Fires on the SERVER-SEEN
+// failures (cal_error / timeout) — the actionable ones worth a real-time ping.
+// Client-side network drops never reach here; those are tracked in GA4 via the
+// booking_failed beacon (not Slacked, so a flaky-mobile launch can't spam it).
+// No-op until SLACK_BOOKING_ERRORS_WEBHOOK_URL is set (CF Pages env). Optional
+// SLACK_BOOKING_ERRORS_MENTION = a "<@U…>" member id to ping on failure.
+function postBookingErrorSlack(env, info) {
+  const url = env.SLACK_BOOKING_ERRORS_WEBHOOK_URL;
+  if (!url) return Promise.resolve();
+  let when;
+  try { when = new Date().toLocaleString('en-CA', { timeZone: 'America/Edmonton', dateStyle: 'medium', timeStyle: 'short' }) + ' MT'; }
+  catch (_) { when = new Date().toISOString(); }
+  const mention = env.SLACK_BOOKING_ERRORS_MENTION ? env.SLACK_BOOKING_ERRORS_MENTION + ' ' : '';
+  const lines = [mention + ':warning: Booking FAILED (' + info.type + ')', '• Therapist: ' + (info.therapist || 'unknown')];
+  if (info.status) lines.push('• Status: ' + info.status);
+  if (info.reason) lines.push('• Reason: ' + info.reason);
+  lines.push('• Time: ' + when);
+  return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: lines.join('\n') }) }).catch(() => {});
 }
