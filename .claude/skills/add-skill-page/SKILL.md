@@ -36,9 +36,32 @@ The README has the full Live URLs table and the Adding a New Skill Page checklis
 
 > **Walk the operator through every step, out loud — never assume they know the factory (Victor, 2026-08-07).** The person setting up a page (Victor today, a different operator tomorrow) may have **no idea** what the internal steps and SOPs are — "the A–F editorial pass", "the image-sourcing SOP", "the QS lens" mean nothing to them by name. So as you run this: **lay each step out in plain language before you do it** — what the step is, why it exists, what you'll do, and (critically) **what you need from them** (e.g. "next is image sourcing: your call on the photos since it's taste + your paid-library access; here's exactly what I need you to hand me"). Don't reference an SOP by name and move on as if they'll follow. **Required steps get flagged as required at the moment you reach them, not deferred silently** — if you're going to stand in a placeholder or skip a pass, say so at that step and open the loop then, not in the wrap-up. Treat the operator as smart but new to this factory.
 
+### Process integrity — no silent step-skipping (REQUIRED, read before Step 1)
+
+> Every numbered step below is required unless it explicitly says *optional*. **A lighter or partial version of a step counts as a skip** — running two web searches is NOT the competitive-research step; applying inline copy principles is NOT the A–F editorial pass; standing in a generic placeholder is NOT image sourcing. On the therapeutic build, **three** steps got shortcut exactly this way (competitive research, A–F pass, image sourcing) and it only surfaced when Victor asked. This gate exists to stop that.
+
+1. **State the full required-step list to the operator before you start** (a page-build has ~11 steps; name them). The skip surface has to be visible from the top.
+2. **Actually perform each step.** If a step genuinely can't finish now (e.g. the operator must shortlist images, or sign off copy), you may **defer** it — but only by flagging it **at that step**, out loud, with *why + what you need + that it blocks go-live*. Never defer silently; never surface a skip only in the wrap-up.
+3. **End every build with the Definition-of-Done checklist** — one line per required step, marked ✅ done / ⏸ deferred (+ why). **A page is not "built" until this checklist is produced.** Do not report a page complete while a summary hides an un-run step.
+
+**Definition of Done — produce this verbatim at the end of every build:**
+- [ ] **Step 1 — Competitive research:** fetched the modality's Hayahay page + top 2–3 Calgary competitor pages; pulled their named conditions, benefit framings, hero angles, FAQ
+- [ ] **Step 2 — Per-therapist `skills.<skillId>` bios:** drafted + operator sign-off
+- [ ] **Step 3 — Quiz:** drafted + operator sign-off
+- [ ] **Step 4 — Copy (6 sections):** drafted
+- [ ] **Step 4 — A–F editorial pass:** run (C/D/E/F, E against the keyword workbook top-5); result reported
+- [ ] **Step 5 — Config** (`picker-config.js` + `therapist-picker.js`)
+- [ ] **Step 5.5 — Image sourcing:** hero + CTA sourced (or placeholder **explicitly flagged + sourcing loop opened**)
+- [ ] **Step 6 — HTML built**
+- [ ] **Step 7 — Verified locally**
+- [ ] **Step 8 — Committed + pushed** (+ Apps Script reminder if `.gs` changed)
+- [ ] **Step 9 — README updated**
+
 ### Step 1 — Competitive research (15-min web sweep)
 
 Read `feedback_skill_page_structure_reference.md` if not already loaded — this is the Hayahay benchmark we mirror structurally.
+
+**REQUIRED — actually fetch the pages, don't just search (Victor, 2026-08-07):** you MUST `WebFetch` **the modality's own Hayahay page** (`hayahaymassage.ca/massage-services/<modality>-massage-calgary/` — use the page for THIS modality, e.g. the *therapeutic* page for a therapeutic build, not a sibling modality) **and the top 2–3 Calgary competitor pages** for the modality. Read their actual page copy: the **specific conditions they name** (sciatica, whiplash, frozen shoulder, migraines, MVA…), benefit framings, and hero angles. Search-result snippets are not enough — the value is in the competitor page copy, and skipping it produces copy that is structurally fine but generic and condition-thin (the exact therapeutic-page miss, 2026-08-07).
 
 Then do a quick WebSearch + WebFetch on:
 - The modality term + "Calgary" — find the top 3-5 clinic pages
