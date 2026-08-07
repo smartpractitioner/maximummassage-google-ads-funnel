@@ -1471,6 +1471,11 @@
         if (d && d.ok && d.uid) { calRedirectBooked(d, first); return; }
         calState.submitting = false;
         if (btn) { btn.disabled = false; btn.textContent = 'Confirm booking'; }
+        var failType = (d && d.configured === false) ? 'not_configured'
+          : (d && d.error === 'cal_error') ? 'cal_error'
+          : (d && d.error === 'upstream_unreachable') ? 'timeout'
+          : 'unknown';
+        beaconBookingFailed(failType, calState.t.id, currentSkill, payload.start);
         calShowErr(err, (d && d.configured === false)
           ? 'Online booking is not live yet. Please call (403) 283-0725 and we will book you in.'
           : 'That time may have just been taken. Please pick another, or call (403) 283-0725.');
@@ -1478,8 +1483,33 @@
       .catch(function () {
         calState.submitting = false;
         if (btn) { btn.disabled = false; btn.textContent = 'Confirm booking'; }
+        beaconBookingFailed('network', (calState && calState.t && calState.t.id) || '', currentSkill, payload.start);
         calShowErr(err, 'A network hiccup stopped that. Please try again, or call (403) 283-0725.');
       });
+  }
+
+  // Booking-failure telemetry (booking_failed) -> beaconed to /track (the
+  // server-side GA4 relay) so it survives the flaky connection that just failed
+  // the booking POST: navigator.sendBeacon first (best-effort even on a degraded
+  // link), fetch({keepalive}) fallback. Chosen over a dataLayer.push so it needs
+  // NO GTM change and can't be ad-blocked. No-ops gracefully if GA4_API_SECRET
+  // isn't set on /track. Params: error_type, therapist_id, skill, slot_start.
+  function beaconBookingFailed(errorType, therapistId, skill, slotStart) {
+    try {
+      var body = JSON.stringify({ events: [{ name: 'booking_failed', params: {
+        error_type: errorType || 'unknown',
+        therapist_id: therapistId || '',
+        skill: skill || '',
+        slot_start: slotStart || ''
+      } }] });
+      var ok = false;
+      if (navigator.sendBeacon) {
+        ok = navigator.sendBeacon('/track', new Blob([body], { type: 'application/json' }));
+      }
+      if (!ok) {
+        fetch('/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }).catch(function () {});
+      }
+    } catch (_) {}
   }
 
   // Same /booking-confirmed/ redirect contract the iframe used, so the guarded

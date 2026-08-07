@@ -83,13 +83,17 @@ export async function onRequestPost(context) {
     clearTimeout(timer);
     text = await res.text();
   } catch (e) {
+    console.error('[cal/book] FAIL upstream_unreachable ' + JSON.stringify({ ray: ray, therapist: body.therapist, detail: String((e && e.message) || e), ts: Date.now() }));
     return json({ ok: false, error: 'upstream_unreachable', detail: String((e && e.message) || e) }, 502);
   }
 
   let data;
   try { data = JSON.parse(text); } catch (_) { data = { raw: String(text).slice(0, 400) }; }
 
-  if (!res.ok) return json({ ok: false, error: 'cal_error', status: res.status, detail: data }, 502);
+  if (!res.ok) {
+    console.error('[cal/book] FAIL cal_error ' + JSON.stringify({ ray: ray, therapist: body.therapist, status: res.status, detail: data, ts: Date.now() }));
+    return json({ ok: false, error: 'cal_error', status: res.status, detail: data }, 502);
+  }
 
   const d = (data && data.data) ? data.data : {};
   console.log('[cal/book] CREATED ' + JSON.stringify({ ray: ray, uid: d.uid, id: d.id, start: d.start, ts: Date.now() }));
