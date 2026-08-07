@@ -22,7 +22,7 @@
 | **5** | **Rollout: lymphatic, deep tissue, therapeutic** | ✅ **ROLLOUT COMPLETE (2026-08-07).** Prenatal launch-ready; **Deep-tissue + Therapeutic + Lymphatic** all built + E2E-passed + outside-walked, `bookingMode:calcom` live (Tif notify-me until her Cal.com exists). Therapeutic = core-anchor (5-Q data-rich quiz, condition-anchored copy via full Step-1 + A–F, sourced CTA image). **Sports + TMJ benched** (build when client budget grows). **Booking-failure telemetry** added (client `booking_failed`→GA4 via `/track`; `/cal/book` server logs + `#maximumhealth-booking-errors` Slack). Splitter cutover deferred (not needed). Optional follow-ups only: Tif's real Cal.com handle, dedicated therapeutic hero, `/cal/book` idempotency key, engine-extraction refactor. |
 | 6.5 | Legal + consent (client sign-off model) | ✅ satisfied (MH) |
 | 🚦 | **Google Ads Launch Gate** | 🟢 **CLEARED (2026-08-07)** — all target pages built + E2E'd + outside-walked; legal ✅; double-booking resolved; booking-failure telemetry live; a required-`utm_campaign` Cal field (booking-blocker) caught + fixed → optional. **Only remaining is a day-1 item: confirm the Ads conversion records on real ad clicks (provable only once live). Ads flipping on.** |
-| 6 | BI + reporting | ⬜ post-launch |
+| 6 | BI + reporting | ⬜ post-launch (**bundle the `/cal/book` idempotency key here** — it needs a Cloudflare KV store, so do it when KV/D1 get bound. Network-drop→Slack decided against; stays GA4-only.) |
 | 7 | Factory portability + PractiCal engine swap | ⬜ post-launch |
 | 8 | Polish backlog | ⬜ post-launch (lighter — 8.10/8.11 pulled forward, 8.3 moot) |
 
