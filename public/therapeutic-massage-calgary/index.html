@@ -855,10 +855,10 @@ button { font-family: inherit; }
 /* Skill-page additions for the therapeutic page. Hosted inline until we
    abstract these into the shared design system. */
 
-/* Therapeutic CTA background — the generic woman-massage image (engine default),
-   fitting for the core-anchor page. PLACEHOLDER: a dedicated therapeutic CTA image
-   can be sourced later (image SOP). */
-.final-cta { background-image: linear-gradient(180deg, rgba(11, 49, 60, 0.78) 0%, rgba(11, 49, 60, 0.86) 100%), url("/images/flow-b-v3/woman-massage.webp"); }
+/* Therapeutic CTA background — warm back/shoulder therapeutic work with a visible
+   serene face (Victor-sourced); warm tones hold depth under the dark overlay.
+   Per-page override; image change stays in this block, never the shared CSS (image SOP). */
+.final-cta { background-image: linear-gradient(180deg, rgba(11, 49, 60, 0.78) 0%, rgba(11, 49, 60, 0.86) 100%), url("/images/flow-b-v3/therapeutic-cta.webp"); background-position: center 40%; }
 
 /* Limited-availability note in the price row (mirrors prenatal/lymphatic). */
 .offer-scarcity { display: flex; align-items: center; align-self: center; gap: 8px; margin: 0; }
