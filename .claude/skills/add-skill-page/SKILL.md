@@ -249,6 +249,10 @@ If the Apps Script has not changed since the last skill page was added, the user
 
 Edit [`README.md`](README.md) Live URLs table to add the new URL with status "live". The Adding a New Skill Page checklist already lives there for the next time; you usually won't need to update it.
 
+### Step 10 — Launching the ads (separate step, its own SOP)
+
+Building the page is not launching the ads. When the operator is ready to point Google Ads at this page, **walk them through [`docs/sop-google-ads-launch.md`](../../../docs/sop-google-ads-launch.md)** — the ad-side launch: pre-launch gate, campaign + RSAs, extensions (sitelinks built from this page's anchor IDs, `?utm_content=<anchor>#<anchor>`), tracking, and the day-1 conversion confirm. **Flag the image-asset reality up front:** photo assets are a **month-two** item because the account must be **>60 days old with 30-day Search spend** before the Image option even appears — a brand-new client account **cannot** attach photos at launch (and the "add them after approval" explanation is folklore). Don't let the operator promise a client photo ads on day one.
+
 ## Reference materials to consult (in order)
 
 1. `feedback_skill_page_structure_reference.md` (memory) — Hayahay benchmark rules
