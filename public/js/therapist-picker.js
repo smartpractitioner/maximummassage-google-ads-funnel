@@ -1476,8 +1476,11 @@
           : (d && d.error === 'upstream_unreachable') ? 'timeout'
           : 'unknown';
         beaconBookingFailed(failType, calState.t.id, currentSkill, payload.start);
+        var badPhone = failType === 'cal_error' && /invalid_number|attendeePhoneNumber/i.test(JSON.stringify((d && d.detail) || ''));
         calShowErr(err, (d && d.configured === false)
           ? 'Online booking is not live yet. Please call (403) 283-0725 and we will book you in.'
+          : badPhone
+          ? 'That phone number doesn’t look right, please double-check it and try again.'
           : 'That time may have just been taken. Please pick another, or call (403) 283-0725.');
       })
       .catch(function () {
