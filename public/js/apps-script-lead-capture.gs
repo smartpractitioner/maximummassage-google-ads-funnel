@@ -102,7 +102,7 @@ const BOOKING_HEADERS = [
   'Skill', 'Booked Therapist', 'Booked Handle', 'Recommended Therapist ID', 'Matched Recommendation',
   'First Name', 'Last Name', 'Email', 'Phone', 'user_id',
   'Start Time', 'End Time', 'Event Type ID', 'Location',
-  'GCLID', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'
+  'GCLID', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'Device'
 ];
 
 // Per-therapist monthly cap + active flag (global across all skill pages).
@@ -467,7 +467,8 @@ function handleCalBooking(payload) {
     utm_medium: resp(payload, 'utm_medium'),
     utm_campaign: resp(payload, 'utm_campaign'),
     utm_term: resp(payload, 'utm_term'),
-    utm_content: resp(payload, 'utm_content')
+    utm_content: resp(payload, 'utm_content'),
+    device: resp(payload, 'device')
   };
 
   const sheet = getOrCreateSheet(leadsBookingsSS(), 'bookings_' + sanitizeSkillForTab(skill), BOOKING_HEADERS);
@@ -476,7 +477,7 @@ function handleCalBooking(payload) {
     r.skill, r.bookedId, r.handle, r.recommendedId, r.matched,
     r.firstName, r.lastName, r.email, r.phone, r.userId,
     r.start, r.end, r.eventTypeId, r.location,
-    r.gclid, r.utm_source, r.utm_medium, r.utm_campaign, r.utm_term, r.utm_content
+    r.gclid, r.utm_source, r.utm_medium, r.utm_campaign, r.utm_term, r.utm_content, r.device
   ]);
 
   notifySlack(r);

@@ -1205,6 +1205,20 @@
   // Values prefilled into the Cal booking's hidden fields, so they flow back to
   // us in the BOOKING_CREATED webhook (skill + recommended therapist +
   // attribution). Only fields that exist on the Cal event type.
+  // Device category (mobile/tablet/desktop) — rides the attribution path onto the
+  // booking record (Cal hidden field -> BOOKING_CREATED webhook -> bookings_<skill>)
+  // for the Phase 6 BI dashboards. Booking side only (never the quiz — Decision 9).
+  // Tablet detection is intentionally fuzzy; acceptable for BI.
+  function deviceCategory() {
+    try {
+      var uaMobile = navigator.userAgentData && navigator.userAgentData.mobile;
+      var ua = navigator.userAgent || '';
+      if (/\biPad\b|Tablet|(Android(?!.*Mobile))/i.test(ua)) return 'tablet';
+      if (uaMobile === true || /Mobi|iPhone|Android.*Mobile/i.test(ua)) return 'mobile';
+      return 'desktop';
+    } catch (_) { return 'desktop'; }
+  }
+
   function calPrefillParams() {
     const utms = collectUtms();
     const params = {};
@@ -1215,6 +1229,7 @@
     if (lastRecommendedId) params.recommended_therapist_id = lastRecommendedId;
     const uid = userId();
     if (uid) params.user_id = uid;  // rides Cal's hidden field → BOOKING_CREATED webhook → bookings row
+    params.device = deviceCategory();  // same path; lands on the bookings_<skill> row only
     return params;
   }
 

@@ -19,7 +19,7 @@
 import { CAL_BASE, CAL_TZ, CAL_BOOKINGS_VERSION, resolveTherapist, applyEventType, json } from './_cal.js';
 
 const ATTRIB_KEYS = [
-  'skill', 'recommended_therapist_id', 'user_id',
+  'skill', 'recommended_therapist_id', 'user_id', 'device',
   'gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'
 ];
 
