@@ -86,7 +86,10 @@ export async function onRequestPost(context) {
     const emsg = String((e && e.message) || e);
     console.error('[cal/book] FAIL upstream_unreachable ' + JSON.stringify({ ray: ray, therapist: body.therapist, detail: emsg, ts: Date.now() }));
     context.waitUntil(postBookingErrorSlack(env, { type: 'timeout — Cal.com unreachable', therapist: body.therapist, reason: emsg }));
-    return json({ ok: false, error: 'upstream_unreachable', detail: emsg }, 502);
+    // Return 200 (not 5xx): Cloudflare replaces 5xx BODIES with its own error page,
+    // so the browser's r.json() would throw and the client would mislabel this as a
+    // generic "network hiccup" catch. The client keys on d.ok, not the HTTP status.
+    return json({ ok: false, error: 'upstream_unreachable', detail: emsg }, 200);
   }
 
   let data;
@@ -95,7 +98,8 @@ export async function onRequestPost(context) {
   if (!res.ok) {
     console.error('[cal/book] FAIL cal_error ' + JSON.stringify({ ray: ray, therapist: body.therapist, status: res.status, detail: data, ts: Date.now() }));
     context.waitUntil(postBookingErrorSlack(env, { type: 'cal_error', therapist: body.therapist, status: res.status, reason: (typeof data === 'object' ? JSON.stringify(data) : String(data)).slice(0, 300) }));
-    return json({ ok: false, error: 'cal_error', status: res.status, detail: data }, 502);
+    // 200 (not 5xx) so the JSON body reaches the client — see note above. Client reads d.ok.
+    return json({ ok: false, error: 'cal_error', status: res.status, detail: data }, 200);
   }
 
   const d = (data && data.data) ? data.data : {};
