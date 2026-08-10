@@ -1148,6 +1148,9 @@ button { font-family: inherit; }
   .final-cta h2 { font-size: 46px; text-align: center; margin-inline: auto; }
   .final-cta p { font-size: 20px; max-width: 660px; }
 }
+
+/* Anchor-jump offset so the sticky topbar (~56px) never covers a section jumped to via #hash. */
+h2[id], #pricing { scroll-margin-top: 80px; }
 </style>
 
 <script type="application/ld+json">
@@ -1219,7 +1222,7 @@ button { font-family: inherit; }
     <h1>Calgary’s best therapeutic massage for pain, tension, and real recovery.</h1>
     <p class="hero-sub">Our Calgary massage therapists tailor the work to your body, whether that’s chronic pain, an old injury, stress, or tension that won’t let go. We match you with the right therapist and a plan that makes the relief last.</p>
 
-    <div class="offer-card">
+    <div class="offer-card" id="pricing">
       <div class="offer-eyebrow">New Client Starter Session · 60 min</div>
       <div class="offer-price-row">
         <div class="offer-price">$49</div>
@@ -1317,13 +1320,13 @@ button { font-family: inherit; }
 
 <!-- ============ 3. WHAT IS THERAPEUTIC MASSAGE ============ -->
 <section class="modality-intro">
-  <h2>What is therapeutic massage?</h2>
+  <h2 id="about">What is therapeutic massage?</h2>
   <p>Therapeutic massage is results-focused work aimed at a specific problem, sciatica, a frozen shoulder, whiplash, migraines, chronic back or neck pain, or the tension and stress your body won’t let go of, rather than a general spa-style relaxation hour. Depending on what you need, it can draw on myofascial release, trigger point, deep tissue, fascial, craniosacral, or lymphatic techniques. <mark class="hl">The goal is to change what’s actually going on in the tissue, not just an hour off,</mark> and to send you home with a plan so the relief holds. Most people leave feeling both relieved and calmer.</p>
 </section>
 
 <!-- ============ 4. BENEFITS ============ -->
 <section class="benefits">
-  <h2>Benefits of therapeutic massage</h2>
+  <h2 id="benefits">Benefits of therapeutic massage</h2>
   <ul class="benefits-list">
     <li>
       <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8" fill="#D77BAE" stroke="none"/></svg>
@@ -1372,7 +1375,7 @@ button { font-family: inherit; }
 
 <!-- ============ 5. WHAT A SESSION LOOKS LIKE ============ -->
 <section class="session-steps">
-  <h2>What a session looks like</h2>
+  <h2 id="what-to-expect">What a session looks like</h2>
   <ol class="session-steps-list">
     <li>
       <p class="session-step-title">Quick intake (about 5 minutes).</p>
@@ -1392,7 +1395,7 @@ button { font-family: inherit; }
 <!-- ============ 6. WHY WORK WITH US ============ -->
 <section class="why">
   <div class="why-header">
-    <h2>Why work with us</h2>
+    <h2 id="why">Why work with us</h2>
     <p class="why-sub">
       Most clinics book you with whoever’s free. We match you with the therapist whose training actually fits what your body needs, chronic pain, injury, stress, or tension, so the work lands from the very first session.
     </p>
@@ -1451,7 +1454,7 @@ button { font-family: inherit; }
 
 <!-- ============ 8. TESTIMONIALS ============ -->
 <section class="testimonials">
-  <h2>Our Calgary Clients Love Us, We Think You Will Too</h2>
+  <h2 id="reviews">Our Calgary Clients Love Us, We Think You Will Too</h2>
   <div class="testimonial-list">
     <article class="testimonial-card">
       <p class="testimonial-headline">"…genuine interest in helping my body recover."</p>
@@ -1532,7 +1535,7 @@ button { font-family: inherit; }
 
 <!-- ============ 9. FAQ ============ -->
 <section class="faq">
-  <h2>Frequently Asked Questions</h2>
+  <h2 id="faq">Frequently Asked Questions</h2>
   <div class="faq-list" id="faqList">
     <div class="faq-item open"><button class="faq-q" type="button" aria-expanded="true"><span class="faq-q-text">What’s the difference between therapeutic and relaxation massage?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">Therapeutic massage is results-focused: it targets a specific problem like chronic pain, an injury, or stubborn tension, using techniques such as myofascial release, deep tissue, or trigger point work. Relaxation (spa) massage uses lighter, flowing strokes mainly to de-stress. Both feel good; therapeutic work is the one that actually changes what’s going on in the tissue.</div></div>
     <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><span class="faq-q-text">What conditions does therapeutic massage help with?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">A lot of what people come in for: sciatica, chronic back, neck, and shoulder pain, frozen shoulder, whiplash and other soft-tissue injuries, migraines and tension headaches, postural strain from desk work, and recovery after surgery. If you’re not sure whether it’ll help your situation, tell us at intake and we’ll be straight with you about it.</div></div>

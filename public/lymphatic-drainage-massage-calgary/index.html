@@ -1018,6 +1018,9 @@ button { font-family: inherit; }
   .final-cta h2 { font-size: 46px; text-align: center; margin-inline: auto; }
   .final-cta p { font-size: 20px; max-width: 660px; }
 }
+
+/* Anchor-jump offset so the sticky topbar (~56px) never covers a section jumped to via #hash. */
+h2[id], #pricing { scroll-margin-top: 80px; }
 </style>
 
 <script type="application/ld+json">
@@ -1083,7 +1086,7 @@ button { font-family: inherit; }
     <h1>Lymphatic drainage massage. Gentle, specific work for swelling, recovery, and chronic inflammation.</h1>
     <p class="hero-sub">Specialized lymphatic technique from RMTs trained for it. Slow, rhythmic, and surprisingly effective at moving stuck fluid and supporting your body’s own clearance, post-surgical, pregnancy, autoimmune, or just chronically puffy.</p>
 
-    <div class="offer-card">
+    <div class="offer-card" id="pricing">
       <div class="offer-eyebrow">New Client Starter Session · 60 min</div>
       <div class="offer-price-row"><div class="offer-price">$49</div><p class="offer-scarcity"><span class="offer-scarcity-i" aria-hidden="true">&#9203;</span><span class="offer-scarcity-t">Limited weekly availability</span></p></div>
       <button type="button" class="btn-cta" data-open-picker>See Therapists - Book Your Session</button>
@@ -1134,12 +1137,12 @@ button { font-family: inherit; }
 </section>
 
 <section class="modality-intro">
-  <h2>What is lymphatic drainage massage?</h2>
+  <h2 id="about">What is lymphatic drainage massage?</h2>
   <p>Lymphatic drainage is a gentle, rhythmic technique that supports your body’s lymphatic system, the network that drains waste and excess fluid from your tissues. The pressure is much lighter than a typical massage; the work is about flow, not depth. It’s especially helpful for post-surgical recovery, pregnancy swelling, chronic inflammation, autoimmune support, and anyone whose body is holding onto more fluid than it should. Sessions feel calm, slow, and surprisingly effective.</p>
 </section>
 
 <section class="benefits">
-  <h2>Benefits of lymphatic drainage massage</h2>
+  <h2 id="benefits">Benefits of lymphatic drainage massage</h2>
   <ul class="benefits-list">
     <li><svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.2c3.7 0 6.6 2.9 6.6 6.5 0 4.4-4.3 7.9-6.6 10.4C9.7 16.6 5.4 13.1 5.4 8.7 5.4 5.1 8.3 2.2 12 2.2z"/><path d="M9.6 10.6c0 1.3 1.1 2.4 2.4 2.4" opacity=".5"/></svg><div class="benefit-text"><p class="benefit-title">Real reduction in swelling and fluid retention.</p><p class="benefit-body">Targeted, rhythmic strokes help your body move accumulated fluid out of swollen ankles, legs, hands, and post-surgical areas.</p></div></li>
     <li><svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="4.5" width="15" height="15" rx="4"/><path d="M12 9v6M9 12h6"/></svg><div class="benefit-text"><p class="benefit-title">Post-surgical recovery support.</p><p class="benefit-body">Done with surgeon clearance and at the right point in healing, lymphatic work supports tissue repair and reduces lingering swelling.</p></div></li>
@@ -1151,7 +1154,7 @@ button { font-family: inherit; }
 </section>
 
 <section class="session-steps">
-  <h2>What a session looks like</h2>
+  <h2 id="what-to-expect">What a session looks like</h2>
   <ol class="session-steps-list">
     <li><p class="session-step-title">Quick intake (about 5 minutes).</p><p class="session-step-body">We talk through what’s going on, any surgeries or medical context, and what you’re hoping for. Lymphatic work needs that picture before we start, especially around incision sites or lymphedema.</p></li>
     <li><p class="session-step-title">Slow, rhythmic hands-on work (about 45 to 50 minutes).</p><p class="session-step-body">Gentle, light strokes following the body’s natural lymph pathways. Quiet, calm, and often deeply restful. Side-lying, supine, or wherever is most comfortable for your situation.</p></li>
@@ -1161,7 +1164,7 @@ button { font-family: inherit; }
 
 <section class="why">
   <div class="why-header">
-    <h2>Why work with us</h2>
+    <h2 id="why">Why work with us</h2>
     <p class="why-sub">Lymphatic drainage is a real specialty, not a default mode every therapist does. We built a clinic where lymphatic work is properly trained, with the right therapist matched to your specific situation, post-surgical, pregnancy, autoimmune, or otherwise.</p>
   </div>
   <div class="why-list">
@@ -1190,7 +1193,7 @@ button { font-family: inherit; }
 </section>
 
 <section class="testimonials">
-  <h2>Our Calgary Clients Love Us, We Think You Will Too</h2>
+  <h2 id="reviews">Our Calgary Clients Love Us, We Think You Will Too</h2>
   <div class="testimonial-list">
     <article class="testimonial-card">
       <p class="testimonial-headline">"…genuine interest in helping my body recover."</p>
@@ -1268,7 +1271,7 @@ button { font-family: inherit; }
 </section>
 
 <section class="faq">
-  <h2>Frequently Asked Questions</h2>
+  <h2 id="faq">Frequently Asked Questions</h2>
   <div class="faq-list" id="faqList">
     <div class="faq-item open"><button class="faq-q" type="button" aria-expanded="true"><span class="faq-q-text">What is lymphatic drainage massage?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">Lymphatic drainage massage is a gentle, rhythmic technique that helps move fluid through your lymphatic system, the network that drains waste and excess fluid from your tissues. It’s used for swelling, post-surgical recovery, chronic inflammation, and conditions like lymphedema. The pressure is much lighter than a traditional massage; the work is about flow, not depth.</div></div>
     <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><span class="faq-q-text">How is it different from regular massage?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">It’s much lighter. Lymph vessels sit close to the surface of the skin, so heavy pressure actually closes them off and slows drainage. Sessions feel calm and slow, almost like a meditation. Effective lymphatic work is closer to skin-level stroking with specific rhythms than to kneading muscle tissue.</div></div>

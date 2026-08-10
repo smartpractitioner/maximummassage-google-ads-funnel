@@ -1120,6 +1120,9 @@ button { font-family: inherit; }
   .final-cta h2 { font-size: 46px; text-align: center; margin-inline: auto; }
   .final-cta p { font-size: 20px; max-width: 660px; }
 }
+
+/* Anchor-jump offset so the sticky topbar (~56px) never covers a section jumped to via #hash. */
+h2[id], #pricing { scroll-margin-top: 80px; }
 </style>
 
 <script type="application/ld+json">
@@ -1192,7 +1195,7 @@ button { font-family: inherit; }
     <p class="hero-sub hero-sub--m">Specialized care from RMTs who’ve trained for this work and many of whom have lived it themselves. Side-lying, safe, and adaptable from trying to conceive through to your sixth-week postpartum check and beyond.</p>
     <p class="hero-sub hero-sub--d">Pregnancy care from RMTs who’ve trained for this work <em>(many of whom have lived it themselves)</em>. Side-lying, safe, and adaptable from trying to conceive through to your postpartum check.</p>
 
-    <div class="offer-card">
+    <div class="offer-card" id="pricing">
       <div class="offer-eyebrow">New Client Starter Session · 60 min</div>
       <div class="offer-price-row">
         <div class="offer-price"><span class="offer-cur">$</span>49</div>
@@ -1290,7 +1293,7 @@ button { font-family: inherit; }
 
 <!-- ============ 3. BENEFITS (replaces What We Help With on this page) ============ -->
 <section class="benefits">
-  <h2>Benefits of pregnancy and postpartum massage</h2>
+  <h2 id="benefits">Benefits of pregnancy and postpartum massage</h2>
   <ul class="benefits-list">
     <li>
       <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-2.2 2-2.2 3.6 0 5.6s2.2 3.6 0 5.6-2.2 3.6 0 5.6"/><path d="M9.6 5.6h4.8M9.6 11.2h4.8M9.6 16.8h4.8" opacity=".5"/></svg>
@@ -1340,7 +1343,7 @@ button { font-family: inherit; }
 <!-- ============ 4. WHY WORK WITH US ============ -->
 <section class="why">
   <div class="why-header">
-    <h2>Why work with us</h2>
+    <h2 id="why">Why work with us</h2>
     <p class="why-sub">
       Most spas treat prenatal massage as an add-on. Here it's real clinical work, with therapists who've trained specifically for pregnancy and postpartum, matched to your stage and your concerns.
     </p>
@@ -1401,7 +1404,7 @@ button { font-family: inherit; }
      MH has zero pregnancy-specific reviews, so these are clinic-level generics per the
      thin-reviews fallback in docs/sop-social-proof-sourcing.md. Verbatim, never edited. ============ -->
 <section class="testimonials">
-  <h2>Our Calgary Clients Love Us, We Think You Will Too</h2>
+  <h2 id="reviews">Our Calgary Clients Love Us, We Think You Will Too</h2>
   <div class="testimonial-list">
     <article class="testimonial-card">
       <p class="testimonial-headline">"…a great place to take care of yourself."</p>
@@ -1482,7 +1485,7 @@ button { font-family: inherit; }
 
 <!-- ============ 7. FAQ ============ -->
 <section class="faq">
-  <h2>Frequently Asked Questions</h2>
+  <h2 id="faq">Frequently Asked Questions</h2>
   <div class="faq-list" id="faqList">
     <div class="faq-item open"><button class="faq-q" type="button" aria-expanded="true"><span class="faq-q-text">Is massage safe during pregnancy?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">Yes. Provided your pregnancy is low-risk and your therapist is trained in prenatal techniques, massage is widely considered safe and beneficial throughout all three trimesters. We confirm a brief intake before your first session to make sure there are no contraindications.</div></div>
     <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><span class="faq-q-text">When can I start? Is the first trimester OK?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">You can start at any stage. Some clinics decline first-trimester clients out of caution because miscarriage risk is naturally higher in those weeks, even though research has not linked properly performed massage to that risk. We're happy to work with you in any trimester provided you've cleared it with your healthcare provider.</div></div>

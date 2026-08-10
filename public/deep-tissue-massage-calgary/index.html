@@ -1147,6 +1147,9 @@ button { font-family: inherit; }
   .final-cta h2 { font-size: 46px; text-align: center; margin-inline: auto; }
   .final-cta p { font-size: 20px; max-width: 660px; }
 }
+
+/* Anchor-jump offset so the sticky topbar (~56px) never covers a section jumped to via #hash. */
+h2[id], #pricing { scroll-margin-top: 80px; }
 </style>
 
 <script type="application/ld+json">
@@ -1217,7 +1220,7 @@ button { font-family: inherit; }
     <h1>Deep tissue massage for chronic tension, stubborn knots, and targeted relief.</h1>
     <p class="hero-sub">RMTs trained in myofascial release, trigger point, and Kinetic deep work. Firm enough to reach the layer of tissue that’s actually holding the tension, never so much that you leave wrecked. With a plan to keep the relief lasting longer than the table.</p>
 
-    <div class="offer-card">
+    <div class="offer-card" id="pricing">
       <div class="offer-eyebrow">New Client Starter Session · 60 min</div>
       <div class="offer-price-row">
         <div class="offer-price">$49</div>
@@ -1315,13 +1318,13 @@ button { font-family: inherit; }
 
 <!-- ============ 3. WHAT IS DEEP TISSUE MASSAGE ============ -->
 <section class="modality-intro">
-  <h2>What is deep tissue massage?</h2>
+  <h2 id="about">What is deep tissue massage?</h2>
   <p>Deep tissue uses slower strokes and more concentrated pressure to release tension in the deeper layers of muscle and connective tissue. It’s especially helpful for chronic tension, knots that haven’t budged with stretching or lighter work, and pain from long-held postures like desk work, driving, or repetitive motion. It’s not the same as a Swedish or relaxation massage. <mark class="hl">The goal here is targeted change in the tissue, not general relaxation,</mark> though most clients leave feeling both relieved and calmer.</p>
 </section>
 
 <!-- ============ 4. BENEFITS ============ -->
 <section class="benefits">
-  <h2>Benefits of deep tissue massage</h2>
+  <h2 id="benefits">Benefits of deep tissue massage</h2>
   <ul class="benefits-list">
     <li>
       <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#D77BAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8" fill="#D77BAE" stroke="none"/></svg>
@@ -1370,7 +1373,7 @@ button { font-family: inherit; }
 
 <!-- ============ 5. WHAT A SESSION LOOKS LIKE ============ -->
 <section class="session-steps">
-  <h2>What a session looks like</h2>
+  <h2 id="what-to-expect">What a session looks like</h2>
   <ol class="session-steps-list">
     <li>
       <p class="session-step-title">Quick intake (about 5 minutes).</p>
@@ -1390,7 +1393,7 @@ button { font-family: inherit; }
 <!-- ============ 6. WHY WORK WITH US ============ -->
 <section class="why">
   <div class="why-header">
-    <h2>Why work with us</h2>
+    <h2 id="why">Why work with us</h2>
     <p class="why-sub">
       Most clinics treat deep tissue as one menu item among many. We built a clinic where chronic tension and targeted relief is core to what our therapists actually trained for, with the right therapist matched to your specific concerns.
     </p>
@@ -1449,7 +1452,7 @@ button { font-family: inherit; }
 
 <!-- ============ 8. TESTIMONIALS ============ -->
 <section class="testimonials">
-  <h2>Our Calgary Clients Love Us, We Think You Will Too</h2>
+  <h2 id="reviews">Our Calgary Clients Love Us, We Think You Will Too</h2>
   <div class="testimonial-list">
     <article class="testimonial-card">
       <p class="testimonial-headline">"…genuine interest in helping my body recover."</p>
@@ -1530,7 +1533,7 @@ button { font-family: inherit; }
 
 <!-- ============ 9. FAQ ============ -->
 <section class="faq">
-  <h2>Frequently Asked Questions</h2>
+  <h2 id="faq">Frequently Asked Questions</h2>
   <div class="faq-list" id="faqList">
     <div class="faq-item open"><button class="faq-q" type="button" aria-expanded="true"><span class="faq-q-text">What’s the difference between deep tissue and a regular massage?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">Deep tissue uses slower strokes and more concentrated pressure to release tension in the deeper layers of muscle and connective tissue. Swedish or relaxation massage uses lighter, longer strokes and a calmer overall pace. Deep tissue is the better choice when you have specific knots, chronic tension, or pain from long-held postures that haven’t responded to gentler work.</div></div>
     <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><span class="faq-q-text">Will deep tissue massage hurt?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">It shouldn’t. Deep doesn’t mean painful. There can be moments of intensity when we’re working a specific spot, but our therapists never push through pain to prove a point. Pressure is always adjustable, and communication during the session is welcome and expected.</div></div>

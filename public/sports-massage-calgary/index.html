@@ -870,6 +870,9 @@ button { font-family: inherit; }
 .session-step-body { font-size: 14.5px; line-height: 1.55; color: var(--ink-soft); margin: 0; }
 @media (min-width: 480px) { .modality-intro, .benefits, .session-steps { max-width: 480px; margin-left: auto; margin-right: auto; } }
 @media (min-width: 768px) { .modality-intro, .benefits, .session-steps { max-width: 560px; } }
+
+/* Anchor-jump offset so the sticky topbar (~56px) never covers a section jumped to via #hash. */
+h2[id], #pricing { scroll-margin-top: 80px; }
 </style>
 
 <script type="application/ld+json">
@@ -939,7 +942,7 @@ button { font-family: inherit; }
     <h1>Sports massage for recovery, injury rehab, and return-to-training.</h1>
     <p class="hero-sub">Targeted hands-on work from RMTs who train themselves and who specialize in active bodies. Built around your sport, your goals, and the recovery rhythm your body actually needs.</p>
 
-    <div class="offer-card">
+    <div class="offer-card" id="pricing">
       <div class="offer-eyebrow">New Client Starter Session · 60 min</div>
       <div class="offer-price-row">
         <div class="offer-price">$49</div>
@@ -990,13 +993,13 @@ button { font-family: inherit; }
 
 <!-- ============ 3. WHAT IS SPORTS MASSAGE ============ -->
 <section class="modality-intro">
-  <h2>What is sports massage?</h2>
+  <h2 id="about">What is sports massage?</h2>
   <p>Sports massage is hands-on work built around how an active body actually functions. It blends deep tissue, trigger point, and myofascial techniques with range-of-motion work to help you train, recover, and come back from injury. Whether you’re a competitive athlete, a weekend runner, a lifter, or just someone who wants to keep moving without breaking down, the focus is on the specific tissues your sport is loading and what they need to keep doing it.</p>
 </section>
 
 <!-- ============ 4. BENEFITS ============ -->
 <section class="benefits">
-  <h2>Benefits of sports massage</h2>
+  <h2 id="benefits">Benefits of sports massage</h2>
   <ul class="benefits-list">
     <li><p class="benefit-title">Faster recovery between training sessions.</p><p class="benefit-body">Targeted work on overloaded tissue helps you feel ready sooner without skipping training days.</p></li>
     <li><p class="benefit-title">Targeted relief for sport-specific overuse.</p><p class="benefit-body">Runners, lifters, cyclists, hockey players, all have their own tight spots. We work with the patterns your sport actually creates.</p></li>
@@ -1009,7 +1012,7 @@ button { font-family: inherit; }
 
 <!-- ============ 5. WHAT A SESSION LOOKS LIKE ============ -->
 <section class="session-steps">
-  <h2>What a session looks like</h2>
+  <h2 id="what-to-expect">What a session looks like</h2>
   <ol class="session-steps-list">
     <li><p class="session-step-title">Quick intake (about 5 minutes).</p><p class="session-step-body">We talk through what you’re training for, what’s bothering you, and what your week ahead looks like. No long forms, just a real conversation.</p></li>
     <li><p class="session-step-title">Targeted hands-on work (about 45 to 50 minutes).</p><p class="session-step-body">Sport-specific work on the tissues that are doing the most. Pressure adapts to what your body needs that day, never just push through pain to prove a point.</p></li>
@@ -1020,7 +1023,7 @@ button { font-family: inherit; }
 <!-- ============ 6. WHY WORK WITH US ============ -->
 <section class="why">
   <div class="why-header">
-    <h2>Why work with us</h2>
+    <h2 id="why">Why work with us</h2>
     <p class="why-sub">Most clinics treat sports massage like one menu item among many. We built a clinic where recovery, injury rehab, and return-to-training is core to what our therapists actually trained for, with the right therapist matched to your sport and your concerns.</p>
   </div>
   <div class="why-list">
@@ -1049,7 +1052,7 @@ button { font-family: inherit; }
 
 <!-- ============ 8. TESTIMONIALS ============ -->
 <section class="testimonials">
-  <h2>Our Calgary Clients Love Us, We Think You Will Too</h2>
+  <h2 id="reviews">Our Calgary Clients Love Us, We Think You Will Too</h2>
   <div class="testimonial-list">
     <article class="testimonial-card">
       <p class="testimonial-headline">"…genuine interest in helping my body recover."</p>
@@ -1079,7 +1082,7 @@ button { font-family: inherit; }
 
 <!-- ============ 9. FAQ ============ -->
 <section class="faq">
-  <h2>Frequently Asked Questions</h2>
+  <h2 id="faq">Frequently Asked Questions</h2>
   <div class="faq-list" id="faqList">
     <div class="faq-item open"><button class="faq-q" type="button" aria-expanded="true"><span class="faq-q-text">What’s the difference between sports massage and regular massage?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">Sports massage is built around an active body. The techniques (deep tissue, trigger point, myofascial release, range-of-motion work) are aimed at recovery, injury prevention, and getting you back to your sport. Regular massage tends to be more about general relaxation. They overlap, but sports work is more focused on specific tissues and how they’re responding to training load.</div></div>
     <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><span class="faq-q-text">Should I get a sports massage before or after my event?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">Both can help, depending on what you want. A pre-event session, usually a few days before, focuses on movement quality and reducing tight spots without leaving you sore. A post-event session, usually 24 to 72 hours after, focuses on flushing the system and reducing recovery time. We can plan around your race or competition schedule.</div></div>

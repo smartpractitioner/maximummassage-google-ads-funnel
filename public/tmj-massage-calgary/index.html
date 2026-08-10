@@ -870,6 +870,9 @@ button { font-family: inherit; }
 .session-step-body { font-size: 14.5px; line-height: 1.55; color: var(--ink-soft); margin: 0; }
 @media (min-width: 480px) { .modality-intro, .benefits, .session-steps { max-width: 480px; margin-left: auto; margin-right: auto; } }
 @media (min-width: 768px) { .modality-intro, .benefits, .session-steps { max-width: 560px; } }
+
+/* Anchor-jump offset so the sticky topbar (~56px) never covers a section jumped to via #hash. */
+h2[id], #pricing { scroll-margin-top: 80px; }
 </style>
 
 <script type="application/ld+json">
@@ -934,7 +937,7 @@ button { font-family: inherit; }
     <h1>TMJ, jaw tension, and tension-headache massage. Targeted relief for the spots stress goes first.</h1>
     <p class="hero-sub">Specialized facial, jaw, and neck work from RMTs trained for it. Calm, careful, and effective at the place tension actually lives, especially the spots you clench at night.</p>
 
-    <div class="offer-card">
+    <div class="offer-card" id="pricing">
       <div class="offer-eyebrow">New Client Starter Session · 60 min</div>
       <div class="offer-price-row"><div class="offer-price">$49</div><div class="offer-price-old">$124</div></div>
       <button type="button" class="btn-cta" data-open-picker>Book Your $49 Starter Session</button>
@@ -969,12 +972,12 @@ button { font-family: inherit; }
 </section>
 
 <section class="modality-intro">
-  <h2>What is TMJ and jaw tension massage?</h2>
+  <h2 id="about">What is TMJ and jaw tension massage?</h2>
   <p>TMJ massage is specialized hands-on work that targets the jaw muscles, the surrounding facial muscles, and the connected neck and shoulder patterns that contribute to TMJ symptoms (clicking, popping, soreness, clenching, tension headaches). It can include external work alone, or, with your consent, gentle intra-oral work to address jaw muscles from inside the mouth. The goal isn’t to fix a structural problem, it’s to release the muscle tension and signal the nervous system to ease up.</p>
 </section>
 
 <section class="benefits">
-  <h2>Benefits of TMJ and tension-headache massage</h2>
+  <h2 id="benefits">Benefits of TMJ and tension-headache massage</h2>
   <ul class="benefits-list">
     <li><p class="benefit-title">Less jaw clicking, popping, and aching.</p><p class="benefit-body">Releasing the muscles around the joint lets it move more freely and often quiets the noise and soreness.</p></li>
     <li><p class="benefit-title">Fewer tension headaches.</p><p class="benefit-body">Most tension headaches start in the neck, jaw, or base of the skull. Work those spots, headaches drop.</p></li>
@@ -986,7 +989,7 @@ button { font-family: inherit; }
 </section>
 
 <section class="session-steps">
-  <h2>What a session looks like</h2>
+  <h2 id="what-to-expect">What a session looks like</h2>
   <ol class="session-steps-list">
     <li><p class="session-step-title">Quick intake (about 5 minutes).</p><p class="session-step-body">We talk through your symptoms, sleep, stress, dental history, and what you’ve already tried. Intra-oral consent (if it’s relevant) is discussed here, not assumed.</p></li>
     <li><p class="session-step-title">Targeted hands-on work (about 45 to 50 minutes).</p><p class="session-step-body">Neck, jaw, temples, and the connected upper-back patterns. External work always, intra-oral only with consent. Pressure adapts to what feels right.</p></li>
@@ -996,7 +999,7 @@ button { font-family: inherit; }
 
 <section class="why">
   <div class="why-header">
-    <h2>Why work with us</h2>
+    <h2 id="why">Why work with us</h2>
     <p class="why-sub">Most clinics offer TMJ work as an add-on without much specific training. We built a clinic where jaw, facial, and tension-headache work is a real specialty, with the right therapist matched to what your jaw is actually asking for.</p>
   </div>
   <div class="why-list">
@@ -1023,7 +1026,7 @@ button { font-family: inherit; }
 </section>
 
 <section class="testimonials">
-  <h2>Our Calgary Clients Love Us, We Think You Will Too</h2>
+  <h2 id="reviews">Our Calgary Clients Love Us, We Think You Will Too</h2>
   <div class="testimonial-list">
     <article class="testimonial-card">
       <p class="testimonial-headline">"…genuine interest in helping my body recover."</p>
@@ -1052,7 +1055,7 @@ button { font-family: inherit; }
 </section>
 
 <section class="faq">
-  <h2>Frequently Asked Questions</h2>
+  <h2 id="faq">Frequently Asked Questions</h2>
   <div class="faq-list" id="faqList">
     <div class="faq-item open"><button class="faq-q" type="button" aria-expanded="true"><span class="faq-q-text">What is intra-oral massage and do you offer it?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">Intra-oral massage means working specific jaw and facial muscles from inside the mouth, with a gloved hand. It’s the most direct way to release certain TMJ patterns. Our TMJ-trained therapists offer it, but only with your consent at each session. It’s never a default.</div></div>
     <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><span class="faq-q-text">Will you work inside my mouth?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div class="faq-a">Only with your consent. Many TMJ sessions get great results from external work alone (jaw, temples, neck, base of the skull). Intra-oral work is an option when it would help, and you can always say no.</div></div>
