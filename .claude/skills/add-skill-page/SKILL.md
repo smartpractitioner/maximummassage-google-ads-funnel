@@ -52,7 +52,7 @@ The README has the full Live URLs table and the Adding a New Skill Page checklis
 - [ ] **Step 4 — A–F editorial pass:** run (C/D/E/F, E against the keyword workbook top-5); result reported
 - [ ] **Step 5 — Config** (`picker-config.js` + `therapist-picker.js`)
 - [ ] **Step 5.5 — Image sourcing:** hero + CTA sourced (or placeholder **explicitly flagged + sourcing loop opened**)
-- [ ] **Step 6 — HTML built**
+- [ ] **Step 6 — HTML built** (incl. **anchor IDs on headlines** `#pricing/#about/#benefits/#what-to-expect/#why/#reviews/#faq/#guarantee` + the `scroll-margin-top` rule)
 - [ ] **Step 7 — Verified locally**
 - [ ] **Step 8 — Committed + pushed** (+ Apps Script reminder if `.gs` changed)
 - [ ] **Step 9 — README updated**
@@ -202,6 +202,7 @@ Update in the template:
 - Page-stamping inline script: `page_variant=<skill>` and `flow=<skill>`
 - Topbar markup: keep the DORMANT Call-us HTML comment block intact above the active Book Now `<button>` — never remove the comment block (see `feedback_topbar_book_now_dormant_call_us.md`)
 - Picker-config.js + therapist-picker.js script tags at the bottom (in that order — config must register before the picker reads it)
+- **Anchor IDs on section headlines (REQUIRED — for Google Ads sitelinks / deep-links, Victor 2026-08-07).** Every skill page carries the **same** anchor IDs so one sitelink structure works everywhere: `#pricing` (on the `.offer-card` div), `#about` (modality-intro `<h2>`), `#benefits` (`<h2>`), `#what-to-expect` (session-steps `<h2>`), `#why` (`<h2>`), `#reviews` (testimonials `<h2>`), `#faq` (`<h2>`), and `#guarantee` (the **offer-card `.guarantee` div** — present on every page incl. the benched ones, and mobile-first: the desktop guarantee-band is `display:none` on mobile, so anchor the offer-card block, not the band). Put the IDs on the headline `<h2>`s; the two non-heading ones go on the `.offer-card` and its `.guarantee` div. Omit `#about`/`#what-to-expect` on any page without those sections (prenatal). Add to the page's own `<style>`: `h2[id], #pricing, #guarantee { scroll-margin-top: 80px; }` so the sticky ~56px topbar never covers a jumped-to section. **Google Ads sitelink URLs — query BEFORE the fragment:** build each as `…/<slug>/?utm_content=<anchor>#<anchor>` (query first, then `#`). Fragment-first (`…#faq?gclid=…`) breaks both the anchor and the params; query-first keeps both and gives per-sitelink click attribution in GA4 via the distinct `utm_content`.
 
 CSS for the modality-intro, benefits, session-steps sections is **inline** in each skill page's `<style>` block (intentionally — kept local until we have enough pages to justify moving to the shared sheet). Copy from `deep-tissue-massage-calgary/index.html`.
 
