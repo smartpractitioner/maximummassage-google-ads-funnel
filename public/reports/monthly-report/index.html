@@ -133,6 +133,40 @@ const pct = (cur, prior) => {
   return ((cur - prior) / prior) * 100;
 };
 
+// --- Focus-4 & Ad Funnel snapshot (static analysis, refreshed manually — not part of the
+// monthly data.json pipeline yet). Built 2026-09-19 from the monthly-report source data
+// (per-therapist daily rows + an Apr-vs-Aug availability snapshot comparison) plus the ad
+// funnel's own sheets (MH - Leads + Bookings.xlsx, MH - Quiz Data.xlsx). Re-run the same
+// analysis and edit this object to refresh; see the write-up below for method notes. ---
+const FOCUS4_DATA = {
+  asOf: "September 19, 2026",
+  monthly: {
+    months: ["2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08"],
+    "Brookelyn Brolly": { completed:[27,20,22,22,24,24,22,20,17,18,13], revenue:[3841,2705,3060,3017,3548,3320,2864,2702,2474,2637,1823] },
+    "Charlotte Tooth":  { completed:[6,11,8,6,10,7,8,6,11,8,9],       revenue:[911,1465,977,846,1432,814,1107,846,1497,1074,1204] },
+    "Lindsey Stauffer": { completed:[21,19,27,16,16,16,12,19,21,13,17], revenue:[2799,2344,3646,2311,2083,2246,1693,2474,2734,1660,2200] },
+    "Meagan Brown":     { completed:[9,5,9,9,7,4,8,4,6,4,7],         revenue:[1116,620,1302,1302,899,620,1054,558,868,558,1054] },
+    everyoneElse:       { completed:[285,283,270,289,271,323,317,311,342,261,302], revenue:[37186,35417,33306,37032,34287,38445,39727,39987,42904,33408,36996] },
+    wholeClinic:        { completed:[348,338,336,342,328,374,367,360,397,304,348], revenue:[45854,42551,42290,44508,42250,45445,46445,46566,50477,39337,43277] },
+  },
+  // Single-month schedule-utilization snapshot compared Apr'26 (first pull this project did) vs Aug'26 (latest).
+  utilization: {
+    "Brookelyn Brolly": { aprShift:85.92, aprAppt:33.33, aprPct:39, augShift:55.25, augAppt:16.17, augPct:29 },
+    "Charlotte Tooth":  { aprShift:52.5,  aprAppt:11.75, aprPct:22, augShift:60,    augAppt:11.5,  augPct:19 },
+    "Lindsey Stauffer": { aprShift:28.33, aprAppt:17,    aprPct:60, augShift:55.17, augAppt:22.67, augPct:41 },
+    "Meagan Brown":     { aprShift:17.5,  aprAppt:12.25, aprPct:70, augShift:15,    augAppt:10.25, augPct:68 },
+  },
+  // Ad-funnel bookings (Cal.com, from the go.maximummassage.ca quiz/skill pages) by therapist, since each skill page went live.
+  adFunnelBookingsByTherapist: { "Lindsey": 12, "Charlotte": 12, "Brookelyn": 6, "Meagan": 0 },
+  funnelBySkill: [
+    { skill:"Prenatal",    quiz:56,  bookings:18, leads:3, live:"since Jul 16" },
+    { skill:"Deep tissue", quiz:48,  bookings:7,  leads:3, live:"since Aug 5" },
+    { skill:"Lymphatic",   quiz:85,  bookings:3,  leads:8, live:"since Aug 4" },
+    { skill:"Therapeutic", quiz:117, bookings:2,  leads:4, live:"since Aug 6" },
+  ],
+  funnelTotals: { quiz:306, bookings:30, leads:19, matchedRecommendation:21, pctPaidGclid:83 },
+};
+
 // --- KPI card with YoY delta ---
 const KPI = ({ label, value, delta, accent, hint }) => {
   const isUp = delta != null && delta >= 0;
@@ -234,6 +268,7 @@ const LineTooltip = ({ active, payload, label, formatter }) => {
 function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [view, setView] = useState("dashboard"); // "dashboard" | "focus4"
   const [segmentKey, setSegmentKey] = useState(null);
   const [dateStart, setDateStart] = useState(null); // YYYY-MM-DD
   const [dateEnd, setDateEnd]     = useState(null); // YYYY-MM-DD
@@ -475,6 +510,20 @@ function App() {
           <div className="rail-brand-sub">Maximum Massage</div>
 
           <div className="rail-section">
+            <div className="rail-label">Report</div>
+            <button
+              onClick={() => setView("dashboard")}
+              className={`rail-btn${view==="dashboard" ? " rail-btn-active" : ""}`}
+            >Dashboard</button>
+            <button
+              onClick={() => setView("focus4")}
+              className={`rail-btn${view==="focus4" ? " rail-btn-active" : ""}`}
+            >Focus-4 &amp; Ad Funnel</button>
+          </div>
+
+          {view === "dashboard" && (
+          <>
+          <div className="rail-section">
             <div className="rail-label">View</div>
             {Object.entries(data.segments).map(([k, s]) => (
               <button
@@ -527,12 +576,17 @@ function App() {
               vs. {dateStart && dateEnd ? `${fmtDate(addDays(dateStart, -daysBetweenInclusive(dateStart, dateEnd)))} – ${fmtDate(addDays(dateStart, -1))}` : "no prior-period data"}
             </div>
           </div>
+          </>)}
         </div>
       </nav>
 
       <main className="report-content">
         <div className="report-content-inner">
 
+        {view === "focus4" ? (
+        <Focus4Tab />
+        ) : (
+        <>
         {/* HEADER */}
         <div style={{ marginBottom:28, borderLeft:`4px solid ${C.green}`, paddingLeft:20 }}>
           <div style={{ fontSize:13, fontWeight:700, letterSpacing:"0.12em", textTransform:"uppercase", color:C.gold, marginBottom:10 }}>Monthly Report</div>
@@ -793,6 +847,8 @@ function App() {
             </table>
           </div>
         </Card>
+        </>
+        )}
 
         </div>
       </main>
@@ -890,6 +946,227 @@ function shiftMonthFirst(dateStr, delta) {
   const ny = Math.floor(total / 12);
   const nm = (total % 12) + 1;
   return `${ny}-${String(nm).padStart(2,"0")}-01`;
+}
+
+// --- Focus-4 & Ad Funnel tab — isolates the 4 focus therapists (Brookelyn, Charlotte,
+// Lindsey, Meagan) from the rest of the clinic, and reports the ad-funnel's leads/quiz/
+// booking data. Static snapshot (see FOCUS4_DATA above) — refresh by re-running the
+// analysis, not by the monthly data.json pipeline. ---
+function Focus4Tab() {
+  const F = FOCUS4_DATA;
+  const names = ["Brookelyn Brolly","Charlotte Tooth","Lindsey Stauffer","Meagan Brown"];
+  const firstIdx = 0, lastIdx = F.monthly.months.length - 1;
+
+  const sumAt = (key, idx) => names.reduce((s,n) => s + F.monthly[n][key][idx], 0);
+  const focus4 = {
+    completed: { first: sumAt("completed", firstIdx), last: sumAt("completed", lastIdx) },
+    revenue:   { first: sumAt("revenue", firstIdx),   last: sumAt("revenue", lastIdx) },
+  };
+  const elseSeries = F.monthly.everyoneElse;
+  const wcSeries = F.monthly.wholeClinic;
+  const elseD = { completed: pct(elseSeries.completed[lastIdx], elseSeries.completed[firstIdx]), revenue: pct(elseSeries.revenue[lastIdx], elseSeries.revenue[firstIdx]) };
+  const wcD = { completed: pct(wcSeries.completed[lastIdx], wcSeries.completed[firstIdx]), revenue: pct(wcSeries.revenue[lastIdx], wcSeries.revenue[firstIdx]) };
+  const focusD = { completed: pct(focus4.completed.last, focus4.completed.first), revenue: pct(focus4.revenue.last, focus4.revenue.first) };
+
+  const stackChart = F.monthly.months.map((m,i) => ({
+    name: monthLabel(m),
+    Brookelyn: F.monthly["Brookelyn Brolly"].completed[i],
+    Charlotte: F.monthly["Charlotte Tooth"].completed[i],
+    Lindsey: F.monthly["Lindsey Stauffer"].completed[i],
+    Meagan: F.monthly["Meagan Brown"].completed[i],
+  }));
+  const THERAPIST_COLORS = { Brookelyn: C.green, Charlotte: C.gold, Lindsey: C.accent, Meagan: "#7A8FA6" };
+
+  const funnelMax = Math.max(...F.funnelBySkill.map(r => r.quiz));
+
+  return (
+    <>
+      {/* HEADER */}
+      <div style={{ marginBottom:28, borderLeft:`4px solid ${C.green}`, paddingLeft:20 }}>
+        <div style={{ fontSize:13, fontWeight:700, letterSpacing:"0.12em", textTransform:"uppercase", color:C.gold, marginBottom:10 }}>Focus-4 &amp; Ad Funnel</div>
+        <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:38, fontWeight:700, color:C.text, lineHeight:1.2, margin:"0 0 12px" }}>
+          Are Brookelyn, Charlotte, Lindsey &amp; Meagan Actually Busier?
+        </h1>
+        <p style={{ fontSize:15, color:C.muted, maxWidth:640, lineHeight:1.7, margin:0 }}>
+          The objective of this engagement was never "clinic revenue up" in the abstract — it's these four schedules
+          filling up. This isolates their numbers from the rest of the clinic (including Tracy) so a whole-clinic
+          revenue bump can't be mistaken for the campaign working. Snapshot as of <strong style={{ color:C.text }}>{F.asOf}</strong>.
+        </p>
+      </div>
+
+      {/* KPI ROW — Oct '25 (first full month with us) vs Aug '26 (latest complete month) */}
+      <div style={{ display:"flex", gap:12, flexWrap:"wrap", marginBottom:10 }}>
+        <KPI label="Focus-4 bookings" value={fmtNum(focus4.completed.last)} delta={focusD.completed} accent={C.accent} hint="Oct '25 → Aug '26, combined" />
+        <KPI label="Everyone else" value={fmtNum(elseSeries.completed[lastIdx])} delta={elseD.completed} accent={C.greenLight} hint="Every other practitioner, incl. Tracy" />
+        <KPI label="Whole clinic" value={fmtNum(wcSeries.completed[lastIdx])} delta={wcD.completed} accent={C.green} hint="All bookings, all staff" />
+      </div>
+      <div style={{ fontSize:14, color:C.muted, marginBottom:28, lineHeight:1.6, maxWidth:680 }}>
+        <strong style={{ color:C.accent }}>The straight answer:</strong> combined, the 4 focus therapists' completed
+        bookings are <strong style={{ color:C.accent }}>down {Math.abs(focusD.completed).toFixed(0)}%</strong> and
+        their revenue is <strong style={{ color:C.accent }}>down {Math.abs(focusD.revenue).toFixed(0)}%</strong> since
+        October 2025, while every other practitioner combined is roughly flat-to-up over the same span. Whatever held
+        whole-clinic revenue together did not come from these four — if anything they lost ground. Important context:
+        paid ads only started sending real bookings in the last ~4 weeks of this window (Aug 23 onward), so most of
+        this span predates the campaign — this is the baseline problem the campaign now has to reverse, not evidence
+        it isn't working yet.
+      </div>
+
+      {/* STACKED BAR — focus-4 completed bookings by therapist, monthly */}
+      <Card title="Focus-4 Bookings by Therapist — Monthly" subtitle="Completed appointments, Oct '25 through Aug '26. This is the number the whole engagement is meant to grow.">
+        <ResponsiveContainer width="100%" height={280}>
+          <BarChart data={stackChart} margin={{ top:10, right:10, left:-10, bottom:0 }} barSize={32}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#EDE9E3" vertical={false} />
+            <XAxis dataKey="name" tick={{ fontSize:12, fontWeight:600, fill:C.text }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize:13, fill:C.muted }} axisLine={false} tickLine={false} />
+            <Tooltip />
+            {Object.entries(THERAPIST_COLORS).map(([n,col],i,arr) => (
+              <Bar key={n} dataKey={n} stackId="a" fill={col} name={n} radius={i===arr.length-1 ? [6,6,0,0] : undefined} />
+            ))}
+          </BarChart>
+        </ResponsiveContainer>
+        <div style={{ display:"flex", gap:16, marginTop:10, justifyContent:"center", flexWrap:"wrap" }}>
+          {Object.entries(THERAPIST_COLORS).map(([n,col]) => (
+            <div key={n} style={{ display:"flex", alignItems:"center", gap:6 }}>
+              <div style={{ width:10, height:10, borderRadius:2, background:col }} />
+              <span style={{ fontSize:13, color:C.muted }}>{n}</span>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* PER-THERAPIST CARDS — Oct '25 vs Aug '26 */}
+      <Card title="Per-Therapist, Oct '25 → Aug '26" subtitle="Where this project started vs. the latest complete month">
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))", gap:10 }}>
+          {names.map(name => {
+            const c = F.monthly[name].completed, r = F.monthly[name].revenue;
+            const cD = pct(c[lastIdx], c[firstIdx]), rD = pct(r[lastIdx], r[firstIdx]);
+            const col = cD >= 0 ? C.green : C.accent;
+            return (
+              <div key={name} style={{ background:C.card, borderRadius:10, padding:"14px 16px", boxShadow:"0 1px 6px rgba(0,0,0,0.05)", borderLeft:`3px solid ${col}` }}>
+                <div style={{ fontSize:14, fontWeight:700, color:C.text, marginBottom:4 }}>{name}</div>
+                <div style={{ fontSize:12, color:C.muted, marginBottom:2 }}>Bookings: {c[firstIdx]} → {c[lastIdx]} <strong style={{ color:col }}>({cD>=0?"+":""}{cD.toFixed(0)}%)</strong></div>
+                <div style={{ fontSize:12, color:C.muted }}>Revenue: {fmtMoney(r[firstIdx])} → {fmtMoney(r[lastIdx])} <strong style={{ color: rD>=0 ? C.green : C.accent }}>({rD>=0?"+":""}{rD.toFixed(0)}%)</strong></div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      {/* UTILIZATION Apr vs Aug */}
+      <Card title="Schedule Utilization — April vs. August 2026" subtitle="Single-month snapshots (appointment hours ÷ shift hours), the two points we have real availability exports for">
+        <div style={{ overflowX:"auto" }}>
+          <table>
+            <thead>
+              <tr style={{ borderBottom:`2px solid ${C.greenPale}`, color:C.muted, fontWeight:700, textTransform:"uppercase", fontSize:12, letterSpacing:"0.06em" }}>
+                <th>Therapist</th><th style={{ textAlign:"right" }}>Apr '26</th><th style={{ textAlign:"right" }}>Aug '26</th><th style={{ textAlign:"right" }}>Change</th>
+              </tr>
+            </thead>
+            <tbody>
+              {names.map(name => {
+                const u = F.utilization[name];
+                const d = u.augPct - u.aprPct;
+                return (
+                  <tr key={name} style={{ borderBottom:"1px solid #EDE9E3" }}>
+                    <td style={{ fontWeight:600, color:C.text }}>{name}</td>
+                    <td style={{ textAlign:"right" }}>{u.aprPct}% <span style={{ color:C.muted, fontSize:12 }}>({u.aprAppt}h / {u.aprShift}h)</span></td>
+                    <td style={{ textAlign:"right" }}>{u.augPct}% <span style={{ color:C.muted, fontSize:12 }}>({u.augAppt}h / {u.augShift}h)</span></td>
+                    <td style={{ textAlign:"right", fontWeight:700, color: d >= 0 ? C.green : C.accent }}>{d>=0?"+":""}{d}pt</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div style={{ fontSize:13, color:C.muted, marginTop:12, lineHeight:1.6 }}>
+          Three of four are flat-to-down. Lindsey's booked hours actually grew (17h → 22.7h) but her offered shift
+          hours nearly doubled (28h → 55h), so her fill % fell even as her real workload rose — a scheduling-capacity
+          story, not a demand one.
+        </div>
+      </Card>
+
+      {/* AD FUNNEL — bookings by therapist */}
+      <Card title="Ad-Funnel Bookings, by Therapist" subtitle="Confirmed Cal.com bookings from the go.maximummassage.ca skill/quiz pages, since each page went live (~4 weeks of real booking capability)">
+        <div style={{ display:"flex", gap:12, flexWrap:"wrap" }}>
+          {Object.entries(F.adFunnelBookingsByTherapist).map(([n,v]) => (
+            <SectionKPI key={n} value={fmtNum(v)} label={n} color={v === 0 ? "#FBEAEA" : C.greenPale} accent={v === 0 ? C.accent : C.green} />
+          ))}
+        </div>
+        <div style={{ fontSize:13, color:C.muted, marginTop:14, lineHeight:1.6 }}>
+          The good sign: Lindsey and Charlotte — including Charlotte, historically the least-booked of the four —
+          are pulling the most funnel bookings. <strong style={{ color:C.accent }}>Meagan has gotten zero</strong>,
+          worth a direct look (Cal.com availability for her, or whether the quiz's recommendation logic is steering
+          away from her). This funnel is brand new — these 30 bookings aren't in the Aug dashboard numbers above in
+          full (some land in September) — next month's refresh is the real test of whether it reverses the decline.
+        </div>
+      </Card>
+
+      {/* FUNNEL BY SKILL */}
+      <Card title="Lead &amp; Quiz Funnel, by Skill Page" subtitle="Quiz completions → confirmed bookings, plus waitlist leads (notify-me, when no slot was available)">
+        <div style={{ overflowX:"auto" }}>
+          <table>
+            <thead>
+              <tr style={{ borderBottom:`2px solid ${C.greenPale}`, color:C.muted, fontWeight:700, textTransform:"uppercase", fontSize:12, letterSpacing:"0.06em" }}>
+                <th>Skill page</th><th style={{ textAlign:"right" }}>Quiz completions</th><th style={{ textAlign:"right" }}>Bookings</th><th style={{ textAlign:"right" }}>Waitlist leads</th><th style={{ textAlign:"right" }}>Booked rate</th><th>Live since</th>
+              </tr>
+            </thead>
+            <tbody>
+              {F.funnelBySkill.map(r => (
+                <tr key={r.skill} style={{ borderBottom:"1px solid #EDE9E3" }}>
+                  <td style={{ fontWeight:600, color:C.text }}>{r.skill}</td>
+                  <td style={{ textAlign:"right" }}>{r.quiz}</td>
+                  <td style={{ textAlign:"right" }}>{r.bookings}</td>
+                  <td style={{ textAlign:"right" }}>{r.leads}</td>
+                  <td style={{ textAlign:"right", fontWeight:700, color: (r.bookings/r.quiz) > 0.1 ? C.green : C.accent }}>{((r.bookings/r.quiz)*100).toFixed(1)}%</td>
+                  <td style={{ color:C.muted, fontSize:13 }}>{r.live}</td>
+                </tr>
+              ))}
+              <tr style={{ borderTop:`2px solid ${C.greenPale}`, fontWeight:700 }}>
+                <td style={{ color:C.text }}>Total</td>
+                <td style={{ textAlign:"right" }}>{F.funnelTotals.quiz}</td>
+                <td style={{ textAlign:"right" }}>{F.funnelTotals.bookings}</td>
+                <td style={{ textAlign:"right" }}>{F.funnelTotals.leads}</td>
+                <td style={{ textAlign:"right" }}>{((F.funnelTotals.bookings/F.funnelTotals.quiz)*100).toFixed(1)}%</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style={{ fontSize:13, color:C.muted, marginTop:12, lineHeight:1.6 }}>
+          Prenatal converts far better than anything else (32%). Therapeutic gets the most traffic (117 quiz
+          completions) but converts worst (1.7%) — it's the shared 5-therapist page, and the clinic's thin,
+          almost entirely non-therapist-specific review count (~40 total) likely hits it hardest. {F.funnelTotals.matchedRecommendation}/{F.funnelTotals.bookings} bookings
+          ({Math.round(F.funnelTotals.matchedRecommendation/F.funnelTotals.bookings*100)}%) went to the quiz's recommended therapist;
+          {" "}{F.funnelTotals.pctPaidGclid}% of bookings carry a paid click ID.
+        </div>
+      </Card>
+
+      {/* NARRATIVE / GOOD TO KNOW */}
+      <Card title="Good to Know" subtitle="Context from the client call history, cross-checked against the numbers above">
+        <div style={{ fontSize:14, color:C.text, lineHeight:1.8 }}>
+          <p style={{ marginBottom:14 }}>
+            <strong>The March/April cancellation spike Tracy described was real.</strong> She called it "off the
+            charts" in the May check-in — the data backs that up: 108 and 125 cancellations those two months vs. 4
+            and 11 the year before (10–11x). By August it's down to 89, still +71% over last August's 52 — worth
+            continuing to watch, and it's exactly the gap the "add a rebookings metric" action item from that call
+            was meant to close (Jane logs a cancel-then-rebook as a straight cancellation).
+          </p>
+          <p style={{ marginBottom:14 }}>
+            <strong>On the location-extension / map-pack hunch:</strong> nothing in the call history shows this
+            being tested — it's a fresh hypothesis, not something tried and shelved. It would be compounding an
+            already-working channel rather than starting cold: Share of Local Voice has doubled (8%→19%) since
+            December, and "massage near me" clicks are up 125% this month per Search Console. Reasonable next
+            experiment to log.
+          </p>
+          <p style={{ margin:0 }}>
+            <strong>Bottom line for the 4 focus therapists:</strong> the objective — their schedules filling up —
+            hasn't happened yet. The ad funnel is real and is reaching 3 of the 4 (Meagan is the exception, worth
+            a direct look), but it's only had about 4 weeks of live bookings against 11 months of prior decline.
+            Next month's refresh, once September's data is in, is the first real test of direction.
+          </p>
+        </div>
+      </Card>
+    </>
+  );
 }
 
 function Card({ title, subtitle, children }) {
