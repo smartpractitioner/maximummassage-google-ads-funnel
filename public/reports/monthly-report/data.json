@@ -1,19 +1,19 @@
 {
-  "updatedAt": "2026-05-12T04:02:31.830Z",
-  "dataThrough": "2026-04",
-  "lastDataDate": "2026-04-30",
+  "updatedAt": "2026-09-19T17:07:26.449Z",
+  "dataThrough": "2026-08",
+  "lastDataDate": "2026-08-31",
   "snapshotRanges": {
     "1mo": {
-      "start": "2026-04-01",
-      "end": "2026-04-30"
+      "start": "2026-08-01",
+      "end": "2026-08-31"
     },
     "4mo": {
-      "start": "2026-01-01",
-      "end": "2026-04-30"
+      "start": "2026-05-01",
+      "end": "2026-08-31"
     },
     "12mo": {
-      "start": "2025-05-01",
-      "end": "2026-04-30"
+      "start": "2025-09-01",
+      "end": "2026-08-31"
     }
   },
   "practitioners": {
@@ -26,6 +26,7 @@
       "Meagan Brown",
       "Melissa Wecker",
       "Mike Viani",
+      "Tifila Henderson",
       "Tracy Schneider-Steeves",
       "Willow Blacker-STUDENT THERAPIST"
     ],
@@ -43,22 +44,25 @@
       "Tracy Schneider-Steeves",
       "Kassandra Wilson",
       "Laura Craig-Conn",
-      "Willow Blacker-STUDENT THERAPIST"
+      "Willow Blacker-STUDENT THERAPIST",
+      "Tifila Henderson"
     ]
   },
   "sourceFiles": {
     "revenue": [
       "2026.04 revenue from may 1 2024 to apr 30 2025.xlsx",
-      "2026.04 revenues last 12 months May 1 2025 to April 30 2026.csv"
+      "2026.04 revenues last 12 months May 1 2025 to April 30 2026.csv",
+      "2026.08 revenues May 1 2026 to Aug 31 2026.csv"
     ],
     "cancellations": [
       "2026.04 12 month may 1 2025 to april 30 2026 Cancelled appointments.csv",
-      "2026.04 may 1 2024 to apr 30 2025 cancellations.xlsx"
+      "2026.04 may 1 2024 to apr 30 2025 cancellations.xlsx",
+      "2026.08 cancelled appointments May 1 2026 to Aug 31 2026.csv"
     ],
     "availability": {
-      "12mo": "Available vs Booked 12 months ending apr 30 2026.csv",
-      "4mo": "Available vs Booked 4 months ending apr 30 2026.csv",
-      "1mo": "2026.04 month snapshot.csv"
+      "12mo": "Available vs Booked 12 months ending aug 31 2026.csv",
+      "4mo": "Available vs Booked 4 months ending aug 31 2026.csv",
+      "1mo": "2026.08 month snapshot.csv"
     }
   },
   "segments": {
@@ -4673,45 +4677,906 @@
         },
         {
           "date": "2026-04-30",
+          "revenue": 1747.69,
+          "completed": 16,
+          "cancelled": 4,
+          "booked": 20
+        },
+        {
+          "date": "2026-05-01",
+          "revenue": 651,
+          "completed": 5,
+          "cancelled": 6,
+          "booked": 11
+        },
+        {
+          "date": "2026-05-02",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-05-03",
+          "revenue": 2285.48,
+          "completed": 18,
+          "cancelled": 0,
+          "booked": 18
+        },
+        {
+          "date": "2026-05-04",
+          "revenue": 813.75,
+          "completed": 7,
+          "cancelled": 8,
+          "booked": 15
+        },
+        {
+          "date": "2026-05-05",
+          "revenue": 2308.35,
+          "completed": 20,
+          "cancelled": 7,
+          "booked": 27
+        },
+        {
+          "date": "2026-05-06",
+          "revenue": 1373.4,
+          "completed": 11,
+          "cancelled": 3,
+          "booked": 14
+        },
+        {
+          "date": "2026-05-07",
+          "revenue": 2318.35,
+          "completed": 18,
+          "cancelled": 4,
+          "booked": 22
+        },
+        {
+          "date": "2026-05-08",
+          "revenue": 602.7,
+          "completed": 5,
+          "cancelled": 4,
+          "booked": 9
+        },
+        {
+          "date": "2026-05-09",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 3,
+          "booked": 6
+        },
+        {
+          "date": "2026-05-10",
+          "revenue": 2647.8,
+          "completed": 18,
+          "cancelled": 0,
+          "booked": 18
+        },
+        {
+          "date": "2026-05-11",
+          "revenue": 1652.7,
+          "completed": 13,
+          "cancelled": 4,
+          "booked": 17
+        },
+        {
+          "date": "2026-05-12",
+          "revenue": 1808.23,
+          "completed": 18,
+          "cancelled": 2,
+          "booked": 20
+        },
+        {
+          "date": "2026-05-13",
+          "revenue": 1759.8,
+          "completed": 11,
+          "cancelled": 4,
+          "booked": 15
+        },
+        {
+          "date": "2026-05-14",
+          "revenue": 2924.6,
+          "completed": 24,
+          "cancelled": 0,
+          "booked": 24
+        },
+        {
+          "date": "2026-05-15",
+          "revenue": 585.9,
+          "completed": 4,
+          "cancelled": 1,
+          "booked": 5
+        },
+        {
+          "date": "2026-05-16",
+          "revenue": 418.15,
+          "completed": 4,
+          "cancelled": 3,
+          "booked": 7
+        },
+        {
+          "date": "2026-05-17",
+          "revenue": 844.25,
+          "completed": 7,
+          "cancelled": 0,
+          "booked": 7
+        },
+        {
+          "date": "2026-05-18",
+          "revenue": 2660.7,
+          "completed": 23,
+          "cancelled": 5,
+          "booked": 28
+        },
+        {
+          "date": "2026-05-19",
+          "revenue": 2163.1,
+          "completed": 13,
+          "cancelled": 7,
+          "booked": 20
+        },
+        {
+          "date": "2026-05-20",
+          "revenue": 1514.1,
+          "completed": 11,
+          "cancelled": 4,
+          "booked": 15
+        },
+        {
+          "date": "2026-05-21",
+          "revenue": 2201.13,
+          "completed": 18,
+          "cancelled": 2,
+          "booked": 20
+        },
+        {
+          "date": "2026-05-22",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-05-23",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-24",
+          "revenue": 3054.7,
+          "completed": 21,
+          "cancelled": 0,
+          "booked": 21
+        },
+        {
+          "date": "2026-05-25",
+          "revenue": 2897.7,
+          "completed": 22,
+          "cancelled": 4,
+          "booked": 26
+        },
+        {
+          "date": "2026-05-26",
+          "revenue": 1935.35,
+          "completed": 18,
+          "cancelled": 4,
+          "booked": 22
+        },
+        {
+          "date": "2026-05-27",
+          "revenue": 1662.15,
+          "completed": 12,
+          "cancelled": 6,
+          "booked": 18
+        },
+        {
+          "date": "2026-05-28",
+          "revenue": 805.35,
+          "completed": 5,
+          "cancelled": 1,
+          "booked": 6
+        },
+        {
+          "date": "2026-05-29",
+          "revenue": 1014.3,
+          "completed": 8,
+          "cancelled": 1,
+          "booked": 9
+        },
+        {
+          "date": "2026-05-30",
+          "revenue": 553.35,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-31",
+          "revenue": 1547.7,
+          "completed": 11,
+          "cancelled": 0,
+          "booked": 11
+        },
+        {
+          "date": "2026-06-01",
+          "revenue": 2762,
+          "completed": 20,
+          "cancelled": 6,
+          "booked": 26
+        },
+        {
+          "date": "2026-06-02",
+          "revenue": 2695.66,
+          "completed": 22,
+          "cancelled": 0,
+          "booked": 22
+        },
+        {
+          "date": "2026-06-03",
+          "revenue": 2292.19,
+          "completed": 18,
+          "cancelled": 5,
+          "booked": 23
+        },
+        {
+          "date": "2026-06-04",
+          "revenue": 3175.18,
+          "completed": 24,
+          "cancelled": 4,
+          "booked": 28
+        },
+        {
+          "date": "2026-06-05",
           "revenue": 0,
           "completed": 0,
+          "cancelled": 6,
+          "booked": 6
+        },
+        {
+          "date": "2026-06-06",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-07",
+          "revenue": 1978.45,
+          "completed": 17,
+          "cancelled": 0,
+          "booked": 17
+        },
+        {
+          "date": "2026-06-08",
+          "revenue": 2783.53,
+          "completed": 23,
+          "cancelled": 1,
+          "booked": 24
+        },
+        {
+          "date": "2026-06-09",
+          "revenue": 2453.13,
+          "completed": 20,
+          "cancelled": 8,
+          "booked": 28
+        },
+        {
+          "date": "2026-06-10",
+          "revenue": 1971.9,
+          "completed": 14,
+          "cancelled": 5,
+          "booked": 19
+        },
+        {
+          "date": "2026-06-11",
+          "revenue": 796.95,
+          "completed": 6,
+          "cancelled": 5,
+          "booked": 11
+        },
+        {
+          "date": "2026-06-12",
+          "revenue": 1161.5,
+          "completed": 9,
+          "cancelled": 3,
+          "booked": 12
+        },
+        {
+          "date": "2026-06-13",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-14",
+          "revenue": 1526.97,
+          "completed": 13,
+          "cancelled": 0,
+          "booked": 13
+        },
+        {
+          "date": "2026-06-15",
+          "revenue": 1968.9,
+          "completed": 13,
+          "cancelled": 7,
+          "booked": 20
+        },
+        {
+          "date": "2026-06-16",
+          "revenue": 2503.69,
+          "completed": 20,
+          "cancelled": 9,
+          "booked": 29
+        },
+        {
+          "date": "2026-06-17",
+          "revenue": 2268,
+          "completed": 17,
           "cancelled": 4,
+          "booked": 21
+        },
+        {
+          "date": "2026-06-18",
+          "revenue": 1240.4,
+          "completed": 13,
+          "cancelled": 7,
+          "booked": 20
+        },
+        {
+          "date": "2026-06-19",
+          "revenue": 537.6,
+          "completed": 4,
+          "cancelled": 9,
+          "booked": 13
+        },
+        {
+          "date": "2026-06-20",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-21",
+          "revenue": 2930.34,
+          "completed": 23,
+          "cancelled": 0,
+          "booked": 23
+        },
+        {
+          "date": "2026-06-22",
+          "revenue": 1918.14,
+          "completed": 17,
+          "cancelled": 4,
+          "booked": 21
+        },
+        {
+          "date": "2026-06-23",
+          "revenue": 1880.3,
+          "completed": 14,
+          "cancelled": 8,
+          "booked": 22
+        },
+        {
+          "date": "2026-06-24",
+          "revenue": 1537.2,
+          "completed": 11,
+          "cancelled": 8,
+          "booked": 19
+        },
+        {
+          "date": "2026-06-25",
+          "revenue": 1155,
+          "completed": 9,
+          "cancelled": 3,
+          "booked": 12
+        },
+        {
+          "date": "2026-06-26",
+          "revenue": 1053.25,
+          "completed": 8,
+          "cancelled": 1,
+          "booked": 9
+        },
+        {
+          "date": "2026-06-27",
+          "revenue": 585.9,
+          "completed": 4,
+          "cancelled": 2,
+          "booked": 6
+        },
+        {
+          "date": "2026-06-28",
+          "revenue": 1824.89,
+          "completed": 14,
+          "cancelled": 1,
+          "booked": 15
+        },
+        {
+          "date": "2026-06-29",
+          "revenue": 3044.99,
+          "completed": 24,
+          "cancelled": 4,
+          "booked": 28
+        },
+        {
+          "date": "2026-06-30",
+          "revenue": 2040.82,
+          "completed": 17,
+          "cancelled": 3,
+          "booked": 20
+        },
+        {
+          "date": "2026-07-01",
+          "revenue": 1668.98,
+          "completed": 12,
+          "cancelled": 4,
+          "booked": 16
+        },
+        {
+          "date": "2026-07-02",
+          "revenue": 1893.84,
+          "completed": 17,
+          "cancelled": 5,
+          "booked": 22
+        },
+        {
+          "date": "2026-07-03",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 4,
+          "booked": 5
+        },
+        {
+          "date": "2026-07-04",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-05",
+          "revenue": 3438.38,
+          "completed": 24,
+          "cancelled": 0,
+          "booked": 24
+        },
+        {
+          "date": "2026-07-06",
+          "revenue": 1426.25,
+          "completed": 13,
+          "cancelled": 2,
+          "booked": 15
+        },
+        {
+          "date": "2026-07-07",
+          "revenue": 2082.09,
+          "completed": 15,
+          "cancelled": 5,
+          "booked": 20
+        },
+        {
+          "date": "2026-07-08",
+          "revenue": 1943.55,
+          "completed": 14,
+          "cancelled": 1,
+          "booked": 15
+        },
+        {
+          "date": "2026-07-09",
+          "revenue": 573.3,
+          "completed": 4,
+          "cancelled": 2,
+          "booked": 6
+        },
+        {
+          "date": "2026-07-10",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-07-11",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 1,
           "booked": 4
+        },
+        {
+          "date": "2026-07-12",
+          "revenue": 1260,
+          "completed": 9,
+          "cancelled": 0,
+          "booked": 9
+        },
+        {
+          "date": "2026-07-13",
+          "revenue": 2869.54,
+          "completed": 23,
+          "cancelled": 2,
+          "booked": 25
+        },
+        {
+          "date": "2026-07-14",
+          "revenue": 899.99,
+          "completed": 7,
+          "cancelled": 3,
+          "booked": 10
+        },
+        {
+          "date": "2026-07-15",
+          "revenue": 1106.7,
+          "completed": 8,
+          "cancelled": 1,
+          "booked": 9
+        },
+        {
+          "date": "2026-07-16",
+          "revenue": 1124,
+          "completed": 8,
+          "cancelled": 0,
+          "booked": 8
+        },
+        {
+          "date": "2026-07-17",
+          "revenue": 520.8,
+          "completed": 4,
+          "cancelled": 1,
+          "booked": 5
+        },
+        {
+          "date": "2026-07-18",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 2,
+          "booked": 3
+        },
+        {
+          "date": "2026-07-19",
+          "revenue": 1885.15,
+          "completed": 14,
+          "cancelled": 0,
+          "booked": 14
+        },
+        {
+          "date": "2026-07-20",
+          "revenue": 1627.32,
+          "completed": 16,
+          "cancelled": 1,
+          "booked": 17
+        },
+        {
+          "date": "2026-07-21",
+          "revenue": 1111.69,
+          "completed": 11,
+          "cancelled": 5,
+          "booked": 16
+        },
+        {
+          "date": "2026-07-22",
+          "revenue": 1418.55,
+          "completed": 10,
+          "cancelled": 1,
+          "booked": 11
+        },
+        {
+          "date": "2026-07-23",
+          "revenue": 970.2,
+          "completed": 7,
+          "cancelled": 1,
+          "booked": 8
+        },
+        {
+          "date": "2026-07-24",
+          "revenue": 520.8,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-07-25",
+          "revenue": 162.75,
+          "completed": 1,
+          "cancelled": 4,
+          "booked": 5
+        },
+        {
+          "date": "2026-07-26",
+          "revenue": 1194.88,
+          "completed": 8,
+          "cancelled": 0,
+          "booked": 8
+        },
+        {
+          "date": "2026-07-27",
+          "revenue": 3318.91,
+          "completed": 26,
+          "cancelled": 0,
+          "booked": 26
+        },
+        {
+          "date": "2026-07-28",
+          "revenue": 1816.06,
+          "completed": 14,
+          "cancelled": 7,
+          "booked": 21
+        },
+        {
+          "date": "2026-07-29",
+          "revenue": 1269.45,
+          "completed": 8,
+          "cancelled": 1,
+          "booked": 9
+        },
+        {
+          "date": "2026-07-30",
+          "revenue": 1541.04,
+          "completed": 15,
+          "cancelled": 2,
+          "booked": 17
+        },
+        {
+          "date": "2026-07-31",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-08-01",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 2,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-02",
+          "revenue": 1060.49,
+          "completed": 8,
+          "cancelled": 1,
+          "booked": 9
+        },
+        {
+          "date": "2026-08-03",
+          "revenue": 1952.27,
+          "completed": 18,
+          "cancelled": 1,
+          "booked": 19
+        },
+        {
+          "date": "2026-08-04",
+          "revenue": 1387.74,
+          "completed": 15,
+          "cancelled": 7,
+          "booked": 22
+        },
+        {
+          "date": "2026-08-05",
+          "revenue": 1403.85,
+          "completed": 10,
+          "cancelled": 4,
+          "booked": 14
+        },
+        {
+          "date": "2026-08-06",
+          "revenue": 732.9,
+          "completed": 5,
+          "cancelled": 3,
+          "booked": 8
+        },
+        {
+          "date": "2026-08-07",
+          "revenue": 833.64,
+          "completed": 7,
+          "cancelled": 0,
+          "booked": 7
+        },
+        {
+          "date": "2026-08-08",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-08-09",
+          "revenue": 1808.21,
+          "completed": 13,
+          "cancelled": 0,
+          "booked": 13
+        },
+        {
+          "date": "2026-08-10",
+          "revenue": 3613.09,
+          "completed": 28,
+          "cancelled": 2,
+          "booked": 30
+        },
+        {
+          "date": "2026-08-11",
+          "revenue": 1975.18,
+          "completed": 15,
+          "cancelled": 9,
+          "booked": 24
+        },
+        {
+          "date": "2026-08-12",
+          "revenue": 1935.13,
+          "completed": 16,
+          "cancelled": 5,
+          "booked": 21
+        },
+        {
+          "date": "2026-08-13",
+          "revenue": 898.45,
+          "completed": 7,
+          "cancelled": 2,
+          "booked": 9
+        },
+        {
+          "date": "2026-08-14",
+          "revenue": 505.05,
+          "completed": 4,
+          "cancelled": 3,
+          "booked": 7
+        },
+        {
+          "date": "2026-08-15",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-16",
+          "revenue": 1096.9,
+          "completed": 13,
+          "cancelled": 0,
+          "booked": 13
+        },
+        {
+          "date": "2026-08-17",
+          "revenue": 2661.75,
+          "completed": 23,
+          "cancelled": 2,
+          "booked": 25
+        },
+        {
+          "date": "2026-08-18",
+          "revenue": 1686.09,
+          "completed": 14,
+          "cancelled": 7,
+          "booked": 21
+        },
+        {
+          "date": "2026-08-19",
+          "revenue": 1387.68,
+          "completed": 9,
+          "cancelled": 3,
+          "booked": 12
+        },
+        {
+          "date": "2026-08-20",
+          "revenue": 795.64,
+          "completed": 5,
+          "cancelled": 6,
+          "booked": 11
+        },
+        {
+          "date": "2026-08-21",
+          "revenue": 781.2,
+          "completed": 6,
+          "cancelled": 1,
+          "booked": 7
+        },
+        {
+          "date": "2026-08-22",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 3,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-23",
+          "revenue": 1123.5,
+          "completed": 9,
+          "cancelled": 0,
+          "booked": 9
+        },
+        {
+          "date": "2026-08-24",
+          "revenue": 3017.85,
+          "completed": 23,
+          "cancelled": 3,
+          "booked": 26
+        },
+        {
+          "date": "2026-08-25",
+          "revenue": 2267.45,
+          "completed": 18,
+          "cancelled": 5,
+          "booked": 23
+        },
+        {
+          "date": "2026-08-26",
+          "revenue": 1346.09,
+          "completed": 10,
+          "cancelled": 4,
+          "booked": 14
+        },
+        {
+          "date": "2026-08-27",
+          "revenue": 1937.22,
+          "completed": 18,
+          "cancelled": 2,
+          "booked": 20
+        },
+        {
+          "date": "2026-08-28",
+          "revenue": 757.2,
+          "completed": 5,
+          "cancelled": 4,
+          "booked": 9
+        },
+        {
+          "date": "2026-08-29",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 3,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-30",
+          "revenue": 2554.3,
+          "completed": 19,
+          "cancelled": 0,
+          "booked": 19
+        },
+        {
+          "date": "2026-08-31",
+          "revenue": 2912.15,
+          "completed": 24,
+          "cancelled": 5,
+          "booked": 29
         }
       ],
       "snapshot": {
         "1mo": {
-          "shiftHours": 575,
-          "apptHours": 384.3,
-          "completedHours": 249.2,
-          "cancelledHours": 135.1,
-          "idleHours": 190.7,
-          "apptCount": 333,
-          "cancelledCount": 125,
-          "windowStart": "2026-04-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 596.3,
+          "apptHours": 335.9,
+          "completedHours": 230.4,
+          "cancelledHours": 105.5,
+          "idleHours": 260.4,
+          "apptCount": 298,
+          "cancelledCount": 89,
+          "windowStart": "2026-08-01",
+          "windowEnd": "2026-08-31"
         },
         "4mo": {
-          "shiftHours": 2178.2,
-          "apptHours": 1454.3,
-          "completedHours": 1012,
-          "cancelledHours": 442.3,
-          "idleHours": 723.8,
-          "apptCount": 1276,
-          "cancelledCount": 397,
-          "windowStart": "2026-01-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 2429.7,
+          "apptHours": 1466.3,
+          "completedHours": 1060.6,
+          "cancelledHours": 405.7,
+          "idleHours": 963.3,
+          "apptCount": 1295,
+          "cancelledCount": 349,
+          "windowStart": "2026-05-01",
+          "windowEnd": "2026-08-31"
         },
         "12mo": {
-          "shiftHours": 6286.8,
-          "apptHours": 4305.7,
-          "completedHours": 3128.4,
-          "cancelledHours": 1177.3,
-          "idleHours": 1981,
-          "apptCount": 3814,
-          "cancelledCount": 1049,
-          "windowStart": "2025-05-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 6733,
+          "apptHours": 4375.3,
+          "completedHours": 3143.1,
+          "cancelledHours": 1232.2,
+          "idleHours": 2357.7,
+          "apptCount": 3868,
+          "cancelledCount": 1097,
+          "windowStart": "2025-09-01",
+          "windowEnd": "2026-08-31"
         }
       }
     },
@@ -9172,45 +10037,892 @@
         },
         {
           "date": "2026-04-30",
+          "revenue": 250.95,
+          "completed": 2,
+          "cancelled": 2,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-01",
+          "revenue": 651,
+          "completed": 5,
+          "cancelled": 3,
+          "booked": 8
+        },
+        {
+          "date": "2026-05-02",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-05-03",
+          "revenue": 976.5,
+          "completed": 7,
+          "cancelled": 0,
+          "booked": 7
+        },
+        {
+          "date": "2026-05-04",
+          "revenue": 813.75,
+          "completed": 7,
+          "cancelled": 4,
+          "booked": 11
+        },
+        {
+          "date": "2026-05-05",
+          "revenue": 1328.35,
+          "completed": 10,
+          "cancelled": 2,
+          "booked": 12
+        },
+        {
+          "date": "2026-05-06",
+          "revenue": 976.5,
+          "completed": 7,
+          "cancelled": 0,
+          "booked": 7
+        },
+        {
+          "date": "2026-05-07",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 4,
+          "booked": 7
+        },
+        {
+          "date": "2026-05-08",
+          "revenue": 455.7,
+          "completed": 4,
+          "cancelled": 1,
+          "booked": 5
+        },
+        {
+          "date": "2026-05-09",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 3,
+          "booked": 6
+        },
+        {
+          "date": "2026-05-10",
+          "revenue": 520.8,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-11",
+          "revenue": 1241.1,
+          "completed": 10,
+          "cancelled": 2,
+          "booked": 12
+        },
+        {
+          "date": "2026-05-12",
+          "revenue": 697.35,
+          "completed": 5,
+          "cancelled": 1,
+          "booked": 6
+        },
+        {
+          "date": "2026-05-13",
+          "revenue": 1497.3,
+          "completed": 9,
+          "cancelled": 3,
+          "booked": 12
+        },
+        {
+          "date": "2026-05-14",
+          "revenue": 576.45,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-15",
+          "revenue": 585.9,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-16",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 3,
+          "booked": 6
+        },
+        {
+          "date": "2026-05-17",
+          "revenue": 550.25,
+          "completed": 5,
+          "cancelled": 0,
+          "booked": 5
+        },
+        {
+          "date": "2026-05-18",
+          "revenue": 1096.2,
+          "completed": 9,
+          "cancelled": 4,
+          "booked": 13
+        },
+        {
+          "date": "2026-05-19",
+          "revenue": 716.1,
+          "completed": 5,
+          "cancelled": 3,
+          "booked": 8
+        },
+        {
+          "date": "2026-05-20",
+          "revenue": 1367.1,
+          "completed": 10,
+          "cancelled": 1,
+          "booked": 11
+        },
+        {
+          "date": "2026-05-21",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-05-22",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 1,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-23",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-24",
+          "revenue": 1106.7,
+          "completed": 7,
+          "cancelled": 0,
+          "booked": 7
+        },
+        {
+          "date": "2026-05-25",
+          "revenue": 1432.2,
+          "completed": 10,
+          "cancelled": 2,
+          "booked": 12
+        },
+        {
+          "date": "2026-05-26",
+          "revenue": 638.6,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-27",
+          "revenue": 1399.65,
+          "completed": 10,
+          "cancelled": 4,
+          "booked": 14
+        },
+        {
+          "date": "2026-05-28",
+          "revenue": 511.35,
+          "completed": 3,
+          "cancelled": 1,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-29",
+          "revenue": 911.4,
+          "completed": 7,
+          "cancelled": 0,
+          "booked": 7
+        },
+        {
+          "date": "2026-05-30",
+          "revenue": 553.35,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-31",
+          "revenue": 1106.7,
+          "completed": 8,
+          "cancelled": 0,
+          "booked": 8
+        },
+        {
+          "date": "2026-06-01",
+          "revenue": 976.5,
+          "completed": 7,
+          "cancelled": 5,
+          "booked": 12
+        },
+        {
+          "date": "2026-06-02",
+          "revenue": 716.1,
+          "completed": 5,
+          "cancelled": 0,
+          "booked": 5
+        },
+        {
+          "date": "2026-06-03",
+          "revenue": 1922.6,
+          "completed": 14,
+          "cancelled": 2,
+          "booked": 16
+        },
+        {
+          "date": "2026-06-04",
+          "revenue": 716.1,
+          "completed": 4,
+          "cancelled": 3,
+          "booked": 7
+        },
+        {
+          "date": "2026-06-06",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-07",
+          "revenue": 618.45,
+          "completed": 5,
+          "cancelled": 0,
+          "booked": 5
+        },
+        {
+          "date": "2026-06-08",
+          "revenue": 1041.6,
+          "completed": 9,
+          "cancelled": 0,
+          "booked": 9
+        },
+        {
+          "date": "2026-06-09",
+          "revenue": 1260.15,
+          "completed": 9,
+          "cancelled": 2,
+          "booked": 11
+        },
+        {
+          "date": "2026-06-10",
+          "revenue": 1562.4,
+          "completed": 11,
+          "cancelled": 3,
+          "booked": 14
+        },
+        {
+          "date": "2026-06-11",
+          "revenue": 576.45,
+          "completed": 4,
+          "cancelled": 2,
+          "booked": 6
+        },
+        {
+          "date": "2026-06-12",
+          "revenue": 899,
+          "completed": 7,
+          "cancelled": 3,
+          "booked": 10
+        },
+        {
+          "date": "2026-06-13",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-14",
+          "revenue": 1009.05,
+          "completed": 7,
+          "cancelled": 0,
+          "booked": 7
+        },
+        {
+          "date": "2026-06-15",
+          "revenue": 585.9,
+          "completed": 4,
+          "cancelled": 5,
+          "booked": 9
+        },
+        {
+          "date": "2026-06-16",
+          "revenue": 1292.7,
+          "completed": 9,
+          "cancelled": 4,
+          "booked": 13
+        },
+        {
+          "date": "2026-06-17",
+          "revenue": 1529.85,
+          "completed": 10,
+          "cancelled": 3,
+          "booked": 13
+        },
+        {
+          "date": "2026-06-18",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 4,
+          "booked": 6
+        },
+        {
+          "date": "2026-06-19",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-06-20",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-21",
+          "revenue": 846.3,
+          "completed": 6,
+          "cancelled": 0,
+          "booked": 6
+        },
+        {
+          "date": "2026-06-22",
+          "revenue": 911.4,
+          "completed": 7,
+          "cancelled": 1,
+          "booked": 8
+        },
+        {
+          "date": "2026-06-23",
+          "revenue": 970.3,
+          "completed": 7,
+          "cancelled": 3,
+          "booked": 10
+        },
+        {
+          "date": "2026-06-24",
+          "revenue": 1269.45,
+          "completed": 9,
+          "cancelled": 4,
+          "booked": 13
+        },
+        {
+          "date": "2026-06-25",
+          "revenue": 446.25,
+          "completed": 4,
+          "cancelled": 3,
+          "booked": 7
+        },
+        {
+          "date": "2026-06-26",
+          "revenue": 937.75,
+          "completed": 7,
+          "cancelled": 1,
+          "booked": 8
+        },
+        {
+          "date": "2026-06-27",
+          "revenue": 585.9,
+          "completed": 4,
+          "cancelled": 2,
+          "booked": 6
+        },
+        {
+          "date": "2026-06-28",
+          "revenue": 1302,
+          "completed": 9,
+          "cancelled": 1,
+          "booked": 10
+        },
+        {
+          "date": "2026-06-29",
+          "revenue": 1288.35,
+          "completed": 8,
+          "cancelled": 4,
+          "booked": 12
+        },
+        {
+          "date": "2026-06-30",
+          "revenue": 716.1,
+          "completed": 5,
+          "cancelled": 3,
+          "booked": 8
+        },
+        {
+          "date": "2026-07-01",
+          "revenue": 1302,
+          "completed": 9,
+          "cancelled": 0,
+          "booked": 9
+        },
+        {
+          "date": "2026-07-02",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-07-03",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-04",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-05",
+          "revenue": 1562.4,
+          "completed": 10,
+          "cancelled": 0,
+          "booked": 10
+        },
+        {
+          "date": "2026-07-06",
+          "revenue": 553.35,
+          "completed": 5,
+          "cancelled": 2,
+          "booked": 7
+        },
+        {
+          "date": "2026-07-07",
+          "revenue": 1032.3,
+          "completed": 7,
+          "cancelled": 3,
+          "booked": 10
+        },
+        {
+          "date": "2026-07-08",
+          "revenue": 1252.65,
+          "completed": 9,
+          "cancelled": 1,
+          "booked": 10
+        },
+        {
+          "date": "2026-07-09",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 2,
+          "booked": 3
+        },
+        {
+          "date": "2026-07-10",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-11",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 1,
+          "booked": 4
+        },
+        {
+          "date": "2026-07-12",
+          "revenue": 716.1,
+          "completed": 5,
+          "cancelled": 0,
+          "booked": 5
+        },
+        {
+          "date": "2026-07-13",
+          "revenue": 1171.8,
+          "completed": 9,
+          "cancelled": 2,
+          "booked": 11
+        },
+        {
+          "date": "2026-07-14",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-15",
+          "revenue": 1106.7,
+          "completed": 8,
+          "cancelled": 0,
+          "booked": 8
+        },
+        {
+          "date": "2026-07-17",
+          "revenue": 520.8,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-07-18",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 2,
+          "booked": 3
+        },
+        {
+          "date": "2026-07-19",
+          "revenue": 651,
+          "completed": 5,
+          "cancelled": 0,
+          "booked": 5
+        },
+        {
+          "date": "2026-07-20",
+          "revenue": 651,
+          "completed": 5,
+          "cancelled": 0,
+          "booked": 5
+        },
+        {
+          "date": "2026-07-21",
+          "revenue": 124,
+          "completed": 1,
+          "cancelled": 2,
+          "booked": 3
+        },
+        {
+          "date": "2026-07-22",
+          "revenue": 1009.05,
+          "completed": 7,
+          "cancelled": 1,
+          "booked": 8
+        },
+        {
+          "date": "2026-07-23",
+          "revenue": 455.7,
+          "completed": 4,
+          "cancelled": 1,
+          "booked": 5
+        },
+        {
+          "date": "2026-07-24",
+          "revenue": 520.8,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-07-25",
+          "revenue": 162.75,
+          "completed": 1,
+          "cancelled": 4,
+          "booked": 5
+        },
+        {
+          "date": "2026-07-26",
+          "revenue": 585.9,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-07-27",
+          "revenue": 1432.2,
+          "completed": 10,
+          "cancelled": 0,
+          "booked": 10
+        },
+        {
+          "date": "2026-07-28",
+          "revenue": 987.2,
+          "completed": 8,
+          "cancelled": 4,
+          "booked": 12
+        },
+        {
+          "date": "2026-07-29",
+          "revenue": 1269.45,
+          "completed": 8,
+          "cancelled": 1,
+          "booked": 9
+        },
+        {
+          "date": "2026-07-30",
+          "revenue": 381.15,
+          "completed": 3,
+          "cancelled": 1,
+          "booked": 4
+        },
+        {
+          "date": "2026-07-31",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-08-01",
           "revenue": 0,
           "completed": 0,
           "cancelled": 2,
           "booked": 2
+        },
+        {
+          "date": "2026-08-02",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-03",
+          "revenue": 1090.95,
+          "completed": 9,
+          "cancelled": 0,
+          "booked": 9
+        },
+        {
+          "date": "2026-08-04",
+          "revenue": 651,
+          "completed": 4,
+          "cancelled": 6,
+          "booked": 10
+        },
+        {
+          "date": "2026-08-05",
+          "revenue": 1139.25,
+          "completed": 8,
+          "cancelled": 1,
+          "booked": 9
+        },
+        {
+          "date": "2026-08-06",
+          "revenue": 585.9,
+          "completed": 4,
+          "cancelled": 3,
+          "booked": 7
+        },
+        {
+          "date": "2026-08-07",
+          "revenue": 638.6,
+          "completed": 5,
+          "cancelled": 0,
+          "booked": 5
+        },
+        {
+          "date": "2026-08-08",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-08-09",
+          "revenue": 1295.81,
+          "completed": 9,
+          "cancelled": 0,
+          "booked": 9
+        },
+        {
+          "date": "2026-08-10",
+          "revenue": 1555.05,
+          "completed": 11,
+          "cancelled": 2,
+          "booked": 13
+        },
+        {
+          "date": "2026-08-11",
+          "revenue": 967.2,
+          "completed": 7,
+          "cancelled": 1,
+          "booked": 8
+        },
+        {
+          "date": "2026-08-12",
+          "revenue": 1419.6,
+          "completed": 11,
+          "cancelled": 2,
+          "booked": 13
+        },
+        {
+          "date": "2026-08-13",
+          "revenue": 250.95,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-14",
+          "revenue": 358.05,
+          "completed": 3,
+          "cancelled": 1,
+          "booked": 4
+        },
+        {
+          "date": "2026-08-15",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-16",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-17",
+          "revenue": 1432.2,
+          "completed": 9,
+          "cancelled": 2,
+          "booked": 11
+        },
+        {
+          "date": "2026-08-18",
+          "revenue": 739.35,
+          "completed": 5,
+          "cancelled": 2,
+          "booked": 7
+        },
+        {
+          "date": "2026-08-19",
+          "revenue": 1093.68,
+          "completed": 7,
+          "cancelled": 2,
+          "booked": 9
+        },
+        {
+          "date": "2026-08-20",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 6,
+          "booked": 8
+        },
+        {
+          "date": "2026-08-21",
+          "revenue": 781.2,
+          "completed": 6,
+          "cancelled": 0,
+          "booked": 6
+        },
+        {
+          "date": "2026-08-22",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 3,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-23",
+          "revenue": 976.5,
+          "completed": 7,
+          "cancelled": 0,
+          "booked": 7
+        },
+        {
+          "date": "2026-08-24",
+          "revenue": 1594.95,
+          "completed": 12,
+          "cancelled": 2,
+          "booked": 14
+        },
+        {
+          "date": "2026-08-25",
+          "revenue": 680.59,
+          "completed": 5,
+          "cancelled": 2,
+          "booked": 7
+        },
+        {
+          "date": "2026-08-26",
+          "revenue": 1068.9,
+          "completed": 7,
+          "cancelled": 1,
+          "booked": 8
+        },
+        {
+          "date": "2026-08-27",
+          "revenue": 446.25,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-08-28",
+          "revenue": 641.7,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-08-29",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 2,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-30",
+          "revenue": 1171.8,
+          "completed": 8,
+          "cancelled": 0,
+          "booked": 8
+        },
+        {
+          "date": "2026-08-31",
+          "revenue": 1725.15,
+          "completed": 12,
+          "cancelled": 4,
+          "booked": 16
         }
       ],
       "snapshot": {
         "1mo": {
-          "shiftHours": 390.3,
-          "apptHours": 246.3,
-          "completedHours": 174.2,
-          "cancelledHours": 72.1,
-          "idleHours": 143.9,
-          "apptCount": 178,
-          "cancelledCount": 55,
-          "windowStart": "2026-04-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 396.1,
+          "apptHours": 216.4,
+          "completedHours": 146.2,
+          "cancelledHours": 70.2,
+          "idleHours": 179.7,
+          "apptCount": 158,
+          "cancelledCount": 50,
+          "windowStart": "2026-08-01",
+          "windowEnd": "2026-08-31"
         },
         "4mo": {
-          "shiftHours": 1409.9,
-          "apptHours": 870.1,
-          "completedHours": 627,
-          "cancelledHours": 243.1,
-          "idleHours": 539.8,
-          "apptCount": 634,
-          "cancelledCount": 183,
-          "windowStart": "2026-01-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 1607.2,
+          "apptHours": 886.6,
+          "completedHours": 625.8,
+          "cancelledHours": 260.7,
+          "idleHours": 720.6,
+          "apptCount": 646,
+          "cancelledCount": 190,
+          "windowStart": "2026-05-01",
+          "windowEnd": "2026-08-31"
         },
         "12mo": {
-          "shiftHours": 4007.7,
-          "apptHours": 2552.4,
-          "completedHours": 1851.6,
-          "cancelledHours": 700.8,
-          "idleHours": 1455.3,
-          "apptCount": 1868,
-          "cancelledCount": 516,
-          "windowStart": "2025-05-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 4405.9,
+          "apptHours": 2631.8,
+          "completedHours": 1913.3,
+          "cancelledHours": 718.4,
+          "idleHours": 1774.1,
+          "apptCount": 1920,
+          "cancelledCount": 529,
+          "windowStart": "2025-09-01",
+          "windowEnd": "2026-08-31"
         }
       }
     },
@@ -12233,41 +13945,685 @@
           "completed": 2,
           "cancelled": 0,
           "booked": 2
+        },
+        {
+          "date": "2026-05-02",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-03",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-04",
+          "revenue": 292.95,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-05",
+          "revenue": 644.8,
+          "completed": 5,
+          "cancelled": 0,
+          "booked": 5
+        },
+        {
+          "date": "2026-05-06",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-07",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-08",
+          "revenue": 455.7,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-09",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 3,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-11",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-12",
+          "revenue": 316.2,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-13",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-14",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-17",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-18",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-19",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-20",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 1,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-21",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-22",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-24",
+          "revenue": 585.9,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-05-25",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-26",
+          "revenue": 443.3,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-27",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-28",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-29",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-31",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-01",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-02",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-03",
+          "revenue": 455.7,
+          "completed": 4,
+          "cancelled": 2,
+          "booked": 6
+        },
+        {
+          "date": "2026-06-04",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-07",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-09",
+          "revenue": 869.55,
+          "completed": 6,
+          "cancelled": 0,
+          "booked": 6
+        },
+        {
+          "date": "2026-06-10",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-11",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-12",
+          "revenue": 248,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-14",
+          "revenue": 292.95,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-15",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-16",
+          "revenue": 706.8,
+          "completed": 5,
+          "cancelled": 0,
+          "booked": 5
+        },
+        {
+          "date": "2026-06-17",
+          "revenue": 553.35,
+          "completed": 4,
+          "cancelled": 1,
+          "booked": 5
+        },
+        {
+          "date": "2026-06-18",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-19",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-21",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-22",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-23",
+          "revenue": 514.6,
+          "completed": 4,
+          "cancelled": 1,
+          "booked": 5
+        },
+        {
+          "date": "2026-06-24",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 3,
+          "booked": 5
+        },
+        {
+          "date": "2026-06-25",
+          "revenue": 195.3,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-26",
+          "revenue": 286.75,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-27",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-28",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-29",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 2,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-30",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-01",
+          "revenue": 358.05,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-03",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-05",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-07-06",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-07",
+          "revenue": 316.2,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-08",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-09",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-10",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-11",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-12",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-13",
+          "revenue": 585.9,
+          "completed": 5,
+          "cancelled": 0,
+          "booked": 5
+        },
+        {
+          "date": "2026-07-15",
+          "revenue": 520.8,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-07-17",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-19",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-21",
+          "revenue": 124,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-22",
+          "revenue": 683.55,
+          "completed": 5,
+          "cancelled": 1,
+          "booked": 6
+        },
+        {
+          "date": "2026-07-23",
+          "revenue": 0,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-26",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-27",
+          "revenue": 553.35,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-07-28",
+          "revenue": 345.65,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-07-29",
+          "revenue": 162.75,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-03",
+          "revenue": 65.1,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-04",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-07",
+          "revenue": 248,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-09",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-10",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-11",
+          "revenue": 576.6,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-08-12",
+          "revenue": 130.2,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-13",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-14",
+          "revenue": 97.65,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-16",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-17",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 2,
+          "booked": 5
+        },
+        {
+          "date": "2026-08-18",
+          "revenue": 446.4,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-19",
+          "revenue": 507.78,
+          "completed": 4,
+          "cancelled": 1,
+          "booked": 5
+        },
+        {
+          "date": "2026-08-20",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-21",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-23",
+          "revenue": 520.8,
+          "completed": 4,
+          "cancelled": 0,
+          "booked": 4
+        },
+        {
+          "date": "2026-08-24",
+          "revenue": 651,
+          "completed": 5,
+          "cancelled": 1,
+          "booked": 6
+        },
+        {
+          "date": "2026-08-25",
+          "revenue": 248,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-28",
+          "revenue": 186,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-30",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-31",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
         }
       ],
       "snapshot": {
         "1mo": {
-          "shiftHours": 184.3,
-          "apptHours": 74.3,
-          "completedHours": 54.8,
-          "cancelledHours": 19.5,
-          "idleHours": 109.9,
-          "apptCount": 52,
-          "cancelledCount": 15,
-          "windowStart": "2026-04-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 185.4,
+          "apptHours": 60.6,
+          "completedHours": 50.3,
+          "cancelledHours": 10.3,
+          "idleHours": 124.8,
+          "apptCount": 44,
+          "cancelledCount": 7,
+          "windowStart": "2026-08-01",
+          "windowEnd": "2026-08-31"
         },
         "4mo": {
-          "shiftHours": 737.7,
-          "apptHours": 297.9,
-          "completedHours": 228.2,
-          "cancelledHours": 69.8,
-          "idleHours": 439.8,
-          "apptCount": 210,
-          "cancelledCount": 53,
-          "windowStart": "2026-01-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 789,
+          "apptHours": 265.6,
+          "completedHours": 209.7,
+          "cancelledHours": 55.9,
+          "idleHours": 523.4,
+          "apptCount": 189,
+          "cancelledCount": 40,
+          "windowStart": "2026-05-01",
+          "windowEnd": "2026-08-31"
         },
         "12mo": {
-          "shiftHours": 2219.4,
-          "apptHours": 932.7,
-          "completedHours": 740.1,
-          "cancelledHours": 192.6,
-          "idleHours": 1286.8,
-          "apptCount": 671,
+          "shiftHours": 2348.8,
+          "apptHours": 897.8,
+          "completedHours": 705.8,
+          "cancelledHours": 192,
+          "idleHours": 1451,
+          "apptCount": 641,
           "cancelledCount": 140,
-          "windowStart": "2025-05-01",
-          "windowEnd": "2026-04-30"
+          "windowStart": "2025-09-01",
+          "windowEnd": "2026-08-31"
         }
       }
     },
@@ -13792,41 +16148,391 @@
           "completed": 1,
           "cancelled": 0,
           "booked": 1
+        },
+        {
+          "date": "2026-05-03",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-04",
+          "revenue": 292.95,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-05",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-06",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-11",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-12",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-13",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-18",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-19",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-20",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-21",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-24",
+          "revenue": 455.7,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-25",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-27",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-31",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-01",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-02",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-03",
+          "revenue": 195.3,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-09",
+          "revenue": 162.75,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-10",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-15",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-16",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-17",
+          "revenue": 292.95,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-18",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-21",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-22",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-23",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-24",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-28",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-29",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 2,
+          "booked": 3
+        },
+        {
+          "date": "2026-07-01",
+          "revenue": 358.05,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-05",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-06",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-12",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-13",
+          "revenue": 195.3,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-15",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-19",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-22",
+          "revenue": 423.15,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-07-23",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-26",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-27",
+          "revenue": 292.95,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-09",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-10",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-11",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-12",
+          "revenue": 0,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-17",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 2,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-19",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-23",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-24",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-31",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
         }
       ],
       "snapshot": {
         "1mo": {
-          "shiftHours": 85.9,
-          "apptHours": 33.3,
-          "completedHours": 22.7,
-          "cancelledHours": 10.6,
-          "idleHours": 52.6,
-          "apptCount": 22,
-          "cancelledCount": 8,
-          "windowStart": "2026-04-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 55.3,
+          "apptHours": 16.2,
+          "completedHours": 9,
+          "cancelledHours": 7.2,
+          "idleHours": 39.1,
+          "apptCount": 11,
+          "cancelledCount": 5,
+          "windowStart": "2026-08-01",
+          "windowEnd": "2026-08-31"
         },
         "4mo": {
-          "shiftHours": 324.2,
-          "apptHours": 134.8,
-          "completedHours": 110.2,
-          "cancelledHours": 24.7,
-          "idleHours": 189.3,
-          "apptCount": 91,
-          "cancelledCount": 18,
-          "windowStart": "2026-01-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 294.5,
+          "apptHours": 97.5,
+          "completedHours": 69.6,
+          "cancelledHours": 27.9,
+          "idleHours": 197,
+          "apptCount": 66,
+          "cancelledCount": 20,
+          "windowStart": "2026-05-01",
+          "windowEnd": "2026-08-31"
         },
         "12mo": {
-          "shiftHours": 896.3,
-          "apptHours": 363.1,
-          "completedHours": 298.9,
-          "cancelledHours": 64.2,
-          "idleHours": 533.2,
+          "shiftHours": 926.8,
+          "apptHours": 367.4,
+          "completedHours": 291,
+          "cancelledHours": 76.4,
+          "idleHours": 559.4,
           "apptCount": 249,
-          "cancelledCount": 45,
-          "windowStart": "2025-05-01",
-          "windowEnd": "2026-04-30"
+          "cancelledCount": 54,
+          "windowStart": "2025-09-01",
+          "windowEnd": "2026-08-31"
         }
       }
     },
@@ -14441,41 +17147,265 @@
           "completed": 3,
           "cancelled": 0,
           "booked": 3
+        },
+        {
+          "date": "2026-05-02",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-08",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-09",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-17",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-19",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-22",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-24",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-07",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-09",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-14",
+          "revenue": 292.95,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-16",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-17",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-19",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-21",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-23",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-26",
+          "revenue": 162.75,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-28",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-30",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-03",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-05",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-07",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-10",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-11",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-17",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-28",
+          "revenue": 97.65,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-04",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-14",
+          "revenue": 97.65,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-16",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-21",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-23",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-30",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-31",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
         }
       ],
       "snapshot": {
         "1mo": {
-          "shiftHours": 52.5,
-          "apptHours": 11.8,
-          "completedHours": 5.5,
-          "cancelledHours": 6.3,
-          "idleHours": 40.8,
+          "shiftHours": 60,
+          "apptHours": 11.5,
+          "completedHours": 9.7,
+          "cancelledHours": 1.8,
+          "idleHours": 48.5,
           "apptCount": 9,
-          "cancelledCount": 5,
-          "windowStart": "2026-04-01",
-          "windowEnd": "2026-04-30"
+          "cancelledCount": 1,
+          "windowStart": "2026-08-01",
+          "windowEnd": "2026-08-31"
         },
         "4mo": {
-          "shiftHours": 202.5,
-          "apptHours": 41,
-          "completedHours": 23,
-          "cancelledHours": 18,
-          "idleHours": 161.5,
-          "apptCount": 31,
-          "cancelledCount": 14,
-          "windowStart": "2026-01-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 222.5,
+          "apptHours": 45.8,
+          "completedHours": 37.9,
+          "cancelledHours": 7.8,
+          "idleHours": 176.8,
+          "apptCount": 35,
+          "cancelledCount": 5,
+          "windowStart": "2026-05-01",
+          "windowEnd": "2026-08-31"
         },
         "12mo": {
-          "shiftHours": 527.5,
-          "apptHours": 120.5,
-          "completedHours": 78.7,
-          "cancelledHours": 41.8,
-          "idleHours": 407,
-          "apptCount": 91,
+          "shiftHours": 645,
+          "apptHours": 131.8,
+          "completedHours": 89.4,
+          "cancelledHours": 42.3,
+          "idleHours": 513.3,
+          "apptCount": 101,
           "cancelledCount": 31,
-          "windowStart": "2025-05-01",
-          "windowEnd": "2026-04-30"
+          "windowStart": "2025-09-01",
+          "windowEnd": "2026-08-31"
         }
       }
     },
@@ -16189,41 +19119,342 @@
           "completed": 2,
           "cancelled": 0,
           "booked": 2
+        },
+        {
+          "date": "2026-05-05",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-07",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-08",
+          "revenue": 260.4,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-09",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-12",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-13",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-14",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-20",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-05-26",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-27",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-05-28",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-29",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-02",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-03",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-04",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-09",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-10",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-11",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 1,
+          "booked": 3
+        },
+        {
+          "date": "2026-06-16",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-17",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-18",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-19",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-23",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-24",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 2,
+          "booked": 4
+        },
+        {
+          "date": "2026-06-25",
+          "revenue": 195.3,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-26",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-08",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-09",
+          "revenue": 195.3,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-13",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-07-15",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-22",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-23",
+          "revenue": 0,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-27",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-07-29",
+          "revenue": 162.75,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-03",
+          "revenue": 65.1,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-11",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-12",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-13",
+          "revenue": 130.2,
+          "completed": 1,
+          "cancelled": 1,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-17",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-18",
+          "revenue": 260.4,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-19",
+          "revenue": 377.58,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
+        },
+        {
+          "date": "2026-08-20",
+          "revenue": 325.5,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-24",
+          "revenue": 390.6,
+          "completed": 3,
+          "cancelled": 0,
+          "booked": 3
         }
       ],
       "snapshot": {
         "1mo": {
-          "shiftHours": 28.3,
-          "apptHours": 17,
-          "completedHours": 14.3,
-          "cancelledHours": 2.7,
-          "idleHours": 11.3,
-          "apptCount": 12,
-          "cancelledCount": 2,
-          "windowStart": "2026-04-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 55.2,
+          "apptHours": 22.7,
+          "completedHours": 21.3,
+          "cancelledHours": 1.3,
+          "idleHours": 32.5,
+          "apptCount": 17,
+          "cancelledCount": 1,
+          "windowStart": "2026-08-01",
+          "windowEnd": "2026-08-31"
         },
         "4mo": {
-          "shiftHours": 156,
-          "apptHours": 83.8,
-          "completedHours": 70.5,
-          "cancelledHours": 13.3,
-          "idleHours": 72.2,
-          "apptCount": 60,
-          "cancelledCount": 10,
-          "windowStart": "2026-01-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 211.5,
+          "apptHours": 92.6,
+          "completedHours": 77.9,
+          "cancelledHours": 14.7,
+          "idleHours": 118.9,
+          "apptCount": 67,
+          "cancelledCount": 11,
+          "windowStart": "2026-05-01",
+          "windowEnd": "2026-08-31"
         },
         "12mo": {
-          "shiftHours": 594.7,
-          "apptHours": 324.6,
-          "completedHours": 278.7,
-          "cancelledHours": 45.9,
-          "idleHours": 270.1,
-          "apptCount": 238,
-          "cancelledCount": 33,
-          "windowStart": "2025-05-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 588,
+          "apptHours": 289.9,
+          "completedHours": 248.2,
+          "cancelledHours": 41.8,
+          "idleHours": 298.1,
+          "apptCount": 211,
+          "cancelledCount": 31,
+          "windowStart": "2025-09-01",
+          "windowEnd": "2026-08-31"
         }
       }
     },
@@ -17111,41 +20342,181 @@
           "completed": 1,
           "cancelled": 0,
           "booked": 1
+        },
+        {
+          "date": "2026-05-05",
+          "revenue": 124,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-09",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-12",
+          "revenue": 186,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-05-26",
+          "revenue": 248,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-03",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-09",
+          "revenue": 186,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-12",
+          "revenue": 248,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-06-16",
+          "revenue": 186,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-23",
+          "revenue": 124,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-26",
+          "revenue": 124,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-06-27",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-07",
+          "revenue": 186,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-21",
+          "revenue": 124,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-22",
+          "revenue": 0,
+          "completed": 0,
+          "cancelled": 1,
+          "booked": 1
+        },
+        {
+          "date": "2026-07-28",
+          "revenue": 248,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-07",
+          "revenue": 248,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-11",
+          "revenue": 186,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-18",
+          "revenue": 186,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
+        },
+        {
+          "date": "2026-08-25",
+          "revenue": 248,
+          "completed": 2,
+          "cancelled": 0,
+          "booked": 2
+        },
+        {
+          "date": "2026-08-28",
+          "revenue": 186,
+          "completed": 1,
+          "cancelled": 0,
+          "booked": 1
         }
       ],
       "snapshot": {
         "1mo": {
-          "shiftHours": 17.5,
-          "apptHours": 12.3,
-          "completedHours": 12.3,
+          "shiftHours": 15,
+          "apptHours": 10.3,
+          "completedHours": 10.3,
           "cancelledHours": 0,
-          "idleHours": 5.3,
-          "apptCount": 9,
+          "idleHours": 4.8,
+          "apptCount": 7,
           "cancelledCount": 0,
-          "windowStart": "2026-04-01",
-          "windowEnd": "2026-04-30"
+          "windowStart": "2026-08-01",
+          "windowEnd": "2026-08-31"
         },
         "4mo": {
-          "shiftHours": 55,
-          "apptHours": 38.3,
-          "completedHours": 24.5,
-          "cancelledHours": 13.8,
-          "idleHours": 16.8,
-          "apptCount": 28,
-          "cancelledCount": 11,
-          "windowStart": "2026-01-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 60.5,
+          "apptHours": 29.8,
+          "completedHours": 24.2,
+          "cancelledHours": 5.5,
+          "idleHours": 30.8,
+          "apptCount": 21,
+          "cancelledCount": 4,
+          "windowStart": "2026-05-01",
+          "windowEnd": "2026-08-31"
         },
         "12mo": {
-          "shiftHours": 201,
-          "apptHours": 124.5,
-          "completedHours": 83.7,
-          "cancelledHours": 40.8,
-          "idleHours": 76.5,
-          "apptCount": 93,
-          "cancelledCount": 31,
-          "windowStart": "2025-05-01",
-          "windowEnd": "2026-04-30"
+          "shiftHours": 189,
+          "apptHours": 108.8,
+          "completedHours": 77.2,
+          "cancelledHours": 31.5,
+          "idleHours": 80.3,
+          "apptCount": 80,
+          "cancelledCount": 24,
+          "windowStart": "2025-09-01",
+          "windowEnd": "2026-08-31"
         }
       }
     }
@@ -17153,342 +20524,357 @@
   "practitionerUtilization": {
     "Brookelyn Brolly": {
       "1mo": {
-        "shiftHours": 85.9,
-        "apptHours": 33.3,
-        "completedHours": 22.7,
-        "cancelledHours": 10.6,
-        "idleHours": 52.6,
-        "apptCount": 22,
-        "cancelledCount": 8,
-        "windowStart": "2026-04-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 55.3,
+        "apptHours": 16.2,
+        "completedHours": 9,
+        "cancelledHours": 7.2,
+        "idleHours": 39.1,
+        "apptCount": 11,
+        "cancelledCount": 5,
+        "windowStart": "2026-08-01",
+        "windowEnd": "2026-08-31"
       },
       "4mo": {
-        "shiftHours": 324.2,
-        "apptHours": 134.8,
-        "completedHours": 110.2,
-        "cancelledHours": 24.7,
-        "idleHours": 189.3,
-        "apptCount": 91,
-        "cancelledCount": 18,
-        "windowStart": "2026-01-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 294.5,
+        "apptHours": 97.5,
+        "completedHours": 69.6,
+        "cancelledHours": 27.9,
+        "idleHours": 197,
+        "apptCount": 66,
+        "cancelledCount": 20,
+        "windowStart": "2026-05-01",
+        "windowEnd": "2026-08-31"
       },
       "12mo": {
-        "shiftHours": 896.3,
-        "apptHours": 363.1,
-        "completedHours": 298.9,
-        "cancelledHours": 64.2,
-        "idleHours": 533.2,
+        "shiftHours": 926.8,
+        "apptHours": 367.4,
+        "completedHours": 291,
+        "cancelledHours": 76.4,
+        "idleHours": 559.4,
         "apptCount": 249,
-        "cancelledCount": 45,
-        "windowStart": "2025-05-01",
-        "windowEnd": "2026-04-30"
+        "cancelledCount": 54,
+        "windowStart": "2025-09-01",
+        "windowEnd": "2026-08-31"
       }
     },
     "Charlotte Tooth": {
       "1mo": {
-        "shiftHours": 52.5,
-        "apptHours": 11.8,
-        "completedHours": 5.5,
-        "cancelledHours": 6.3,
-        "idleHours": 40.8,
+        "shiftHours": 60,
+        "apptHours": 11.5,
+        "completedHours": 9.7,
+        "cancelledHours": 1.8,
+        "idleHours": 48.5,
         "apptCount": 9,
-        "cancelledCount": 5,
-        "windowStart": "2026-04-01",
-        "windowEnd": "2026-04-30"
+        "cancelledCount": 1,
+        "windowStart": "2026-08-01",
+        "windowEnd": "2026-08-31"
       },
       "4mo": {
-        "shiftHours": 202.5,
-        "apptHours": 41,
-        "completedHours": 23,
-        "cancelledHours": 18,
-        "idleHours": 161.5,
-        "apptCount": 31,
-        "cancelledCount": 14,
-        "windowStart": "2026-01-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 222.5,
+        "apptHours": 45.8,
+        "completedHours": 37.9,
+        "cancelledHours": 7.8,
+        "idleHours": 176.8,
+        "apptCount": 35,
+        "cancelledCount": 5,
+        "windowStart": "2026-05-01",
+        "windowEnd": "2026-08-31"
       },
       "12mo": {
-        "shiftHours": 527.5,
-        "apptHours": 120.5,
-        "completedHours": 78.7,
-        "cancelledHours": 41.8,
-        "idleHours": 407,
-        "apptCount": 91,
+        "shiftHours": 645,
+        "apptHours": 131.8,
+        "completedHours": 89.4,
+        "cancelledHours": 42.3,
+        "idleHours": 513.3,
+        "apptCount": 101,
         "cancelledCount": 31,
-        "windowStart": "2025-05-01",
-        "windowEnd": "2026-04-30"
+        "windowStart": "2025-09-01",
+        "windowEnd": "2026-08-31"
       }
     },
     "Kassandra Wilson": {
       "1mo": {
-        "shiftHours": 45,
-        "apptHours": 52.3,
-        "completedHours": 31.1,
-        "cancelledHours": 21.2,
+        "shiftHours": 48.5,
+        "apptHours": 51.5,
+        "completedHours": 22.8,
+        "cancelledHours": 28.7,
         "idleHours": 0,
-        "apptCount": 41,
-        "cancelledCount": 16,
-        "windowStart": "2026-04-01",
-        "windowEnd": "2026-04-30"
+        "apptCount": 40,
+        "cancelledCount": 22,
+        "windowStart": "2026-08-01",
+        "windowEnd": "2026-08-31"
       },
       "4mo": {
-        "shiftHours": 184,
-        "apptHours": 198.3,
-        "completedHours": 123.7,
-        "cancelledHours": 74.6,
+        "shiftHours": 197.4,
+        "apptHours": 202.3,
+        "completedHours": 100.4,
+        "cancelledHours": 101.8,
         "idleHours": 0,
-        "apptCount": 152,
-        "cancelledCount": 57,
-        "windowStart": "2026-01-01",
-        "windowEnd": "2026-04-30"
+        "apptCount": 157,
+        "cancelledCount": 79,
+        "windowStart": "2026-05-01",
+        "windowEnd": "2026-08-31"
       },
       "12mo": {
-        "shiftHours": 584.5,
-        "apptHours": 617.1,
-        "completedHours": 369.6,
-        "cancelledHours": 247.5,
+        "shiftHours": 591.6,
+        "apptHours": 624.8,
+        "completedHours": 368.3,
+        "cancelledHours": 256.4,
         "idleHours": 0,
-        "apptCount": 455,
-        "cancelledCount": 180,
-        "windowStart": "2025-05-01",
-        "windowEnd": "2026-04-30"
+        "apptCount": 472,
+        "cancelledCount": 193,
+        "windowStart": "2025-09-01",
+        "windowEnd": "2026-08-31"
       }
     },
     "Laura Craig-Conn": {
       "1mo": {
-        "shiftHours": 48,
-        "apptHours": 18.3,
-        "completedHours": 15.2,
-        "cancelledHours": 3.2,
-        "idleHours": 29.7,
-        "apptCount": 13,
-        "cancelledCount": 2,
-        "windowStart": "2026-04-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 49.4,
+        "apptHours": 13.8,
+        "completedHours": 6.2,
+        "cancelledHours": 7.7,
+        "idleHours": 35.6,
+        "apptCount": 10,
+        "cancelledCount": 5,
+        "windowStart": "2026-08-01",
+        "windowEnd": "2026-08-31"
       },
       "4mo": {
-        "shiftHours": 85.8,
-        "apptHours": 35,
-        "completedHours": 26.8,
-        "cancelledHours": 8.2,
-        "idleHours": 50.8,
-        "apptCount": 24,
-        "cancelledCount": 5,
-        "windowStart": "2026-01-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 207.2,
+        "apptHours": 80,
+        "completedHours": 66,
+        "cancelledHours": 14,
+        "idleHours": 127.2,
+        "apptCount": 57,
+        "cancelledCount": 9,
+        "windowStart": "2026-05-01",
+        "windowEnd": "2026-08-31"
       },
       "12mo": {
-        "shiftHours": 85.8,
-        "apptHours": 35,
-        "completedHours": 26.8,
-        "cancelledHours": 8.2,
-        "idleHours": 50.8,
-        "apptCount": 24,
-        "cancelledCount": 5,
-        "windowStart": "2025-05-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 292.9,
+        "apptHours": 115,
+        "completedHours": 92.8,
+        "cancelledHours": 22.2,
+        "idleHours": 177.9,
+        "apptCount": 81,
+        "cancelledCount": 14,
+        "windowStart": "2025-09-01",
+        "windowEnd": "2026-08-31"
       }
     },
     "Lindsey Stauffer": {
       "1mo": {
-        "shiftHours": 28.3,
-        "apptHours": 17,
-        "completedHours": 14.3,
-        "cancelledHours": 2.7,
-        "idleHours": 11.3,
-        "apptCount": 12,
-        "cancelledCount": 2,
-        "windowStart": "2026-04-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 55.2,
+        "apptHours": 22.7,
+        "completedHours": 21.3,
+        "cancelledHours": 1.3,
+        "idleHours": 32.5,
+        "apptCount": 17,
+        "cancelledCount": 1,
+        "windowStart": "2026-08-01",
+        "windowEnd": "2026-08-31"
       },
       "4mo": {
-        "shiftHours": 156,
-        "apptHours": 83.8,
-        "completedHours": 70.5,
-        "cancelledHours": 13.3,
-        "idleHours": 72.2,
-        "apptCount": 60,
-        "cancelledCount": 10,
-        "windowStart": "2026-01-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 211.5,
+        "apptHours": 92.6,
+        "completedHours": 77.9,
+        "cancelledHours": 14.7,
+        "idleHours": 118.9,
+        "apptCount": 67,
+        "cancelledCount": 11,
+        "windowStart": "2026-05-01",
+        "windowEnd": "2026-08-31"
       },
       "12mo": {
-        "shiftHours": 594.7,
-        "apptHours": 324.6,
-        "completedHours": 278.7,
-        "cancelledHours": 45.9,
-        "idleHours": 270.1,
-        "apptCount": 238,
-        "cancelledCount": 33,
-        "windowStart": "2025-05-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 588,
+        "apptHours": 289.9,
+        "completedHours": 248.2,
+        "cancelledHours": 41.8,
+        "idleHours": 298.1,
+        "apptCount": 211,
+        "cancelledCount": 31,
+        "windowStart": "2025-09-01",
+        "windowEnd": "2026-08-31"
       }
     },
     "Meagan Brown": {
       "1mo": {
-        "shiftHours": 17.5,
-        "apptHours": 12.3,
-        "completedHours": 12.3,
+        "shiftHours": 15,
+        "apptHours": 10.3,
+        "completedHours": 10.3,
         "cancelledHours": 0,
-        "idleHours": 5.3,
-        "apptCount": 9,
+        "idleHours": 4.8,
+        "apptCount": 7,
         "cancelledCount": 0,
-        "windowStart": "2026-04-01",
-        "windowEnd": "2026-04-30"
+        "windowStart": "2026-08-01",
+        "windowEnd": "2026-08-31"
       },
       "4mo": {
-        "shiftHours": 55,
-        "apptHours": 38.3,
-        "completedHours": 24.5,
-        "cancelledHours": 13.8,
-        "idleHours": 16.8,
-        "apptCount": 28,
-        "cancelledCount": 11,
-        "windowStart": "2026-01-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 60.5,
+        "apptHours": 29.8,
+        "completedHours": 24.2,
+        "cancelledHours": 5.5,
+        "idleHours": 30.8,
+        "apptCount": 21,
+        "cancelledCount": 4,
+        "windowStart": "2026-05-01",
+        "windowEnd": "2026-08-31"
       },
       "12mo": {
-        "shiftHours": 201,
-        "apptHours": 124.5,
-        "completedHours": 83.7,
-        "cancelledHours": 40.8,
-        "idleHours": 76.5,
-        "apptCount": 93,
-        "cancelledCount": 31,
-        "windowStart": "2025-05-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 189,
+        "apptHours": 108.8,
+        "completedHours": 77.2,
+        "cancelledHours": 31.5,
+        "idleHours": 80.3,
+        "apptCount": 80,
+        "cancelledCount": 24,
+        "windowStart": "2025-09-01",
+        "windowEnd": "2026-08-31"
       }
     },
     "Melissa Wecker": {
       "1mo": {
-        "shiftHours": 90.8,
-        "apptHours": 81.5,
-        "completedHours": 35.8,
-        "cancelledHours": 45.7,
-        "idleHours": 9.3,
-        "apptCount": 111,
-        "cancelledCount": 57,
-        "windowStart": "2026-04-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 107.3,
+        "apptHours": 65,
+        "completedHours": 45.3,
+        "cancelledHours": 19.7,
+        "idleHours": 42.3,
+        "apptCount": 97,
+        "cancelledCount": 27,
+        "windowStart": "2026-08-01",
+        "windowEnd": "2026-08-31"
       },
       "4mo": {
-        "shiftHours": 388.3,
-        "apptHours": 349.8,
-        "completedHours": 221.5,
-        "cancelledHours": 128.2,
-        "idleHours": 38.5,
-        "apptCount": 458,
-        "cancelledCount": 160,
-        "windowStart": "2026-01-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 437.5,
+        "apptHours": 330,
+        "completedHours": 242.3,
+        "cancelledHours": 87.7,
+        "idleHours": 107.5,
+        "apptCount": 451,
+        "cancelledCount": 114,
+        "windowStart": "2026-05-01",
+        "windowEnd": "2026-08-31"
       },
       "12mo": {
-        "shiftHours": 1096.8,
-        "apptHours": 1028.5,
-        "completedHours": 705.5,
-        "cancelledHours": 323,
-        "idleHours": 68.3,
-        "apptCount": 1372,
-        "cancelledCount": 413,
-        "windowStart": "2025-05-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 1172.8,
+        "apptHours": 1004.3,
+        "completedHours": 666.3,
+        "cancelledHours": 338,
+        "idleHours": 168.6,
+        "apptCount": 1364,
+        "cancelledCount": 431,
+        "windowStart": "2025-09-01",
+        "windowEnd": "2026-08-31"
       }
     },
     "Mike Viani": {
       "1mo": {
-        "shiftHours": 94,
-        "apptHours": 56.5,
-        "completedHours": 39.3,
-        "cancelledHours": 17.2,
-        "idleHours": 37.5,
-        "apptCount": 44,
-        "cancelledCount": 13,
-        "windowStart": "2026-04-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 93,
+        "apptHours": 54.5,
+        "completedHours": 39,
+        "cancelledHours": 15.5,
+        "idleHours": 38.5,
+        "apptCount": 43,
+        "cancelledCount": 12,
+        "windowStart": "2026-08-01",
+        "windowEnd": "2026-08-31"
       },
       "4mo": {
-        "shiftHours": 380,
-        "apptHours": 234.5,
-        "completedHours": 163.5,
-        "cancelledHours": 71,
-        "idleHours": 145.5,
-        "apptCount": 184,
-        "cancelledCount": 54,
-        "windowStart": "2026-01-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 385,
+        "apptHours": 249.8,
+        "completedHours": 192.5,
+        "cancelledHours": 57.2,
+        "idleHours": 135.3,
+        "apptCount": 198,
+        "cancelledCount": 45,
+        "windowStart": "2026-05-01",
+        "windowEnd": "2026-08-31"
       },
       "12mo": {
-        "shiftHours": 1182.3,
-        "apptHours": 724.8,
-        "completedHours": 571.3,
-        "cancelledHours": 153.5,
-        "idleHours": 457.4,
-        "apptCount": 574,
-        "cancelledCount": 120,
-        "windowStart": "2025-05-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 1154.3,
+        "apptHours": 739.3,
+        "completedHours": 563.5,
+        "cancelledHours": 175.7,
+        "idleHours": 415,
+        "apptCount": 584,
+        "cancelledCount": 137,
+        "windowStart": "2025-09-01",
+        "windowEnd": "2026-08-31"
+      }
+    },
+    "Tifila Henderson": {
+      "1mo": {
+        "shiftHours": 21,
+        "apptHours": 13.8,
+        "completedHours": 12,
+        "cancelledHours": 1.8,
+        "idleHours": 7.3,
+        "apptCount": 9,
+        "cancelledCount": 1,
+        "windowStart": "2026-08-01",
+        "windowEnd": "2026-08-31"
+      },
+      "4mo": {
+        "shiftHours": 92.8,
+        "apptHours": 46.5,
+        "completedHours": 41.7,
+        "cancelledHours": 4.8,
+        "idleHours": 46.3,
+        "apptCount": 32,
+        "cancelledCount": 3,
+        "windowStart": "2026-05-01",
+        "windowEnd": "2026-08-31"
+      },
+      "12mo": {
+        "shiftHours": 92.8,
+        "apptHours": 46.5,
+        "completedHours": 41.7,
+        "cancelledHours": 4.8,
+        "idleHours": 46.3,
+        "apptCount": 32,
+        "cancelledCount": 3,
+        "windowStart": "2025-09-01",
+        "windowEnd": "2026-08-31"
       }
     },
     "Tracy Schneider-Steeves": {
       "1mo": {
-        "shiftHours": 94.5,
-        "apptHours": 90.3,
-        "completedHours": 70,
-        "cancelledHours": 20.3,
-        "idleHours": 4.3,
-        "apptCount": 64,
-        "cancelledCount": 16,
-        "windowStart": "2026-04-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 91.8,
+        "apptHours": 76.8,
+        "completedHours": 55,
+        "cancelledHours": 21.7,
+        "idleHours": 15,
+        "apptCount": 55,
+        "cancelledCount": 15,
+        "windowStart": "2026-08-01",
+        "windowEnd": "2026-08-31"
       },
       "4mo": {
-        "shiftHours": 346.5,
-        "apptHours": 299.3,
-        "completedHours": 222,
-        "cancelledHours": 77.2,
-        "idleHours": 47.3,
-        "apptCount": 219,
-        "cancelledCount": 58,
-        "windowStart": "2026-01-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 320.8,
+        "apptHours": 292.3,
+        "completedHours": 208,
+        "cancelledHours": 84.2,
+        "idleHours": 28.6,
+        "apptCount": 211,
+        "cancelledCount": 59,
+        "windowStart": "2026-05-01",
+        "windowEnd": "2026-08-31"
       },
       "12mo": {
-        "shiftHours": 1062,
-        "apptHours": 928,
-        "completedHours": 688.7,
-        "cancelledHours": 239.3,
-        "idleHours": 134,
-        "apptCount": 689,
-        "cancelledCount": 181,
-        "windowStart": "2025-05-01",
-        "windowEnd": "2026-04-30"
+        "shiftHours": 1023.8,
+        "apptHours": 908,
+        "completedHours": 678.2,
+        "cancelledHours": 229.8,
+        "idleHours": 115.8,
+        "apptCount": 665,
+        "cancelledCount": 169,
+        "windowStart": "2025-09-01",
+        "windowEnd": "2026-08-31"
       }
     },
     "Willow Blacker-STUDENT THERAPIST": {
-      "1mo": {
-        "shiftHours": 18.5,
-        "apptHours": 11.2,
-        "completedHours": 3.2,
-        "cancelledHours": 8,
-        "idleHours": 7.3,
-        "apptCount": 8,
-        "cancelledCount": 6,
-        "windowStart": "2026-04-01",
-        "windowEnd": "2026-04-30"
-      },
-      "4mo": {
-        "shiftHours": 56,
-        "apptHours": 39.7,
-        "completedHours": 26.3,
-        "cancelledHours": 13.3,
-        "idleHours": 16.3,
-        "apptCount": 29,
-        "cancelledCount": 10,
-        "windowStart": "2026-01-01",
-        "windowEnd": "2026-04-30"
-      },
+      "1mo": null,
+      "4mo": null,
       "12mo": {
         "shiftHours": 56,
         "apptHours": 39.7,
@@ -17497,8 +20883,8 @@
         "idleHours": 16.3,
         "apptCount": 29,
         "cancelledCount": 10,
-        "windowStart": "2025-05-01",
-        "windowEnd": "2026-04-30"
+        "windowStart": "2025-09-01",
+        "windowEnd": "2026-08-31"
       }
     }
   }
