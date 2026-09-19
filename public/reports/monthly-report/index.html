@@ -167,6 +167,66 @@ const FOCUS4_DATA = {
   funnelTotals: { quiz:306, bookings:30, leads:19, matchedRecommendation:21, pctPaidGclid:83 },
 };
 
+// Seasonality check — whole-clinic revenue by calendar month, every year on record (2024-2026),
+// to test whether summer is genuinely this clinic's slowest historical stretch.
+const SEASONALITY_DATA = {
+  months: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+  wholeClinicRevenue: {
+    "2024": [null,null,null,null,42373,32550,38710,38251,47286,50688,45644,47757],
+    "2025": [46579,45898,44268,44265,36976,54752,44557,42434,48498,45854,42551,42290],
+    "2026": [44508,42250,45445,46445,46566,50477,39337,43277,null,null,null,null],
+  },
+  // Focus-4 combined completed bookings, same-month YoY (only months where both years exist)
+  focus4YoY: [
+    { month:"Jan", y2025:38, y2026:53 }, { month:"Feb", y2025:46, y2026:57 },
+    { month:"Mar", y2025:50, y2026:51 }, { month:"Apr", y2025:61, y2026:50 },
+    { month:"May", y2025:45, y2026:49 }, { month:"Jun", y2025:61, y2026:55 },
+    { month:"Jul", y2025:54, y2026:43 }, { month:"Aug", y2025:56, y2026:46 },
+  ],
+};
+
+// Quiz answer trends — parsed from each skill page's Answers (JSON) column in
+// MH - Quiz Data.xlsx, cross-referenced against MH - Leads + Bookings.xlsx by user_id.
+// "Converted" here = went on to either a confirmed booking OR a waitlist lead (broader
+// than the "booked rate" in the funnel table above, which only counts confirmed bookings).
+const QUIZ_TRENDS_DATA = [
+  {
+    skill: "Prenatal", quizCount: 56, converted: 29, convertedPct: 51.8,
+    headline: "By far the highest-converting audience — no real gap to close here.",
+    findings: [
+      "Top concern: back/hip/pelvic pain (leads every combination)",
+      "Session preference splits between “targeted clinical work” (21) and “slow, calming, whole-system” (16) — a real bimodal need",
+      "Most (19) have no therapist preference; next-largest group specifically wants someone who's been pregnant or is a mom",
+    ],
+  },
+  {
+    skill: "Therapeutic", quizCount: 117, converted: 15, convertedPct: 12.8,
+    headline: "Lowest-converting — and the answers show why: this audience arrives less urgent and less pre-qualified than the other three.",
+    findings: [
+      "Most describe it as “a nagging annoyance” (43 of 117) rather than something acute — lower urgency to book now",
+      "23 of 117 have “tried nothing yet” — many are first-time massage seekers, not comparison-shopping veterans",
+      "A real high-urgency subset exists (23 said “it's constant, affects almost everything”) but isn't separated out in the copy/targeting today",
+    ],
+  },
+  {
+    skill: "Deep tissue", quizCount: 48, converted: 10, convertedPct: 20.8,
+    headline: "The most “ready to book” audience of the four — matches it already being the ad strategy's quiet winner.",
+    findings: [
+      "Half (24 of 48) have been dealing with it for years — chronic, not new",
+      "Pressure preference is decisive: 22 want it “firm and intensive,” 11 want “whatever it takes” — people who know exactly what they want",
+    ],
+  },
+  {
+    skill: "Lymphatic", quizCount: 85, converted: 15, convertedPct: 17.6,
+    headline: "A genuinely different audience: more curious first-timers than urgent sufferers.",
+    findings: [
+      "Top reason for visiting is “general curiosity, never tried it” (26) — narrowly ahead of chronic swelling (22) and autoimmune/inflammation (21)",
+      "Still, 41 of 85 call it “ongoing or chronic” — real need exists alongside the curiosity-driven segment",
+      "This is exactly the audience the $49 sampling offer (validated in the May check-in) and educational AEO content are built for — try-before-you-commit, not a hard sell",
+    ],
+  },
+];
+
 // --- KPI card with YoY delta ---
 const KPI = ({ label, value, delta, accent, hint }) => {
   const isUp = delta != null && delta >= 0;
@@ -1052,6 +1112,42 @@ function Focus4Tab() {
         </div>
       </Card>
 
+      {/* SEASONALITY CHECK — is this just the historically-slow summer stretch? */}
+      <Card title="Seasonality Check — Is This Just Summer?" subtitle="Whole-clinic revenue by calendar month, every year on record (2024–2026)">
+        <ResponsiveContainer width="100%" height={260}>
+          <LineChart data={SEASONALITY_DATA.months.map((m,i) => ({
+            name: m,
+            "2024": SEASONALITY_DATA.wholeClinicRevenue["2024"][i],
+            "2025": SEASONALITY_DATA.wholeClinicRevenue["2025"][i],
+            "2026": SEASONALITY_DATA.wholeClinicRevenue["2026"][i],
+          }))} margin={{ top:10, right:20, left:-5, bottom:0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#EDE9E3" vertical={false} />
+            <XAxis dataKey="name" tick={{ fontSize:13, fontWeight:600, fill:C.text }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize:13, fill:C.muted }} tickFormatter={fmtMoney} axisLine={false} tickLine={false} />
+            <Tooltip content={<LineTooltip formatter={fmtMoney} />} />
+            <Line type="monotone" dataKey="2024" stroke={C.empty} strokeWidth={2} dot={{ r:3 }} connectNulls={false} />
+            <Line type="monotone" dataKey="2025" stroke={C.gold} strokeWidth={2} dot={{ r:3 }} connectNulls={false} />
+            <Line type="monotone" dataKey="2026" stroke={C.green} strokeWidth={3} dot={{ r:4 }} connectNulls={false} />
+          </LineChart>
+        </ResponsiveContainer>
+        <div style={{ fontSize:14, color:C.text, lineHeight:1.8, marginTop:14 }}>
+          <p style={{ marginBottom:12 }}>
+            <strong>Not really — not at the whole-clinic level.</strong> August 2026 (${SEASONALITY_DATA.wholeClinicRevenue["2026"][7].toLocaleString()}) is
+            actually the <strong>best August on record</strong> — ahead of Aug '25 (${SEASONALITY_DATA.wholeClinicRevenue["2025"][7].toLocaleString()})
+            and Aug '24 (${SEASONALITY_DATA.wholeClinicRevenue["2024"][7].toLocaleString()}). June and July dip a little in most years, but there's no clean,
+            repeating summer trough in two years of data — some Junes (2025) are among the clinic's strongest months.
+          </p>
+          <p style={{ margin:0 }}>
+            <strong>For the focus-4 specifically, there's a real recent softening — but it isn't purely "summer."</strong> Comparing
+            the same month across 2025 → 2026: Jan +39%, Feb +24%, Mar +2% (all up or flat), then Apr −18%, Jun −10%,
+            Jul −20%, Aug −18% (down). The dip starts in <strong>April</strong>, a full two months before summer — so
+            "seasonal slowdown" is at best a partial explanation. Worth watching whether it recovers in Sep/Oct the way
+            most other years do, but the honest read is that something shifted for these four around spring, not just
+            a predictable summer lull.
+          </p>
+        </div>
+      </Card>
+
       {/* UTILIZATION Apr vs Aug */}
       <Card title="Schedule Utilization — April vs. August 2026" subtitle="Single-month snapshots (appointment hours ÷ shift hours), the two points we have real availability exports for">
         <div style={{ overflowX:"auto" }}>
@@ -1137,6 +1233,33 @@ function Focus4Tab() {
           almost entirely non-therapist-specific review count (~40 total) likely hits it hardest. {F.funnelTotals.matchedRecommendation}/{F.funnelTotals.bookings} bookings
           ({Math.round(F.funnelTotals.matchedRecommendation/F.funnelTotals.bookings*100)}%) went to the quiz's recommended therapist;
           {" "}{F.funnelTotals.pctPaidGclid}% of bookings carry a paid click ID.
+        </div>
+      </Card>
+
+      {/* QUIZ TRENDS — what people are actually telling us, by skill */}
+      <Card title="Quiz Funnel — What People Are Telling Us" subtitle="Parsed from every quiz answer, cross-referenced against who actually booked or joined the waitlist — this is the diagnostic for where to put effort next">
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))", gap:14 }}>
+          {QUIZ_TRENDS_DATA.map(row => (
+            <div key={row.skill} style={{ background:C.card, borderRadius:10, padding:"16px 18px", boxShadow:"0 1px 6px rgba(0,0,0,0.05)", borderLeft:`3px solid ${row.convertedPct >= 30 ? C.green : row.convertedPct >= 17 ? C.gold : C.accent}` }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline", gap:8, marginBottom:6 }}>
+                <div style={{ fontSize:16, fontWeight:700, color:C.text }}>{row.skill}</div>
+                <div style={{ fontSize:13, color:C.muted }}>{row.converted}/{row.quizCount} <strong style={{ color:C.text }}>({row.convertedPct}%)</strong> booked or waitlisted</div>
+              </div>
+              <div style={{ fontSize:13, color:C.text, fontWeight:600, marginBottom:8, lineHeight:1.5 }}>{row.headline}</div>
+              <ul style={{ margin:0, paddingLeft:18, fontSize:13, color:C.muted, lineHeight:1.7 }}>
+                {row.findings.map((f,i) => <li key={i}>{f}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div style={{ fontSize:14, color:C.text, lineHeight:1.8, marginTop:16, paddingTop:14, borderTop:"1px solid #EDE9E3" }}>
+          <strong>Where this points effort:</strong> deep tissue's audience is the most ready-to-book (chronic, years-long,
+          knows exactly what pressure it wants) — keep funding it first, it needs the least convincing. Therapeutic's
+          low conversion is at least partly structural, not a targeting failure: it's pulling a broader, lower-urgency,
+          more first-time crowd than the other three — worth testing whether narrowing its keywords/copy toward the
+          higher-urgency subset (the ~20% who said it's constant and affects almost everything) lifts its rate, rather
+          than trying to convert the "nagging annoyance" crowd immediately. Lymphatic's curiosity-driven segment is a
+          strong match for the $49 intro offer and for AEO/educational content — sell the try, not the commitment.
         </div>
       </Card>
 
