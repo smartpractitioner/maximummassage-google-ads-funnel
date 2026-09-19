@@ -192,56 +192,6 @@ const FOCUS4_DATA = {
     { skill:"Therapeutic", quiz:117, bookings:2,  leads:4, live:"since Aug 6" },
   ],
   funnelTotals: { quiz:306, bookings:30, leads:19, matchedRecommendation:21, pctPaidGclid:83 },
-  // TLDR — condensed talking points for the call, each with an anchor link down to the
-  // section it's backed by. Client-facing (this report is shared), so headline + bullets
-  // rather than one dense sentence.
-  tldr: [
-    {
-      anchor: "focus4-bookings",
-      headline: "The 4 focus therapists' bookings are down, not up",
-      bullets: [
-        "Last 4 months (May–Aug '26) vs. the same 4 months last year: bookings down ~11%, revenue down ~5%",
-        "Everyone else at the clinic, Tracy included, is essentially flat over the same span",
-        "It's a continuing trend, not a blip — also down ~9% vs. the 4 months right before it",
-      ],
-    },
-    {
-      anchor: "seasonality",
-      headline: "It's not just summer",
-      bullets: [
-        "August 2026 is the clinic's best August on record",
-        "The focus-4 dip starts in April — two months before summer",
-        "Seasonality is at most a partial explanation, not the whole story",
-      ],
-    },
-    {
-      anchor: "ad-funnel-bookings",
-      headline: "The ad funnel is working — unevenly",
-      bullets: [
-        "30 confirmed bookings so far: 12 Lindsey, 12 Charlotte, 6 Brookelyn",
-        "Meagan has gotten zero — worth a direct look before next month",
-        "Only ~4 weeks of real bookings exist vs. 11 months of prior decline — September's refresh is the real test",
-      ],
-    },
-    {
-      anchor: "tif-demand",
-      headline: "Tif: real demand, zero capture",
-      bullets: [
-        "34 of 306 quiz-takers (11%) were matched to her — a quarter of all lymphatic quiz traffic",
-        "None of the 34 converted — she isn't live-bookable yet, so they dead-end",
-        "Only 57% filled in August — real open capacity waiting for that demand",
-      ],
-    },
-    {
-      anchor: "quiz-trends",
-      headline: "The quiz data says where to lean next",
-      bullets: [
-        "Deep tissue's audience is ready to book now — chronic, knows exactly what it wants",
-        "Therapeutic's low conversion traces to lower-urgency, first-time visitors — likely the reviews gap",
-        "Lymphatic is curiosity-driven — good fit for the $49 intro offer, not a hard sell",
-      ],
-    },
-  ],
 };
 
 // Seasonality check — whole-clinic revenue by calendar month, every year on record (2024-2026),
@@ -1186,59 +1136,45 @@ function Focus4Tab() {
         </p>
       </div>
 
-      {/* TLDR — condensed, client-facing. Each item's headline jumps to the section backing it. */}
-      <div style={{ background:C.green, borderRadius:14, padding:"22px 24px", marginBottom:28, boxShadow:"0 2px 14px rgba(45,82,66,0.18)" }}>
-        <div style={{ fontSize:12, fontWeight:700, letterSpacing:"0.12em", textTransform:"uppercase", color:C.goldLight, marginBottom:16 }}>TL;DR — click a headline to jump to the data behind it</div>
-        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:16 }}>
-          {F.tldr.map((item,i) => (
-            <div key={i}>
-              <a href={`#${item.anchor}`} style={{ display:"block", fontSize:16, fontWeight:700, color:"#FFFFFF", textDecoration:"none", borderBottom:"1px dotted rgba(255,255,255,0.5)", paddingBottom:4, marginBottom:8 }}>
-                {item.headline} →
-              </a>
-              <ul style={{ margin:0, paddingLeft:18, color:"rgba(255,255,255,0.88)" }}>
-                {item.bullets.map((b,j) => (
-                  <li key={j} style={{ fontSize:13.5, lineHeight:1.6, marginBottom: j === item.bullets.length-1 ? 0 : 4 }}>{b}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+      {/* SECTION 1 — its own headline + talking-point bullets, then the KPIs. Scroll-and-talk layout: */}
+      <div id="focus4-bookings" style={{ marginBottom:16, scrollMarginTop:24 }}>
+        <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:36, fontWeight:700, color:C.text, margin:"0 0 14px 0" }}>
+          The 4 Focus Therapists' Bookings Are Down, Not Up
+        </h2>
+        <div style={{ background:C.greenPale, borderLeft:`3px solid ${C.green}`, borderRadius:8, padding:"14px 18px", marginBottom:18, maxWidth:680 }}>
+          <ul style={{ margin:0, paddingLeft:18 }}>
+            <li style={{ fontSize:14, color:C.text, lineHeight:1.7, marginBottom:4 }}>Last 4 months ({FM.label}) vs. the same 4 months last year: bookings down {Math.abs(focusD.completed).toFixed(0)}%, revenue down {Math.abs(focusD.revenue).toFixed(0)}%</li>
+            <li style={{ fontSize:14, color:C.text, lineHeight:1.7, marginBottom:4 }}>Everyone else at the clinic, Tracy included, is essentially flat ({elseD.completed>=0?"+":""}{elseD.completed.toFixed(1)}% bookings) over the same span</li>
+            <li style={{ fontSize:14, color:C.text, lineHeight:1.7 }}>Not a one-off — also down {Math.abs(focusVsPriorBlock.completed).toFixed(0)}% vs. the 4 months right before it ({FM.priorBlockLabel}), so it's a continuing trend</li>
+          </ul>
         </div>
       </div>
 
-      {/* KPI ROW — trailing 4 months (May–Aug '26, since the last confirmed Tracy call) vs. the same 4 months last year */}
-      <div id="focus4-bookings" style={{ display:"flex", gap:12, flexWrap:"wrap", marginBottom:10, scrollMarginTop:24 }}>
+      <div style={{ display:"flex", gap:12, flexWrap:"wrap", marginBottom:10 }}>
         <KPI label="Focus-4 bookings" value={fmtNum(FM.focus4.completed)} delta={focusD.completed} accent={C.accent} hint={`${FM.label} vs. ${FM.priorYearLabel}`} />
         <KPI label="Everyone else" value={fmtNum(FM.everyoneElse.completed)} delta={elseD.completed} accent={C.greenLight} hint="Every other practitioner, incl. Tracy" />
         <KPI label="Whole clinic" value={fmtNum(FM.wholeClinic.completed)} delta={wcD.completed} accent={C.green} hint="All bookings, all staff" />
       </div>
-      <div style={{ fontSize:14, color:C.muted, marginBottom:28, lineHeight:1.6, maxWidth:680 }}>
-        <strong style={{ color:C.accent }}>The straight answer:</strong> combined, over the last 4 months
-        ({FM.label}, since the last confirmed call with Tracy) the 4 focus therapists' completed bookings
-        are <strong style={{ color:C.accent }}>down {Math.abs(focusD.completed).toFixed(0)}%</strong> and their
-        revenue is <strong style={{ color:C.accent }}>down {Math.abs(focusD.revenue).toFixed(0)}%</strong> versus
-        the same 4 months a year ago, while every other practitioner combined is essentially flat
-        ({elseD.completed>=0?"+":""}{elseD.completed.toFixed(1)}% bookings). It's not a one-off either — this same
-        4-month block is also <strong style={{ color:C.accent }}>down {Math.abs(focusVsPriorBlock.completed).toFixed(0)}%</strong> in
-        bookings versus the 4 months right before it ({FM.priorBlockLabel}), so this is a continuing trend, not noise
-        from picking one unusual month. Important context: paid ads only started sending real bookings in the last
+      <div style={{ fontSize:13, color:C.muted, marginBottom:28, lineHeight:1.6, maxWidth:680 }}>
+        Important context: paid ads only started sending real bookings in the last
         ~4 weeks of this window (Aug 23 onward), so most of this span predates the campaign — this is the baseline
         problem the campaign now has to reverse, not evidence it isn't working yet.
       </div>
 
-      {/* LINE CHART — focus-4 completed bookings by therapist, monthly. One line per therapist
-          (not stacked) so each person's individual trend is readable on its own, instead of
-          being buried inside a cumulative monthly total. */}
-      <Card title="Focus-4 Bookings by Therapist — Monthly" subtitle="Completed appointments, Oct '25 through Aug '26, one line per therapist. This is the number the whole engagement is meant to grow.">
+      {/* GROUPED BAR CHART — focus-4 completed bookings by therapist, monthly. 4 separate
+          bars per month (one per therapist), not stacked — easier to compare therapists
+          within a month at a glance than either a stacked bar or 4 overlapping lines. */}
+      <Card title="Focus-4 Bookings by Therapist — Monthly" subtitle="Completed appointments, Oct '25 through Aug '26 — 4 bars per month, one per therapist. This is the number the whole engagement is meant to grow.">
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={stackChart} margin={{ top:10, right:20, left:-10, bottom:0 }}>
+          <BarChart data={stackChart} margin={{ top:10, right:10, left:-10, bottom:0 }} barGap={4} barCategoryGap="20%">
             <CartesianGrid strokeDasharray="3 3" stroke="#EDE9E3" vertical={false} />
             <XAxis dataKey="name" tick={{ fontSize:12, fontWeight:600, fill:C.text }} axisLine={false} tickLine={false} />
             <YAxis tick={{ fontSize:13, fill:C.muted }} axisLine={false} tickLine={false} />
-            <Tooltip content={<LineTooltip formatter={fmtNum} />} />
+            <Tooltip />
             {Object.entries(THERAPIST_COLORS).map(([n,col]) => (
-              <Line key={n} type="monotone" dataKey={n} stroke={col} strokeWidth={3} dot={{ r:4 }} name={n} />
+              <Bar key={n} dataKey={n} fill={col} name={n} radius={[4,4,0,0]} />
             ))}
-          </LineChart>
+          </BarChart>
         </ResponsiveContainer>
         <div style={{ display:"flex", gap:16, marginTop:10, justifyContent:"center", flexWrap:"wrap" }}>
           {Object.entries(THERAPIST_COLORS).map(([n,col]) => (
@@ -1274,7 +1210,16 @@ function Focus4Tab() {
       </Card>
 
       {/* SEASONALITY CHECK — is this just the historically-slow summer stretch? */}
-      <Card id="seasonality" title="Seasonality Check — Is This Just Summer?" subtitle="Whole-clinic revenue by calendar month, every year on record (2024–2026)">
+      <Card id="seasonality" title="Seasonality Check — Is This Just Summer?" subtitle="Whole-clinic revenue by calendar month, every year on record (2024–2026)"
+        summary={{
+          headline: "It's not just summer",
+          bullets: [
+            "August 2026 is the clinic's best August on record",
+            "The focus-4 dip starts in April — two months before summer",
+            "Seasonality is at most a partial explanation, not the whole story",
+          ],
+        }}
+      >
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={SEASONALITY_DATA.months.map((m,i) => ({
             name: m,
@@ -1342,7 +1287,16 @@ function Focus4Tab() {
       </Card>
 
       {/* AD FUNNEL — bookings by therapist */}
-      <Card id="ad-funnel-bookings" title="Ad-Funnel Bookings, by Therapist" subtitle="Confirmed Cal.com bookings from the go.maximummassage.ca skill/quiz pages, since each page went live (~4 weeks of real booking capability)">
+      <Card id="ad-funnel-bookings" title="Ad-Funnel Bookings, by Therapist" subtitle="Confirmed Cal.com bookings from the go.maximummassage.ca skill/quiz pages, since each page went live (~4 weeks of real booking capability)"
+        summary={{
+          headline: "The ad funnel is working — unevenly",
+          bullets: [
+            "30 confirmed bookings so far: 12 Lindsey, 12 Charlotte, 6 Brookelyn",
+            "Meagan has gotten zero — worth a direct look before next month",
+            "Only ~4 weeks of real bookings exist vs. 11 months of prior decline — September's refresh is the real test",
+          ],
+        }}
+      >
         <div style={{ display:"flex", gap:12, flexWrap:"wrap" }}>
           {Object.entries(F.adFunnelBookingsByTherapist).map(([n,v]) => (
             <SectionKPI key={n} value={fmtNum(v)} label={n} color={v === 0 ? "#FBEAEA" : C.greenPale} accent={v === 0 ? C.accent : C.green} />
@@ -1358,7 +1312,16 @@ function Focus4Tab() {
       </Card>
 
       {/* TIF DEMAND SIGNAL — untapped, since she isn't live-bookable yet */}
-      <Card id="tif-demand" title="Untapped Demand — Tif" subtitle="How many quiz-takers the recommendation engine matched to her, by skill, vs. how many actually converted">
+      <Card id="tif-demand" title="Untapped Demand — Tif" subtitle="How many quiz-takers the recommendation engine matched to her, by skill, vs. how many actually converted"
+        summary={{
+          headline: "Tif: real demand, zero capture",
+          bullets: [
+            "34 of 306 quiz-takers (11%) were matched to her — a quarter of all lymphatic quiz traffic",
+            "None of the 34 converted — she isn't live-bookable yet, so they dead-end",
+            "Only 57% filled in August — real open capacity waiting for that demand",
+          ],
+        }}
+      >
         <div style={{ display:"flex", gap:20, flexWrap:"wrap", alignItems:"stretch", marginBottom:16 }}>
           <SectionKPI
             value={`${F.tifDemand.totalRecommended}`}
@@ -1448,7 +1411,16 @@ function Focus4Tab() {
       </Card>
 
       {/* QUIZ TRENDS — what people are actually telling us, by skill */}
-      <Card id="quiz-trends" title="Quiz Funnel — What People Are Telling Us" subtitle="Parsed from every quiz answer, cross-referenced against who actually booked or joined the waitlist — this is the diagnostic for where to put effort next">
+      <Card id="quiz-trends" title="Quiz Funnel — What People Are Telling Us" subtitle="Parsed from every quiz answer, cross-referenced against who actually booked or joined the waitlist — this is the diagnostic for where to put effort next"
+        summary={{
+          headline: "The quiz data says where to lean next",
+          bullets: [
+            "Deep tissue's audience is ready to book now — chronic, knows exactly what it wants",
+            "Therapeutic's low conversion traces to lower-urgency, first-time visitors — likely the reviews gap",
+            "Lymphatic is curiosity-driven — good fit for the $49 intro offer, not a hard sell",
+          ],
+        }}
+      >
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))", gap:14 }}>
           {QUIZ_TRENDS_DATA.map(row => (
             <div key={row.skill} style={{ background:C.card, borderRadius:10, padding:"16px 18px", boxShadow:"0 1px 6px rgba(0,0,0,0.05)", borderLeft:`3px solid ${row.convertedPct >= 30 ? C.green : row.convertedPct >= 17 ? C.gold : C.accent}` }}>
@@ -1503,13 +1475,27 @@ function Focus4Tab() {
   );
 }
 
-function Card({ title, subtitle, children, id }) {
+// `summary` (optional): { headline, bullets } — condensed talking points rendered as a
+// callout right below the title/subtitle, above the chart. Built for reading off on a
+// screen-share call: scroll to the section, the headline + bullets are the talk track,
+// the chart right below is what the client sees.
+function Card({ title, subtitle, children, id, summary }) {
   return (
     <div id={id} style={{ background:C.card, borderRadius:14, padding:"24px 22px", boxShadow:"0 2px 12px rgba(0,0,0,0.06)", marginBottom:20, scrollMarginTop:24 }}>
-      <div style={{ marginBottom:16 }}>
+      <div style={{ marginBottom: summary ? 18 : 16 }}>
         <div className="chart-title">{title}</div>
         {subtitle && <div className="chart-subtitle">{subtitle}</div>}
       </div>
+      {summary && (
+        <div style={{ background:C.greenPale, borderLeft:`3px solid ${C.green}`, borderRadius:8, padding:"14px 18px", marginBottom:20 }}>
+          <div style={{ fontSize:15, fontWeight:700, color:C.green, marginBottom:8 }}>{summary.headline}</div>
+          <ul style={{ margin:0, paddingLeft:18 }}>
+            {summary.bullets.map((b,i) => (
+              <li key={i} style={{ fontSize:13.5, color:C.text, lineHeight:1.6, marginBottom: i===summary.bullets.length-1 ? 0 : 4 }}>{b}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       {children}
     </div>
   );
