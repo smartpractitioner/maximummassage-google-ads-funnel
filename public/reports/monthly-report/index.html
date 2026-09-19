@@ -165,6 +165,14 @@ const FOCUS4_DATA = {
     { skill:"Therapeutic", quiz:117, bookings:2,  leads:4, live:"since Aug 6" },
   ],
   funnelTotals: { quiz:306, bookings:30, leads:19, matchedRecommendation:21, pctPaidGclid:83 },
+  // Call talk track — the condensed version, for reading off live rather than the full report.
+  talkTrack: [
+    "The 4 focus therapists' bookings are down ~27% since Oct '25 — everyone else at the clinic is flat-to-up. Whatever's holding revenue together isn't coming from them.",
+    "It's not just summer — Aug '26 is the clinic's best August on record. The focus-4 dip starts in April, two months early, so seasonality is only a partial excuse.",
+    "The ad funnel itself is working: 30 confirmed bookings so far, split 12 Lindsey / 12 Charlotte / 6 Brookelyn — but Meagan got zero. That's the one to dig into before next month.",
+    "Only ~4 weeks of real paid bookings exist against 11 months of prior decline — September's refresh is the first real test of direction, not this one.",
+    "Quiz data says where to lean: deep tissue's audience is ready to book now; therapeutic's is lower-urgency/first-timers (reviews gap is likely why); lymphatic is curiosity-driven — good fit for the $49 intro offer.",
+  ],
 };
 
 // Seasonality check — whole-clinic revenue by calendar month, every year on record (2024-2026),
@@ -1052,6 +1060,16 @@ function Focus4Tab() {
           filling up. This isolates their numbers from the rest of the clinic (including Tracy) so a whole-clinic
           revenue bump can't be mistaken for the campaign working. Snapshot as of <strong style={{ color:C.text }}>{F.asOf}</strong>.
         </p>
+      </div>
+
+      {/* TALK TRACK — condensed, for reading off on a call instead of the full report */}
+      <div style={{ background:C.green, borderRadius:14, padding:"22px 24px", marginBottom:28, boxShadow:"0 2px 14px rgba(45,82,66,0.18)" }}>
+        <div style={{ fontSize:12, fontWeight:700, letterSpacing:"0.12em", textTransform:"uppercase", color:C.goldLight, marginBottom:12 }}>Talk track — read this, not the report</div>
+        <ol style={{ margin:0, paddingLeft:20, color:"#FFFFFF" }}>
+          {F.talkTrack.map((line,i) => (
+            <li key={i} style={{ fontSize:15, lineHeight:1.6, marginBottom: i === F.talkTrack.length-1 ? 0 : 10 }}>{line}</li>
+          ))}
+        </ol>
       </div>
 
       {/* KPI ROW — Oct '25 (first full month with us) vs Aug '26 (latest complete month) */}
