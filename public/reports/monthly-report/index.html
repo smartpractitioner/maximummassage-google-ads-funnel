@@ -158,6 +158,13 @@ const FOCUS4_DATA = {
   },
   // Ad-funnel bookings (Cal.com, from the go.maximummassage.ca quiz/skill pages) by therapist, since each skill page went live.
   adFunnelBookingsByTherapist: { "Lindsey": 12, "Charlotte": 12, "Brookelyn": 6, "Meagan": 0 },
+  // Tif demand signal — how many quiz completions the recommendation engine matched to her,
+  // by skill, vs. how many of those actually converted to a booking or waitlist lead (0).
+  tifDemand: {
+    bySkill: { Prenatal: 6, Therapeutic: 1, "Deep tissue": 5, Lymphatic: 22 },
+    totalRecommended: 34, totalQuiz: 306, converted: 0,
+    utilization1mo: { shiftHours: 21, completedHours: 12, idleHours: 7.3, apptCount: 9 },
+  },
   funnelBySkill: [
     { skill:"Prenatal",    quiz:56,  bookings:18, leads:3, live:"since Jul 16" },
     { skill:"Deep tissue", quiz:48,  bookings:7,  leads:3, live:"since Aug 5" },
@@ -1211,6 +1218,56 @@ function Focus4Tab() {
           worth a direct look (Cal.com availability for her, or whether the quiz's recommendation logic is steering
           away from her). This funnel is brand new — these 30 bookings aren't in the Aug dashboard numbers above in
           full (some land in September) — next month's refresh is the real test of whether it reverses the decline.
+        </div>
+      </Card>
+
+      {/* TIF DEMAND SIGNAL — untapped, since she isn't live-bookable yet */}
+      <Card title="Untapped Demand — Tif" subtitle="How many quiz-takers the recommendation engine matched to her, by skill, vs. how many actually converted">
+        <div style={{ display:"flex", gap:20, flexWrap:"wrap", alignItems:"stretch", marginBottom:16 }}>
+          <SectionKPI
+            value={`${F.tifDemand.totalRecommended}`}
+            label="Quiz matches to Tif"
+            sub={`${Math.round(F.tifDemand.totalRecommended/F.tifDemand.totalQuiz*100)}% of all ${F.tifDemand.totalQuiz} quiz completions recommended her`}
+            color={C.greenPale} accent={C.green}
+          />
+          <SectionKPI
+            value="0"
+            label="Converted to booking or lead"
+            sub="Every single one of those 34 matches was lost — not a demand problem, a capture problem"
+            color="#FBEAEA" accent={C.accent}
+          />
+        </div>
+        <div style={{ overflowX:"auto", marginBottom:14 }}>
+          <table>
+            <thead>
+              <tr style={{ borderBottom:`2px solid ${C.greenPale}`, color:C.muted, fontWeight:700, textTransform:"uppercase", fontSize:12, letterSpacing:"0.06em" }}>
+                <th>Skill page</th><th style={{ textAlign:"right" }}>Matched to Tif</th><th style={{ textAlign:"right" }}>Share of that skill's quiz traffic</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(F.tifDemand.bySkill).map(([skill, n]) => {
+                const skillTotal = QUIZ_TRENDS_DATA.find(r => r.skill === skill)?.quizCount || null;
+                return (
+                  <tr key={skill} style={{ borderBottom:"1px solid #EDE9E3" }}>
+                    <td style={{ fontWeight:600, color:C.text }}>{skill}</td>
+                    <td style={{ textAlign:"right" }}>{n}</td>
+                    <td style={{ textAlign:"right", color:C.muted }}>{skillTotal ? `${Math.round(n/skillTotal*100)}%` : "—"}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div style={{ fontSize:14, color:C.text, lineHeight:1.8 }}>
+          <strong>Demand is real, and it's concentrated:</strong> a quarter of all lymphatic quiz-takers (22 of 85) get
+          matched to Tif — by far her strongest fit. Right now she's on notify-me (no live Cal.com handle per the
+          repo's current status), so every one of those matches dead-ends instead of at least landing on the
+          waitlist. Meanwhile her actual clinic schedule has real room: {F.tifDemand.utilization1mo.completedHours}h
+          booked against a {F.tifDemand.utilization1mo.shiftHours}h shift in August ({Math.round(F.tifDemand.utilization1mo.completedHours/F.tifDemand.utilization1mo.shiftHours*100)}% fill,
+          only {F.tifDemand.utilization1mo.apptCount} appointments) — she's not close to capacity-constrained the way
+          the focus-4 are. Getting her real Cal.com handle live first, then considering a small dedicated push toward
+          lymphatic specifically, looks like the cleanest incremental win available to Tracy right now: existing,
+          currently-wasted demand plus existing open capacity, rather than needing to generate new demand from scratch.
         </div>
       </Card>
 
