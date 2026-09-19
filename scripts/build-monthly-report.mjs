@@ -542,6 +542,19 @@ async function main() {
     detected.map(name => [name, buildAllSnapshots((s) => s === name)])
   );
 
+  // Per-practitioner daily rows (completed/cancelled/booked/revenue) — includes EVERY
+  // practitioner detected, not just focus. Lets the UI build flexible-date-range YoY
+  // comparisons (e.g. "last 90 days vs. the same 90 days last year") for anyone toggled
+  // into the Schedule Utilization pill selector, not only the 4 focus therapists (who
+  // already get this via `segments`).
+  const practitionerDaily = Object.fromEntries(
+    detected.map(name => [name, buildDaily(
+      revenue, cancellations,
+      (r) => { const s = r[COLS.revenue.staff]; return typeof s === "string" && s.trim() === name; },
+      (c) => { const s = c[COLS.cancellations.staff]; return typeof s === "string" && s.trim() === name; },
+    )])
+  );
+
   const out = {
     updatedAt: new Date().toISOString(),
     dataThrough,
@@ -561,6 +574,7 @@ async function main() {
     },
     segments: ordered,
     practitionerUtilization,
+    practitionerDaily,
   };
 
   writeFileSync(OUT_PATH, JSON.stringify(out, null, 2) + "\n");
