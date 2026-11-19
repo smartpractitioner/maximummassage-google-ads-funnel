@@ -21,6 +21,8 @@ How to collaborate on this repo (the Maximum Health funnel + the factory it beco
 ## Orientation
 For a fast "where are we?", read [`STATUS.md`](STATUS.md) first — the shared at-a-glance progress board (done / in-progress / next) that every agent and Victor reads to orient. Then go deep: `.claude/skills/add-skill-page/SKILL.md` (all decisions + the "why" — the source of truth) and `docs/plan-bookings-and-qs-handoff.md` (the full phase plan; companion files `docs/phase-6-bi-reporting-design.md`, `docs/phase-8-polish-backlog.md`).
 
+**Recurring monthly report refresh (new EHR exports → the live dashboard):** this is a multi-operator process now, not Victor-only — see [`docs/sop-monthly-report-refresh.md`](docs/sop-monthly-report-refresh.md) and the `monthly-report-refresh` skill. It's written to work from a fresh clone with zero prior context, because `reports-workspace/` (where the old private instructions lived) is entirely gitignored.
+
 **Two different things — don't conflate them (advisor did once, 2026-07-16):**
 - **STATUS.md is a status board** — keep it current (see How we work). It holds *only* status and points at the plan/SKILL/git for all reasoning. A minimal board that agents update as they go does not drift.
 - **A handoff/resume-state doc** is the heavyweight always-updated context dump — **do NOT maintain one of those; generate it only when Victor explicitly asks.**
